@@ -5,3 +5,4 @@ authors = ["Gyara <me@gyara.moe>"]
 edition = "2018"
 
 [dependencies]
+actix-web = "*"
