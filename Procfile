@@ -1,1 +1,1 @@
-web: ./target/release/day_day_gu_bot
+web: ./target/release/fubuki-gs
