@@ -1,0 +1,12 @@
+{
+  "name": "fubuki-gs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:laxect/fubuki.git",
+  "author": "laxect <me@gyara.moe>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^4.3.1"
+  }
+}
