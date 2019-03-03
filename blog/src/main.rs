@@ -1,3 +1,5 @@
+mod navbar;
+
 fn main() {
-    println!("Hello, world!");
+    yew::start_app::<blog::Blog>();
 }
