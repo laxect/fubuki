@@ -4,6 +4,7 @@ mod navbar;
 use navbar::{ NavBar, Page };
 
 pub struct Blog {
+    page: Page
 }
 
 pub enum Msg {
@@ -15,7 +16,9 @@ impl Component for Blog {
     type Properties = ();
 
     fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Blog {}
+        Blog {
+            page: Page::Index,
+        }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
@@ -32,7 +35,7 @@ impl Renderable<Blog> for Blog {
         html! {
             <div class="blog", >
             <NavBar: page=Page::Index, />
-            <p>{ "hello world" }</p>
+            <p>{ self.page.value() }</p>
             </div>
         }
     }

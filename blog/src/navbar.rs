@@ -1,6 +1,7 @@
+use yew::services::ConsoleService;
 use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
 
-#[derive(PartialEq, Clone)]
+#[derive(PartialEq, Clone, Copy)]
 pub enum Page {
     Index,
     Article,
@@ -9,7 +10,7 @@ pub enum Page {
 }
 
 impl Page {
-    fn value(&self) -> &'static str {
+    pub fn value(&self) -> &'static str {
         match self {
             Page::Index => "index",
             Page::Article => "post",
@@ -32,6 +33,7 @@ impl Default for NavStatus {
 
 pub struct NavBar {
     status: Page,
+    console: ConsoleService,
 }
 
 impl Component for NavBar {
@@ -39,14 +41,19 @@ impl Component for NavBar {
     type Properties = NavStatus;
 
     fn create(prop: Self::Properties, _: ComponentLink<Self>) -> Self {
-        NavBar { status: prop.page }
+        NavBar {
+            status: prop.page,
+            console: ConsoleService::new(),
+        }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        self.console.log(msg.value());
         if msg != self.status {
+            self.status = msg;
             return true;
         }
-        true
+        false
     }
 }
 
@@ -56,7 +63,8 @@ impl Renderable<NavBar> for NavBar {
         let link = |item: Page| -> Html<Self> {
             if item == self.status {
                 html! {
-                    <a class="nav-link active", >
+                    <a class="nav-link active",
+                        onclick=|_| item, >
                         { item.value() }
                     </a>
                 }
