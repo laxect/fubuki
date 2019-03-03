@@ -1,14 +1,11 @@
 use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
 
-pub struct NavBar {
-    status: Page,
-}
-
 #[derive(PartialEq, Clone)]
 pub enum Page {
     Index,
     Article,
     About,
+    Friend,
 }
 
 impl Page {
@@ -17,6 +14,7 @@ impl Page {
             Page::Index => "index",
             Page::Article => "post",
             Page::About => "about",
+            Page::Friend => "Friends",
         }
     }
 }
@@ -30,6 +28,10 @@ impl Default for NavStatus {
     fn default() -> NavStatus {
         NavStatus { page: Page::Index }
     }
+}
+
+pub struct NavBar {
+    status: Page,
 }
 
 impl Component for NavBar {
@@ -50,17 +52,28 @@ impl Component for NavBar {
 
 impl Renderable<NavBar> for NavBar {
     fn view(&self) -> Html<Self> {
+        // link item
         let link = |item: Page| -> Html<Self> {
-            html! {
-                <a class="nav-link", >
-                    { item.value() }
-                </a>
+            if item == self.status {
+                html! {
+                    <a class="nav-link active", >
+                        { item.value() }
+                    </a>
+                }
+            } else {
+                html! {
+                    <a class="nav-link", >
+                        { item.value() }
+                    </a>
+                }
             }
         };
+        // nav bar
         html! {
             <nav class="nav", >
                 { link(Page::Index) }
                 { link(Page::Article) }
+                { link(Page::Friend) }
                 { link(Page::About) }
             </nav>
         }
