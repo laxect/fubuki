@@ -70,7 +70,8 @@ impl Renderable<NavBar> for NavBar {
                 }
             } else {
                 html! {
-                    <a class="nav-link", >
+                    <a class="nav-link",
+                        onclick=|_| item, >
                         { item.value() }
                     </a>
                 }
