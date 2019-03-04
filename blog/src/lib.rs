@@ -36,11 +36,11 @@ impl Component for Blog {
 impl Renderable<Blog> for Blog {
     fn view(&self) -> Html<Self> {
         html! {
-            <div class="blog", >
-            <NavBar: page=self.page,
-                on_change=|msg| msg, />
-            <p>{ self.page.value() }</p>
-            </div>
+            <>
+                <NavBar: page=self.page,
+                    on_change=|msg| msg, />
+                <p>{ self.page.value() }</p>
+            </>
         }
     }
 }
