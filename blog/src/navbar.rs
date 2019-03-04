@@ -1,4 +1,3 @@
-use yew::services::ConsoleService;
 use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
 
 #[derive(PartialEq, Clone, Copy)]
@@ -37,7 +36,6 @@ impl Default for NavStatus {
 
 pub struct NavBar {
     status: Page,
-    console: ConsoleService,
     on_change: Option<Callback<Page>>,
 }
 
@@ -48,13 +46,11 @@ impl Component for NavBar {
     fn create(prop: Self::Properties, _: ComponentLink<Self>) -> Self {
         NavBar {
             status: prop.page,
-            console: ConsoleService::new(),
             on_change:prop.on_change,
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        self.console.log(msg.value());
         if msg != self.status {
             self.status = msg;
             if let Some(ref mut cb) = self.on_change {

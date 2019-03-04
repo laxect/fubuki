@@ -25,8 +25,10 @@ impl Component for Blog {
         self.console.log(msg.value());
         if msg != self.page {
             self.page = msg;
+            true
+        } else {
+            false
         }
-        true
     }
 }
 
