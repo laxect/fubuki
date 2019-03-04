@@ -1,5 +1,5 @@
 use yew::services::ConsoleService;
-use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
+use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
 
 #[derive(PartialEq, Clone, Copy)]
 pub enum Page {
@@ -23,17 +23,22 @@ impl Page {
 #[derive(PartialEq, Clone)]
 pub struct NavStatus {
     pub page: Page,
+    pub on_change: Option<Callback<Page>>,
 }
 
 impl Default for NavStatus {
     fn default() -> NavStatus {
-        NavStatus { page: Page::Index }
+        NavStatus {
+            page: Page::Index,
+            on_change: None,
+        }
     }
 }
 
 pub struct NavBar {
     status: Page,
     console: ConsoleService,
+    on_change: Option<Callback<Page>>,
 }
 
 impl Component for NavBar {
@@ -44,6 +49,7 @@ impl Component for NavBar {
         NavBar {
             status: prop.page,
             console: ConsoleService::new(),
+            on_change:prop.on_change,
         }
     }
 
@@ -51,9 +57,19 @@ impl Component for NavBar {
         self.console.log(msg.value());
         if msg != self.status {
             self.status = msg;
-            return true;
+            if let Some(ref mut cb) = self.on_change {
+                cb.emit(msg);
+            }
+            true
+        } else {
+            false
         }
-        false
+    }
+
+    fn change(&mut self, prop: Self::Properties) -> ShouldRender {
+        self.status = prop.page;
+        self.on_change = prop.on_change;
+        true
     }
 }
 
