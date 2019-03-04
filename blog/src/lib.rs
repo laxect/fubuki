@@ -1,30 +1,30 @@
 use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
+use yew::services::ConsoleService;
 
 mod navbar;
 use navbar::{ NavBar, Page };
 
 pub struct Blog {
-    page: Page
-}
-
-pub enum Msg {
-    Click
+    page: Page,
+    console: ConsoleService,
 }
 
 impl Component for Blog {
-    type Message = Msg;
+    type Message = Page;
     type Properties = ();
 
     fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
         Blog {
             page: Page::Index,
+            console: ConsoleService::new(),
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        match msg {
-            Msg::Click => {
-            }
+        self.console.log("out");
+        self.console.log(msg.value());
+        if msg != self.page {
+            self.page = msg;
         }
         true
     }
@@ -34,7 +34,8 @@ impl Renderable<Blog> for Blog {
     fn view(&self) -> Html<Self> {
         html! {
             <div class="blog", >
-            <NavBar: page=Page::Index, />
+            <NavBar: page=Page::Index,
+                on_change=|msg| msg, />
             <p>{ self.page.value() }</p>
             </div>
         }
