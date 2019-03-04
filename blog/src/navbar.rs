@@ -35,7 +35,7 @@ impl Default for NavStatus {
 }
 
 pub struct NavBar {
-    status: Page,
+    page: Page,
     on_change: Option<Callback<Page>>,
 }
 
@@ -45,14 +45,14 @@ impl Component for NavBar {
 
     fn create(prop: Self::Properties, _: ComponentLink<Self>) -> Self {
         NavBar {
-            status: prop.page,
+            page: prop.page,
             on_change:prop.on_change,
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        if msg != self.status {
-            self.status = msg;
+        if msg != self.page {
+            self.page = msg;
             if let Some(ref mut cb) = self.on_change {
                 cb.emit(msg);
             }
@@ -63,7 +63,7 @@ impl Component for NavBar {
     }
 
     fn change(&mut self, prop: Self::Properties) -> ShouldRender {
-        self.status = prop.page;
+        self.page = prop.page;
         self.on_change = prop.on_change;
         true
     }
@@ -73,7 +73,7 @@ impl Renderable<NavBar> for NavBar {
     fn view(&self) -> Html<Self> {
         // link item
         let link = |item: Page| -> Html<Self> {
-            if item == self.status {
+            if item == self.page {
                 html! {
                     <a class="nav-link active",
                         onclick=|_| item, >

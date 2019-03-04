@@ -23,6 +23,7 @@ impl Component for Blog {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         self.console.log("out");
         self.console.log(msg.value());
+        self.console.log(self.page.value());
         if msg != self.page {
             self.page = msg;
             true
@@ -36,7 +37,7 @@ impl Renderable<Blog> for Blog {
     fn view(&self) -> Html<Self> {
         html! {
             <div class="blog", >
-            <NavBar: page=Page::Index,
+            <NavBar: page=self.page,
                 on_change=|msg| msg, />
             <p>{ self.page.value() }</p>
             </div>
