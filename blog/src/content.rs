@@ -1,10 +1,10 @@
-use std::boxed::Box;
 use failure::Error;
 use serde_derive::Deserialize;
-use yew::format::{Json, Nothing};
+use yew::format::Nothing;
 use yew::services::fetch::{FetchService, FetchTask, Request, Response};
 use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
 use crate::utils::Page;
+use crate::markdown::render_markdown;
 
 #[derive(PartialEq, Clone)]
 pub struct ContentStatus {
@@ -24,7 +24,6 @@ impl Default for ContentStatus {
 // msg
 #[derive(PartialEq, Clone, Deserialize)]
 pub struct Pong {
-    status: String,
     payload: String,
 }
 
@@ -37,30 +36,30 @@ pub struct Content {
 }
 
 impl Content {
-    pub fn inner(&self) -> &'static str {
+    pub fn inner(&self) -> String {
         match self.content {
-            None => self.page.value(),
-            Some(ref s) => Box::leak(s.clone().into_boxed_str())
+            None => String::from(self.page.value()),
+            Some(ref s) => s.clone(),
         }
     }
 
     pub fn load(&mut self) {
-        let url = String::from("http://127.0.0.1:3002/ping");
+        let url = self.page.url();
         let cb = self.callback.clone();
-        let handle = move |res: Response<Json<Result<Pong, Error>>>| {
-            let (meta, Json(data)) = res.into_parts();
+        let handle = move |res: Response<Result<String, Error>>| {
+            let (meta, body) = res.into_parts();
             if meta.status.is_success() {
-                if let Ok(pong) = data {
-                    cb.emit(pong);
+                if let Ok(payload) = body {
+                    cb.emit(Pong {
+                        payload
+                    });
                 } else {
                     cb.emit(Pong {
-                        status: String::from("OK"),
                         payload: String::from("e1"),
-                    });
+                    })
                 }
             } else {
                 cb.emit(Pong {
-                    status: String::from("OK"),
                     payload: String::from("e2"),
                 });
             }
@@ -88,17 +87,14 @@ impl Component for Content {
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        if msg.status == String::from("OK") {
-            self.content = Some(msg.payload);
-            true
-        } else {
-            false
-        }
+        self.content = Some(msg.payload);
+        true
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if props.page != self.page {
             self.page = props.page;
+            self.load();
             true
         } else {
             false
@@ -110,7 +106,7 @@ impl Renderable<Content> for Content {
     fn view(&self) -> Html<Self> {
         html! {
             <>
-            <p>{ self.inner() }</p>
+                <article>{ render_markdown(self.inner().as_str()) }</article>
             </>
         }
     }

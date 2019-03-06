@@ -1,16 +1,16 @@
 use yew::{ html, Component, ComponentLink, Html, Renderable, ShouldRender };
-use yew::services::ConsoleService;
 
 mod utils;
 mod navbar;
 mod content;
+mod markdown;
+
 use utils::Page;
 use navbar::NavBar;
 use content::Content;
 
 pub struct Blog {
     page: Page,
-    console: ConsoleService,
 }
 
 impl Component for Blog {
@@ -20,14 +20,10 @@ impl Component for Blog {
     fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
         Blog {
             page: Page::Index,
-            console: ConsoleService::new(),
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        self.console.log("out");
-        self.console.log(msg.value());
-        self.console.log(self.page.value());
         if msg != self.page {
             self.page = msg;
             true
@@ -41,9 +37,9 @@ impl Renderable<Blog> for Blog {
     fn view(&self) -> Html<Self> {
         html! {
             <>
-                <NavBar: page=self.page,
+                <NavBar: page=self.page.clone(),
                     on_change=|msg| msg, />
-                <Content: page=self.page,
+                <Content: page=self.page.clone(),
                     on_change=|msg| msg, />
             </>
         }

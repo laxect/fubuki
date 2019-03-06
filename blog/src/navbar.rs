@@ -34,7 +34,7 @@ impl Component for NavBar {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         if msg != self.page {
-            self.page = msg;
+            self.page = msg.clone();
             if let Some(ref mut cb) = self.on_change {
                 cb.emit(msg);
             }
@@ -55,18 +55,19 @@ impl Renderable<NavBar> for NavBar {
     fn view(&self) -> Html<Self> {
         // link item
         let link = |item: Page| -> Html<Self> {
+            let mark = item.value();
             if item == self.page {
                 html! {
                     <a class="nav-link active",
-                        onclick=|_| item, >
-                        { item.value() }
+                        onclick=|_| item.clone(), >
+                        { mark }
                     </a>
                 }
             } else {
                 html! {
                     <a class="nav-link",
-                        onclick=|_| item, >
-                        { item.value() }
+                        onclick=|_| item.clone(), >
+                        { mark }
                     </a>
                 }
             }
@@ -75,7 +76,6 @@ impl Renderable<NavBar> for NavBar {
         html! {
             <nav class="nav", >
                 { link(Page::Index) }
-                { link(Page::Article("")) }
                 { link(Page::Friend) }
                 { link(Page::About) }
             </nav>
