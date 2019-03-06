@@ -6,6 +6,7 @@ mod navbar;
 mod content;
 use utils::Page;
 use navbar::NavBar;
+use content::Content;
 
 pub struct Blog {
     page: Page,
@@ -42,7 +43,8 @@ impl Renderable<Blog> for Blog {
             <>
                 <NavBar: page=self.page,
                     on_change=|msg| msg, />
-                <p>{ self.page.value() }</p>
+                <Content: page=self.page,
+                    on_change=|msg| msg, />
             </>
         }
     }

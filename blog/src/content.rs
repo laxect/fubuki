@@ -1,10 +1,11 @@
-use yew::services::FetchService;
+use yew::services::fetch::{ FetchService, Request, Response };
 use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
 use crate::utils::Page;
 
+#[derive(PartialEq, Clone)]
 pub struct ContentStatus {
-    page: Page,
-    on_change: Option<Callback<Page>>,
+    pub page: Page,
+    pub on_change: Option<Callback<Page>>,
 }
 
 impl Default for ContentStatus {
@@ -16,9 +17,17 @@ impl Default for ContentStatus {
     }
 }
 
+// msg
+#[derive(PartialEq, Clone, Copy)]
+pub struct Pong {
+    status: bool,
+    content: &'static str,
+}
+
 pub struct Content {
     page: Page,
     web: FetchService,
+    content: Option<&'static str>
 }
 
 impl Content {
@@ -26,7 +35,48 @@ impl Content {
         Content {
             page,
             web: FetchService::new(),
+            content: None,
+        }
+    }
+
+    pub fn load(page: Page) {
+
+    }
+}
+
+impl Component for Content {
+    type Message = Pong;
+    type Properties = ContentStatus;
+
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Content::new(props.page)
+    }
+
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        if msg.status == true {
+            self.content = Some(msg.content);
+            true
+        } else {
+            false
+        }
+    }
+
+    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+        if props.page != self.page {
+            self.page = props.page;
+            true
+        } else {
+            false
         }
     }
 }
 
+impl Renderable<Content> for Content {
+    fn view(&self) -> Html<Self> {
+        html! {
+            <>
+            <p>{ self.page.value() }</p>
+            </>
+        }
+    }
+}
