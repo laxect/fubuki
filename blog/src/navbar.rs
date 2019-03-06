@@ -1,4 +1,4 @@
-use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
+use yew::{ html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender };
 use crate::utils::Page;
 
 #[derive(PartialEq, Clone)]

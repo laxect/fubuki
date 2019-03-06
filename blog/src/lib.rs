@@ -1,4 +1,4 @@
-use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
+use yew::{ html, Component, ComponentLink, Html, Renderable, ShouldRender };
 use yew::services::ConsoleService;
 
 mod utils;
