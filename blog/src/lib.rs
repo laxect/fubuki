@@ -1,8 +1,11 @@
 use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
 use yew::services::ConsoleService;
 
+mod utils;
 mod navbar;
-use navbar::{ NavBar, Page };
+mod content;
+use utils::Page;
+use navbar::NavBar;
 
 pub struct Blog {
     page: Page,

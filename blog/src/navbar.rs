@@ -1,23 +1,5 @@
 use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
-
-#[derive(PartialEq, Clone, Copy)]
-pub enum Page {
-    Index,
-    Article,
-    About,
-    Friend,
-}
-
-impl Page {
-    pub fn value(&self) -> &'static str {
-        match self {
-            Page::Index => "index",
-            Page::Article => "post",
-            Page::About => "about",
-            Page::Friend => "Friends",
-        }
-    }
-}
+use crate::utils::Page;
 
 #[derive(PartialEq, Clone)]
 pub struct NavStatus {
@@ -93,7 +75,7 @@ impl Renderable<NavBar> for NavBar {
         html! {
             <nav class="nav", >
                 { link(Page::Index) }
-                { link(Page::Article) }
+                { link(Page::Article("")) }
                 { link(Page::Friend) }
                 { link(Page::About) }
             </nav>
