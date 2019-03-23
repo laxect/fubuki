@@ -2,6 +2,7 @@
 pub enum Page {
     Index,
     Article(String),
+    Posts,
     About,
     Friend,
 }
@@ -11,6 +12,7 @@ impl Page {
         match self {
             Page::Index => "index",
             Page::Article(_) => "post",
+            Page::Posts => "posts",
             Page::About => "about",
             Page::Friend => "friends",
         }
