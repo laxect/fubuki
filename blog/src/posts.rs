@@ -35,7 +35,7 @@ impl From<Post> for Page {
 pub struct PostList {
     pub list: Vec::<Post>,
     pub page_num: u32,
-    pub on_click: Option<Callback<>>
+    pub on_click: Option<Callback<Page>>
 }
 
 enum Msg {
