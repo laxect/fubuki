@@ -105,7 +105,7 @@ impl Renderable<Content> for Content {
         match self.page {
             Page::Posts => {
                 html! {
-                    <p>{ "under construction" }</p>
+                    <crate::posts::Posts: />
                 }
             }
             _ => {
