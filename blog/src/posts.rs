@@ -9,8 +9,8 @@ use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRend
 #[derive(PartialEq, Clone, Deserialize)]
 pub struct Post {
     pub url: String,
-    pub title: String,
     pub time: String,
+    pub title: String,
     pub summary: String,
     pub category: String,
 }
@@ -87,15 +87,15 @@ pub struct Posts {
 
 impl Posts {
     fn load(&mut self) {
-        let url = String::from("/post");
+        let url = String::from("/post.json");
         let cb = self.callback.clone();
         let handle = move |res: Response<Result<String, Error>>| {
             let (meta, body) = res.into_parts();
             if meta.status.is_success() {
                 if let Ok(payload) = body {
-                } else {
+                    let list: PostList = serde_json::from_str(payload.as_str()).unwrap();
+                    cb.emit(list);
                 }
-            } else {
             }
         };
         let req = Request::get(url).body(Nothing).unwrap();
@@ -181,7 +181,6 @@ impl Renderable<Posts> for Posts {
         html! {
             <>
                 <main>
-                    { "0" }
                     <nav class="nav post-nav", >
                         { link(Msg::Prev) }
                         { link(Msg::Next) }
