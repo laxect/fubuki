@@ -119,7 +119,7 @@ impl Component for Posts {
 
     fn change(&mut self, _: Self::Properties) -> ShouldRender {
         // never change
-        false
+        true
     }
 }
 
@@ -147,11 +147,13 @@ impl Renderable<Posts> for Posts {
         };
         html! {
             <>
-                <p>{ self.page_num }</p>
-                <nav class="nav", >
-                    { link(Msg::Prev) }
-                    { link(Msg::Next) }
-                </nav>
+                <main>
+                    { "0" }
+                    <nav class="nav", >
+                        { link(Msg::Prev) }
+                        { link(Msg::Next) }
+                    </nav>
+                </main>
             </>
         }
     }

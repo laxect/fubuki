@@ -92,7 +92,11 @@ impl Component for Content {
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if props.page != self.page {
             self.page = props.page;
-            self.load();
+            if self.page != Page::Posts {
+                self.load();
+            } else {
+                self.content = None;
+            }
             true
         } else {
             false
@@ -110,9 +114,9 @@ impl Renderable<Content> for Content {
             }
             _ => {
                 html! {
-                    <>
+                    <main>
                         <article>{ render_markdown(self.inner().as_str()) }</article>
-                    </>
+                    </main>
                 }
             }
         }
