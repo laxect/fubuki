@@ -1,5 +1,5 @@
-use yew::{ html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender };
 use crate::utils::Page;
+use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
 
 #[derive(PartialEq, Clone)]
 pub struct NavStatus {
@@ -28,7 +28,7 @@ impl Component for NavBar {
     fn create(prop: Self::Properties, _: ComponentLink<Self>) -> Self {
         NavBar {
             page: prop.page,
-            on_change:prop.on_change,
+            on_change: prop.on_change,
         }
     }
 
@@ -74,9 +74,10 @@ impl Renderable<NavBar> for NavBar {
         };
         // nav bar
         html! {
-            <nav class="nav", >
+            <nav class="nav nav-bar", >
                 { link(Page::Index) }
                 { link(Page::Friend) }
+                { link(Page::Posts) }
                 { link(Page::About) }
             </nav>
         }

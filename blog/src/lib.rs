@@ -1,6 +1,7 @@
 use yew::{ html, Component, ComponentLink, Html, Renderable, ShouldRender };
 
 mod utils;
+mod posts;
 mod navbar;
 mod content;
 mod markdown;

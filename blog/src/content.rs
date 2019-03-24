@@ -1,10 +1,10 @@
+use crate::markdown::render_markdown;
+use crate::utils::Page;
 use failure::Error;
 use serde_derive::Deserialize;
 use yew::format::Nothing;
 use yew::services::fetch::{FetchService, FetchTask, Request, Response};
 use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
-use crate::utils::Page;
-use crate::markdown::render_markdown;
 
 #[derive(PartialEq, Clone)]
 pub struct ContentStatus {
@@ -50,9 +50,7 @@ impl Content {
             let (meta, body) = res.into_parts();
             if meta.status.is_success() {
                 if let Ok(payload) = body {
-                    cb.emit(Pong {
-                        payload
-                    });
+                    cb.emit(Pong { payload });
                 } else {
                     cb.emit(Pong {
                         payload: String::from("e1"),
@@ -94,7 +92,11 @@ impl Component for Content {
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if props.page != self.page {
             self.page = props.page;
-            self.load();
+            if self.page != Page::Posts {
+                self.load();
+            } else {
+                self.content = None;
+            }
             true
         } else {
             false
@@ -104,10 +106,19 @@ impl Component for Content {
 
 impl Renderable<Content> for Content {
     fn view(&self) -> Html<Self> {
-        html! {
-            <>
-                <article>{ render_markdown(self.inner().as_str()) }</article>
-            </>
+        match self.page {
+            Page::Posts => {
+                html! {
+                    <crate::posts::Posts: />
+                }
+            }
+            _ => {
+                html! {
+                    <main>
+                        <article>{ render_markdown(self.inner().as_str()) }</article>
+                    </main>
+                }
+            }
         }
     }
 }
