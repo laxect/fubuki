@@ -55,6 +55,12 @@ impl Msg {
     }
 }
 
+impl From<PostList> for Msg {
+    fn from(item: PostList) -> Msg {
+        Msg::PostsLoaded(item)
+    }
+}
+
 #[derive(Clone, PartialEq)]
 pub struct PostsStatus {
     on_click: Option<Callback<Page>>
@@ -68,25 +74,31 @@ impl Default for PostsStatus {
     }
 }
 
-#[derive(PartialEq, Clone)]
 pub struct Posts {
-    pub page_num: u32,
-    pub page_count: u32,
-    pub list: Vec<Post>,
-    pub on_click: Option<Callback<Page>>
+    page_num: u32,
+    page_count: u32,
+    list: Vec<Post>,
+    on_click: Option<Callback<Page>>,
+    web: FetchService,
+    task: Option<FetchTask>,
+    callback: Callback<PostList>,
 }
 
 impl Component for Posts {
     type Message = Msg;
     type Properties = PostsStatus;
 
-    fn create(prop: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Posts {
+    fn create(prop: Self::Properties, mut link: ComponentLink<Self>) -> Self {
+        let posts = Posts {
             page_num: 0,
             page_count: 10,
             list: Vec::new(),
             on_click: prop.on_click,
-        }
+            web: FetchService::new(),
+            task: None,
+            callback: link.send_back(Msg::from),
+        };
+        posts
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
@@ -149,7 +161,7 @@ impl Renderable<Posts> for Posts {
             <>
                 <main>
                     { "0" }
-                    <nav class="nav", >
+                    <nav class="nav post-nav", >
                         { link(Msg::Prev) }
                         { link(Msg::Next) }
                     </nav>
