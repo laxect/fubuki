@@ -1,7 +1,8 @@
 // article list component
 use crate::utils::Page;
-use serde_derive::Deserialize;
+use failure::Error;
 use yew::format::Nothing;
+use serde_derive::Deserialize;
 use yew::services::fetch::{FetchService, FetchTask, Request, Response};
 use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
 
@@ -84,12 +85,31 @@ pub struct Posts {
     callback: Callback<PostList>,
 }
 
+impl Posts {
+    fn load(&mut self) {
+        let url = String::from("/post");
+        let cb = self.callback.clone();
+        let handle = move |res: Response<Result<String, Error>>| {
+            let (meta, body) = res.into_parts();
+            if meta.status.is_success() {
+                if let Ok(payload) = body {
+                } else {
+                }
+            } else {
+            }
+        };
+        let req = Request::get(url).body(Nothing).unwrap();
+        let task = self.web.fetch(req, handle.into());
+        self.task = Some(task);
+    }
+}
+
 impl Component for Posts {
     type Message = Msg;
     type Properties = PostsStatus;
 
     fn create(prop: Self::Properties, mut link: ComponentLink<Self>) -> Self {
-        let posts = Posts {
+        let mut posts = Posts {
             page_num: 0,
             page_count: 10,
             list: Vec::new(),
@@ -98,6 +118,7 @@ impl Component for Posts {
             task: None,
             callback: link.send_back(Msg::from),
         };
+        posts.load();
         posts
     }
 
