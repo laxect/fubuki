@@ -193,17 +193,15 @@ impl Renderable<Posts> for Posts {
             }
         };
         let start = self.page_num * 5;
-        let end = start + 5;
+        let end = std::cmp::min(start + 5, self.list.len() as u32);
         html! {
-            <>
-                <main>
-                    { for (start..end).map(article) }
-                    <nav class="nav post-nav", >
-                        { link(Msg::Prev) }
-                        { link(Msg::Next) }
-                    </nav>
-                </main>
-            </>
+            <main class="container", >
+                { for (start..end).map(article) }
+                <nav class="nav post-nav", >
+                    { link(Msg::Prev) }
+                    { link(Msg::Next) }
+                </nav>
+            </main>
         }
     }
 }
