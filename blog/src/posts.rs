@@ -116,7 +116,7 @@ impl Component for Posts {
             task: None,
             callback: link.send_back(Msg::from),
         };
-        // posts.load();
+        posts.load();
         posts
     }
 
@@ -154,7 +154,13 @@ impl Component for Posts {
 
 impl Renderable<Posts> for Posts {
     fn view(&self) -> Html<Self> {
-        // link item
+        // article item
+        let article = |post: &Post| -> Html<Self> {
+            html! {
+                <article>{ &post.title }</article>
+            }
+        };
+        // pagnation link item
         let link = |item: Msg| -> Html<Self> {
             let disabled = match item {
                 Msg::Next => self.page_num == self.page_count,
@@ -177,6 +183,7 @@ impl Renderable<Posts> for Posts {
         html! {
             <>
                 <main>
+                    { for self.list.iter().map(article) }
                     <nav class="nav post-nav", >
                         { link(Msg::Prev) }
                         { link(Msg::Next) }
