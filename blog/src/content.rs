@@ -1,7 +1,6 @@
 use crate::markdown::render_markdown;
 use crate::utils::Page;
 use failure::Error;
-use serde_derive::Deserialize;
 use yew::format::Nothing;
 use yew::services::fetch::{FetchService, FetchTask, Request, Response};
 use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
@@ -21,16 +20,9 @@ impl Default for ContentStatus {
     }
 }
 
-// msg
-#[derive(PartialEq, Clone, Deserialize)]
-pub struct Pong {
-    payload: String,
-}
-
 #[derive(PartialEq, Clone)]
 pub enum Msg {
-    OnClick(Page),
-    Pong(Pong),
+    Pong(String),
 }
 
 pub struct Content {
@@ -38,7 +30,7 @@ pub struct Content {
     web: FetchService,
     task: Option<FetchTask>,
     content: Option<String>,
-    callback: Callback<Pong>,
+    callback: Callback<String>,
     on_change: Option<Callback<Page>>,
 }
 
@@ -57,16 +49,8 @@ impl Content {
             let (meta, body) = res.into_parts();
             if meta.status.is_success() {
                 if let Ok(payload) = body {
-                    cb.emit(Pong { payload });
-                } else {
-                    cb.emit(Pong {
-                        payload: String::from("e1"),
-                    })
+                    cb.emit(payload);
                 }
-            } else {
-                cb.emit(Pong {
-                    payload: String::from("e2"),
-                });
             }
         };
         let req = Request::get(url).body(Nothing).unwrap();
@@ -95,12 +79,7 @@ impl Component for Content {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Msg::Pong(pong) => {
-                self.content = Some(pong.payload);
-            }
-            Msg::OnClick(page) => {
-                if let Some(ref mut on_change) = self.on_change {
-                    on_change.emit(page);
-                }
+                self.content = Some(pong);
             }
         }
         true
@@ -126,7 +105,7 @@ impl Renderable<Content> for Content {
         match self.page {
             Page::Posts => {
                 html! {
-                    <crate::posts::Posts: on_click=|page| Msg::OnClick(page), />
+                    <crate::posts::Posts: on_click=self.on_change.clone(), />
                 }
             }
             _ => {

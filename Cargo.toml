@@ -1,6 +1,6 @@
 [workspace]
 
-member = [
+members = [
     "blog",
     "demon"
 ]
