@@ -109,7 +109,7 @@ impl Component for Posts {
     fn create(prop: Self::Properties, mut link: ComponentLink<Self>) -> Self {
         let mut posts = Posts {
             page_num: 0,
-            page_count: 10,
+            page_count: 0,
             list: Vec::new(),
             on_click: prop.on_click,
             web: FetchService::new(),
@@ -146,6 +146,7 @@ impl Component for Posts {
             }
             Msg::PostsLoaded(post_list) => {
                 self.list = post_list.posts;
+                self.page_count = (self.list.len() as u32 + 4) / 5;
                 true
             }
         }
@@ -160,7 +161,8 @@ impl Component for Posts {
 impl Renderable<Posts> for Posts {
     fn view(&self) -> Html<Self> {
         // article item
-        let article = |post: &Post| -> Html<Self> {
+        let article = |ind| -> Html<Self> {
+            let post = &self.list[ind as usize];
             let url = post.url.clone();
             html! {
                 <article>
@@ -190,10 +192,12 @@ impl Renderable<Posts> for Posts {
                 </a>
             }
         };
+        let start = self.page_num * 5;
+        let end = start + 5;
         html! {
             <>
                 <main>
-                    { for self.list.iter().map(article) }
+                    { for (start..end).map(article) }
                     <nav class="nav post-nav", >
                         { link(Msg::Prev) }
                         { link(Msg::Next) }
