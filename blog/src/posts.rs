@@ -42,7 +42,7 @@ impl From<Post> for Page {
 pub enum Msg {
     Prev,
     Next,
-    Click(Post),
+    Click(String),
     PostsLoaded(PostList),
 }
 
@@ -64,7 +64,7 @@ impl From<PostList> for Msg {
 
 #[derive(Clone, PartialEq)]
 pub struct PostsStatus {
-    on_click: Option<Callback<Page>>,
+    pub on_click: Option<Callback<Page>>,
 }
 
 impl Default for PostsStatus {
@@ -138,7 +138,12 @@ impl Component for Posts {
                     false
                 }
             }
-            Msg::Click(post) => false,
+            Msg::Click(post) => {
+                if let Some(ref mut on_click) = self.on_click {
+                    on_click.emit(Page::Article(post));
+                }
+                false
+            }
             Msg::PostsLoaded(post_list) => {
                 self.list = post_list.posts;
                 true
@@ -156,8 +161,13 @@ impl Renderable<Posts> for Posts {
     fn view(&self) -> Html<Self> {
         // article item
         let article = |post: &Post| -> Html<Self> {
+            let url = post.url.clone();
             html! {
-                <article>{ &post.title }</article>
+                <article>
+                    <h3><a onclick=|_| Msg::Click(url.clone()), >{ &post.title }</a></h3>
+                    <p>{ &post.summary }</p>
+                    <p><time>{ &post.time }</time><span>{ &post.category }</span></p>
+                </article>
             }
         };
         // pagnation link item

@@ -27,12 +27,19 @@ pub struct Pong {
     payload: String,
 }
 
+#[derive(PartialEq, Clone)]
+pub enum Msg {
+    OnClick(Page),
+    Pong(Pong),
+}
+
 pub struct Content {
     page: Page,
     web: FetchService,
     task: Option<FetchTask>,
     content: Option<String>,
     callback: Callback<Pong>,
+    on_change: Option<Callback<Page>>,
 }
 
 impl Content {
@@ -69,7 +76,7 @@ impl Content {
 }
 
 impl Component for Content {
-    type Message = Pong;
+    type Message = Msg;
     type Properties = ContentStatus;
 
     fn create(props: Self::Properties, mut link: ComponentLink<Self>) -> Self {
@@ -78,14 +85,24 @@ impl Component for Content {
             web: FetchService::new(),
             content: None,
             task: None,
-            callback: link.send_back(|pong| pong),
+            callback: link.send_back(Msg::Pong),
+            on_change: props.on_change,
         };
         content.load();
         content
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        self.content = Some(msg.payload);
+        match msg {
+            Msg::Pong(pong) => {
+                self.content = Some(pong.payload);
+            }
+            Msg::OnClick(page) => {
+                if let Some(ref mut on_change) = self.on_change {
+                    on_change.emit(page);
+                }
+            }
+        }
         true
     }
 
@@ -109,7 +126,7 @@ impl Renderable<Content> for Content {
         match self.page {
             Page::Posts => {
                 html! {
-                    <crate::posts::Posts: />
+                    <crate::posts::Posts: on_click=|page| Msg::OnClick(page), />
                 }
             }
             _ => {
