@@ -18,7 +18,7 @@ fn main() {
     server::new(|| {
         App::new()
             .resource(r"/", |r| r.method(Method::GET).f(index))
-            .handler("/", fs::StaticFiles::new("./static").unwrap())
+            .handler(r"/", fs::StaticFiles::new("./static").unwrap())
     })
     .bind(bind_address)
     .unwrap()
