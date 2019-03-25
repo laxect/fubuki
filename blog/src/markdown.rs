@@ -27,7 +27,6 @@ where
                 spine.push(make_tag(tag));
             }
             Event::End(tag) => {
-                // TODO Verify stack end.
                 let l = spine.len();
                 assert!(l >= 1);
                 let mut top = spine.pop().unwrap();
@@ -53,8 +52,6 @@ where
                 } else if let Tag::TableHead = tag {
                     for c in top.childs.iter_mut() {
                         if let VNode::VTag(ref mut vtag) = c {
-                            // TODO
-                            //                            vtag.tag = "th".into();
                             vtag.add_attribute("scope", &"col");
                         }
                     }
