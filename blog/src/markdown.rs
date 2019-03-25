@@ -1,11 +1,8 @@
 /// Original author of this code is [Nathan Ringo](https://github.com/remexre)
 /// Source: https://github.com/acmumn/mentoring/blob/master/web-client/src/view/markdown.rs
-use pulldown_cmark::{Alignment, Event, Parser, Tag, Options};
+use pulldown_cmark::{Alignment, Event, Options, Parser, Tag};
 use yew::virtual_dom::{VNode, VTag, VText};
 use yew::{html, Component, Html};
-
-/// Renders a string of Markdown to HTML with the default options (footnotes
-/// disabled, tables enabled).
 pub fn render_markdown<COMP>(src: &str) -> Html<COMP>
 where
     COMP: Component,
@@ -105,6 +102,7 @@ where
                 "html" => el.add_class("html-language"),
                 "rust" => el.add_class("rust-language"),
                 "java" => el.add_class("java-language"),
+                "cpp" => el.add_class("cpp-language"),
                 "c" => el.add_class("c-language"),
                 _ => {} // Add your own language highlighting support
             };
@@ -154,7 +152,7 @@ where
             el
         }
         Tag::FootnoteDefinition(ref _footnote_id) => VTag::new("span"), // Footnotes are not rendered as anything special
-        Tag::HtmlBlock =>  VTag::new("div"),
+        Tag::HtmlBlock => VTag::new("div"),
         Tag::Strikethrough => VTag::new("del"),
     }
 }

@@ -20,7 +20,7 @@ impl Page {
 
     pub fn url(&self) -> String {
         let mut file = match self {
-            Page::Article(ref article) => article.clone(),
+            Page::Article(ref article) => format!("/post/{}", article.clone()),
             _ => String::from(self.value()),
         };
         file.push_str(".md");
