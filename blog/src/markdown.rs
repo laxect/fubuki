@@ -3,6 +3,7 @@
 use pulldown_cmark::{Alignment, Event, Options, Parser, Tag};
 use yew::virtual_dom::{VNode, VTag, VText};
 use yew::{html, Component, Html};
+
 pub fn render_markdown<COMP>(src: &str) -> Html<COMP>
 where
     COMP: Component,
@@ -121,7 +122,7 @@ where
             el.add_class("table");
             el
         }
-        Tag::TableHead => VTag::new("tr"),
+        Tag::TableHead => VTag::new("th"),
         Tag::TableRow => VTag::new("tr"),
         Tag::TableCell => VTag::new("td"),
         Tag::Emphasis => {
@@ -151,7 +152,7 @@ where
             }
             el
         }
-        Tag::FootnoteDefinition(ref _footnote_id) => VTag::new("span"), // Footnotes are not rendered as anything special
+        Tag::FootnoteDefinition(ref _id) => VTag::new("span"), // Footnotes are not rendered as anything special
         Tag::HtmlBlock => VTag::new("div"),
         Tag::Strikethrough => VTag::new("del"),
     }
