@@ -1,14 +1,14 @@
-use yew::{ html, Component, ComponentLink, Html, Renderable, ShouldRender };
+use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
 
-mod utils;
-mod posts;
-mod navbar;
 mod content;
 mod markdown;
+mod navbar;
+mod posts;
+mod utils;
 
-use utils::Page;
-use navbar::NavBar;
 use content::Content;
+use navbar::NavBar;
+use utils::Page;
 
 pub struct Blog {
     page: Page,
@@ -19,9 +19,7 @@ impl Component for Blog {
     type Properties = ();
 
     fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Blog {
-            page: Page::Index,
-        }
+        Blog { page: Page::Index }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {

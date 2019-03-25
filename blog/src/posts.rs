@@ -1,8 +1,8 @@
 // article list component
 use crate::utils::Page;
 use failure::Error;
-use yew::format::Nothing;
 use serde_derive::Deserialize;
+use yew::format::Nothing;
 use yew::services::fetch::{FetchService, FetchTask, Request, Response};
 use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
 
@@ -64,14 +64,12 @@ impl From<PostList> for Msg {
 
 #[derive(Clone, PartialEq)]
 pub struct PostsStatus {
-    on_click: Option<Callback<Page>>
+    on_click: Option<Callback<Page>>,
 }
 
 impl Default for PostsStatus {
     fn default() -> PostsStatus {
-        PostsStatus {
-            on_click: None,
-        }
+        PostsStatus { on_click: None }
     }
 }
 
@@ -140,9 +138,7 @@ impl Component for Posts {
                     false
                 }
             }
-            Msg::Click(post) => {
-                false
-            }
+            Msg::Click(post) => false,
             Msg::PostsLoaded(post_list) => {
                 self.list = post_list.posts;
                 true
