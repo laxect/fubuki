@@ -1,6 +1,6 @@
 /// Original author of this code is [Nathan Ringo](https://github.com/remexre)
 /// Source: https://github.com/acmumn/mentoring/blob/master/web-client/src/view/markdown.rs
-use pulldown_cmark::{Alignment, Event, Parser, Tag, OPTION_ENABLE_TABLES};
+use pulldown_cmark::{Alignment, Event, Parser, Tag, Options};
 use yew::virtual_dom::{VNode, VTag, VText};
 use yew::{html, Component, Html};
 
@@ -21,7 +21,7 @@ where
         }};
     }
 
-    for ev in Parser::new_ext(src, OPTION_ENABLE_TABLES) {
+    for ev in Parser::new_ext(src, Options::all()) {
         match ev {
             Event::Start(tag) => {
                 spine.push(make_tag(tag));
@@ -130,32 +130,34 @@ where
         Tag::TableRow => VTag::new("tr"),
         Tag::TableCell => VTag::new("td"),
         Tag::Emphasis => {
-            let mut el = VTag::new("span");
+            let mut el = VTag::new("dfn");
             el.add_class("font-italic");
             el
         }
         Tag::Strong => {
-            let mut el = VTag::new("span");
+            let mut el = VTag::new("strong");
             el.add_class("font-weight-bold");
             el
         }
         Tag::Code => VTag::new("code"),
-        Tag::Link(ref href, ref title) => {
+        Tag::Link(ref _type, ref href, ref title) => {
             let mut el = VTag::new("a");
             el.add_attribute("href", href);
-            if title != "" {
+            if title.len() != 0 {
                 el.add_attribute("title", title);
             }
             el
         }
-        Tag::Image(ref src, ref title) => {
+        Tag::Image(ref _type, ref src, ref title) => {
             let mut el = VTag::new("img");
             el.add_attribute("src", src);
-            if title != "" {
+            if title.len() != 0 {
                 el.add_attribute("title", title);
             }
             el
         }
         Tag::FootnoteDefinition(ref _footnote_id) => VTag::new("span"), // Footnotes are not rendered as anything special
+        Tag::HtmlBlock =>  VTag::new("div"),
+        Tag::Strikethrough => VTag::new("del"),
     }
 }

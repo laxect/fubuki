@@ -116,7 +116,7 @@ impl Component for Posts {
             task: None,
             callback: link.send_back(Msg::from),
         };
-        posts.load();
+        // posts.load();
         posts
     }
 

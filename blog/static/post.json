@@ -1,9 +1,11 @@
-[
-    {
-        "url": "hello-world.md",
-        "title": "hello world",
-        "time": "平成31/3/24",
-        "summary": "Hello world",
-        "category": "dev"
-    }
-]
+{
+    "posts": [
+        {
+            "url": "hello-world.md",
+            "title": "hello world",
+            "time": "平成31/3/24",
+            "summary": "Hello world",
+            "category": "dev"
+        }
+    ]
+}
