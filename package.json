@@ -1,0 +1,17 @@
+{
+  "name": "fubuki-gs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:laxect/fubuki.git",
+  "author": "Gyara <me@gyara.moe>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "han-css": "^3.3.0",
+    "sass": "^1.17.3"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.3",
+    "parcel-plugin-cargo-web": "^0.3.1"
+  }
+}
