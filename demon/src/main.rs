@@ -1,4 +1,4 @@
-use actix_web::{fs, fs::NamedFile, http::Method, server, App, HttpRequest, Result};
+use actix_web::{fs, fs::NamedFile, server, App, HttpRequest, Result};
 use std::env;
 
 fn index(_req: &HttpRequest) -> Result<NamedFile> {
@@ -17,8 +17,9 @@ fn main() {
 
     server::new(|| {
         App::new()
-            .resource(r"/", |r| r.method(Method::GET).f(index))
+            .resource(r"/", |r| r.get().f(index))
             .handler(r"/", fs::StaticFiles::new("./dist").unwrap())
+            .default_resource(|r| r.get().f(index))
     })
     .bind(bind_address)
     .unwrap()
