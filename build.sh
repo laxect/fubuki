@@ -1,2 +1,1 @@
-cd ./blog
-cargo web deploy --release
+parcel build ./index.html

@@ -353,6 +353,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "demon"
+version = "0.1.0"
+dependencies = [
+ "actix-web 0.7.18 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "discard"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -462,13 +469,6 @@ dependencies = [
 name = "fnv"
 version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-
-[[package]]
-name = "fubuki-gs"
-version = "0.1.0"
-dependencies = [
- "actix-web 0.7.18 (registry+https://github.com/rust-lang/crates.io-index)",
-]
 
 [[package]]
 name = "fuchsia-cprng"

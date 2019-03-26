@@ -2,7 +2,7 @@ use actix_web::{fs, fs::NamedFile, http::Method, server, App, HttpRequest, Resul
 use std::env;
 
 fn index(_req: &HttpRequest) -> Result<NamedFile> {
-    Ok(NamedFile::open("./static/index.html")?)
+    Ok(NamedFile::open("../dist/index.html")?)
 }
 
 fn main() {
@@ -18,7 +18,7 @@ fn main() {
     server::new(|| {
         App::new()
             .resource(r"/", |r| r.method(Method::GET).f(index))
-            .handler(r"/", fs::StaticFiles::new("./static").unwrap())
+            .handler(r"/", fs::StaticFiles::new("../dist").unwrap())
     })
     .bind(bind_address)
     .unwrap()
