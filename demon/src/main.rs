@@ -19,7 +19,6 @@ fn main() {
         App::new()
             .resource(r"/", |r| r.get().f(index))
             .handler(r"/", fs::StaticFiles::new("./dist").unwrap())
-            .default_resource(|r| r.get().f(index))
     })
     .bind(bind_address)
     .unwrap()
