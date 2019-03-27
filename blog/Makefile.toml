@@ -1,0 +1,4 @@
+[tasks.build]
+install_crate = "cargo-web"
+command = "cargo"
+args = ["web", "build", "--release"]
