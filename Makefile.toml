@@ -7,7 +7,8 @@ script_runner = "powershell"
 script_extension = "ps1"
 script = [
 '''
-Copy-Item .\blog\static\* -Destination .\dist -Recurse -Force
+Copy-Item .\source\* -Destination .\dist -Recurse -Force
+Copy-Item .\post -Destination .\dist\post -Recurse -Force
 '''
 ]
 
@@ -15,7 +16,8 @@ Copy-Item .\blog\static\* -Destination .\dist -Recurse -Force
 workspace = false
 script = [
 '''
-cp ./blog/static/* dist -r
+cp ./source/* dist -r
+cp ./post dist/post -r
 '''
 ]
 

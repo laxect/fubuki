@@ -147,6 +147,9 @@ impl Component for Posts {
             Msg::PostsLoaded(post_list) => {
                 self.list = post_list.posts;
                 self.page_count = (self.list.len() as u32 + 4) / 5;
+                if self.page_count > 0 {
+                    self.page_count -= 1;
+                }
                 true
             }
         }
