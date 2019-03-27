@@ -166,9 +166,9 @@ impl Renderable<Posts> for Posts {
             let url = post.url.clone();
             html! {
                 <article>
-                    <h3><a onclick=|_| Msg::Click(url.clone()), >{ &post.title }</a></h3>
+                    <h1><a onclick=|_| Msg::Click(url.clone()), >{ &post.title }</a></h1>
                     <p>{ &post.summary }</p>
-                    <p><time>{ &post.time }</time><span class="category", >{ &post.category }</span></p>
+                    <small><time>{ &post.time }</time><span class="category", >{ &post.category }</span></small>
                 </article>
             }
         };
