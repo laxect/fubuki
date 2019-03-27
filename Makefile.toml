@@ -1,2 +1,27 @@
-[tasks.build]
+[env]
+CARGO_MAKE_WORKSPACE_SKIP_MEMBERS = "blog"
 
+[tasks.static_file_win]
+workspace = false
+script_runner = "powershell"
+script_extension = "ps1"
+script = [
+'''
+Copy-Item .\blog\static\* -Destination .\dist -Recurse -Force
+'''
+]
+
+[tasks.static_file_unix]
+workspace = false
+script = [
+'''
+cp ./blog/static/* dist -r
+'''
+]
+
+[tasks.static_file]
+workspace = false
+run_task = [
+    { name = "static_file_win", condition = { platforms = ["windows"] } },
+    { name = "static_file_unix", condition = { platforms = ["mac", "linux"] } },
+]
