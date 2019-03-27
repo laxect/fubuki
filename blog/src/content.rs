@@ -110,7 +110,7 @@ impl Renderable<Content> for Content {
             }
             _ => {
                 html! {
-                    <main class="container", >
+                    <main>
                         <article>{ render_markdown(self.inner().as_str()) }</article>
                     </main>
                 }

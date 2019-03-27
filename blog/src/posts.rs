@@ -168,7 +168,7 @@ impl Renderable<Posts> for Posts {
                 <article>
                     <h3><a onclick=|_| Msg::Click(url.clone()), >{ &post.title }</a></h3>
                     <p>{ &post.summary }</p>
-                    <p><time>{ &post.time }</time><span>{ &post.category }</span></p>
+                    <p><time>{ &post.time }</time><span class="category", >{ &post.category }</span></p>
                 </article>
             }
         };
