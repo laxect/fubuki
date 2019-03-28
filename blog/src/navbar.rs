@@ -56,7 +56,19 @@ impl Renderable<NavBar> for NavBar {
         // link item
         let link = |item: Page| -> Html<Self> {
             let mark = item.value();
-            if item == self.page {
+            let mut post = false;
+            if let Page::Article(_) = self.page {
+                post = true;
+            };
+            if post && item == Page::Posts {
+                html! {
+                    <button class="nav-link",
+                        onclick=|_| item.clone(), >
+                        <span class="mark", >{ "post" }</span>
+                        <span>{ "s" }</span>
+                    </button>
+                }
+            } else if item == self.page {
                 html! {
                     <button class="nav-link active",
                         onclick=|_| item.clone(), >

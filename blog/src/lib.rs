@@ -1,14 +1,13 @@
-use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
-
-mod content;
-mod markdown;
-mod navbar;
 mod posts;
 mod utils;
+mod navbar;
+mod content;
+mod markdown;
 
 use content::Content;
 use navbar::NavBar;
 use utils::Page;
+use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
 
 pub struct Blog {
     page: Page,

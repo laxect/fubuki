@@ -31,13 +31,23 @@ main
         .category
             margin-left: 1em
         blockquote
+            margin-left: 1em
+            font-family: initial!important
             padding: 0.5em 0.5em
-            border-left: 0.5em solid $shironezumi
+            border-left: 0.3em double $shironezumi
+            dfn
+                font-weight: normal!important
             p
                 margin: 0
         dfn
             font-style: initial
-            text-decoration: underline double $shironezumi
+            text-decoration: underline dashed $shironezumi
+        code
+            display: inline-block
+            margin-left: 1em
+            padding-left: 1em
+            border-left: 0.3em solid $shironezumi
+
     .post-nav
         margin-top: 1.25em
         display: grid
@@ -51,5 +61,5 @@ button
     border: none
     outline: none
     background: none
-    &.active
-        text-decoration: underline double $kurotobi
+    &.active, .mark
+        text-decoration: underline solid $kurotobi

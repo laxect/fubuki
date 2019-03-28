@@ -99,14 +99,7 @@ where
             // but a different library (likely js based at the moment) would be necessary to actually provide the
             // highlighting support by locating the language classes and applying dom transforms
             // on their contents.
-            match lang.as_ref() {
-                "html" => el.add_class("html-language"),
-                "rust" => el.add_class("rust-language"),
-                "java" => el.add_class("java-language"),
-                "cpp" => el.add_class("cpp-language"),
-                "c" => el.add_class("c-language"),
-                _ => {} // Add your own language highlighting support
-            };
+            el.add_class(lang.as_ref());
             el
         }
         Tag::List(None) => VTag::new("ul"),
