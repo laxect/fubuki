@@ -1,9 +1,6 @@
 // article list component
 use crate::utils::Page;
-use failure::Error;
 use serde_derive::Deserialize;
-use yew::format::Nothing;
-use yew::services::fetch::{FetchService, FetchTask, Request, Response};
 use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
 
 #[derive(PartialEq, Clone, Deserialize)]
@@ -65,11 +62,15 @@ impl From<PostList> for Msg {
 #[derive(Clone, PartialEq)]
 pub struct PostsStatus {
     pub on_click: Option<Callback<Page>>,
+    pub post_list: Vec<Post>,
 }
 
 impl Default for PostsStatus {
     fn default() -> PostsStatus {
-        PostsStatus { on_click: None }
+        PostsStatus {
+            on_click: None,
+            post_list: Vec::new(),
+        }
     }
 }
 
@@ -78,46 +79,19 @@ pub struct Posts {
     page_count: u32,
     list: Vec<Post>,
     on_click: Option<Callback<Page>>,
-    web: FetchService,
-    task: Option<FetchTask>,
-    callback: Callback<PostList>,
-}
-
-impl Posts {
-    fn load(&mut self) {
-        let url = String::from("/post.json");
-        let cb = self.callback.clone();
-        let handle = move |res: Response<Result<String, Error>>| {
-            let (meta, body) = res.into_parts();
-            if meta.status.is_success() {
-                if let Ok(payload) = body {
-                    let list: PostList = serde_json::from_str(payload.as_str()).unwrap();
-                    cb.emit(list);
-                }
-            }
-        };
-        let req = Request::get(url).body(Nothing).unwrap();
-        let task = self.web.fetch(req, handle.into());
-        self.task = Some(task);
-    }
 }
 
 impl Component for Posts {
     type Message = Msg;
     type Properties = PostsStatus;
 
-    fn create(prop: Self::Properties, mut link: ComponentLink<Self>) -> Self {
-        let mut posts = Posts {
+    fn create(prop: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Posts {
             page_num: 0,
             page_count: 0,
-            list: Vec::new(),
+            list: prop.post_list,
             on_click: prop.on_click,
-            web: FetchService::new(),
-            task: None,
-            callback: link.send_back(Msg::from),
-        };
-        posts.load();
-        posts
+        }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
@@ -155,8 +129,9 @@ impl Component for Posts {
         }
     }
 
-    fn change(&mut self, _: Self::Properties) -> ShouldRender {
+    fn change(&mut self, prop: Self::Properties) -> ShouldRender {
         // never change
+        self.list = prop.post_list;
         true
     }
 }
