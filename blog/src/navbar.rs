@@ -58,17 +58,17 @@ impl Renderable<NavBar> for NavBar {
             let mark = item.value();
             if item == self.page {
                 html! {
-                    <a class="nav-link active",
+                    <button class="nav-link active",
                         onclick=|_| item.clone(), >
                         { mark }
-                    </a>
+                    </button>
                 }
             } else {
                 html! {
-                    <a class="nav-link",
+                    <button class="nav-link",
                         onclick=|_| item.clone(), >
                         { mark }
-                    </a>
+                    </button>
                 }
             }
         };
@@ -76,9 +76,9 @@ impl Renderable<NavBar> for NavBar {
         html! {
             <nav class="nav nav-bar", >
                 { link(Page::Index) }
-                { link(Page::Friend) }
                 { link(Page::Posts) }
                 { link(Page::About) }
+                { link(Page::Friend) }
             </nav>
         }
     }

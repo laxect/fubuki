@@ -168,8 +168,8 @@ impl Renderable<Posts> for Posts {
             let post = &self.list[ind as usize];
             let url = post.url.clone();
             html! {
-                <article>
-                    <h1><a onclick=|_| Msg::Click(url.clone()), >{ &post.title }</a></h1>
+                <article lang="zh-cmn-Hans", >
+                    <h1><button onclick=|_| Msg::Click(url.clone()), >{ &post.title }</button></h1>
                     <p>{ &post.summary }</p>
                     <small><time>{ &post.time }</time><span class="category", >{ &post.category }</span></small>
                 </article>
@@ -189,16 +189,16 @@ impl Renderable<Posts> for Posts {
                 "btn btn-post"
             };
             html! {
-                <a class=class,
+                <button class=class,
                     onclick=|_| item.clone(), >
                     { mark }
-                </a>
+                </button>
             }
         };
         let start = self.page_num * 5;
         let end = std::cmp::min(start + 5, self.list.len() as u32);
         html! {
-            <main class="container", >
+            <main>
                 { for (start..end).map(article) }
                 <nav class="nav post-nav", >
                     { link(Msg::Prev) }

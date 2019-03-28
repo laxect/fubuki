@@ -1,3 +1,8 @@
+// color table
+$haizakura: rgb(215, 196, 187)
+$kurotobi: rgb(85, 66, 54)
+$shironezumi: rgb(189, 192, 186)
+
 body
     overflow-y: scroll
 
@@ -20,13 +25,31 @@ main
         padding-left: 5em
         padding-right: 5em
     @media (min-width: 1000px)
-        padding-left: 15em
-        padding-right: 15em
+        padding-left: 18em
+        padding-right: 18em
     article
         .category
             margin-left: 1em
+        blockquote
+            padding: 0.5em 0.5em
+            border-left: 0.5em solid $shironezumi
+            p
+                margin: 0
+        dfn
+            font-style: initial
+            text-decoration: underline double $shironezumi
     .post-nav
         margin-top: 1.25em
         display: grid
         grid-template-columns: repeat(2, 2em)
         grid-gap: 1em
+
+button
+    text-align: left
+    margin: 0
+    padding: 0
+    border: none
+    outline: none
+    background: none
+    &.active
+        text-decoration: underline double $kurotobi

@@ -125,13 +125,9 @@ where
         Tag::TableHead => VTag::new("th"),
         Tag::TableRow => VTag::new("tr"),
         Tag::TableCell => VTag::new("td"),
-        Tag::Emphasis => {
-            let mut el = VTag::new("dfn");
-            el.add_class("font-italic");
-            el
-        }
+        Tag::Emphasis => VTag::new("dfn"),
         Tag::Strong => {
-            let mut el = VTag::new("strong");
+            let mut el = VTag::new("em");
             el.add_class("font-weight-bold");
             el
         }
