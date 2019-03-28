@@ -8,7 +8,7 @@ script_extension = "ps1"
 script = [
 '''
 Copy-Item .\source\* -Destination .\dist -Recurse -Force
-Copy-Item .\post -Destination .\dist\post -Recurse -Force
+Copy-Item .\post -Destination .\dist\ -Recurse -Force
 '''
 ]
 
