@@ -1,6 +1,3 @@
-#[macro_use]
-extern crate stdweb;
-
 mod posts;
 mod utils;
 mod navbar;
