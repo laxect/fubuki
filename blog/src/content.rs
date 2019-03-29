@@ -130,6 +130,10 @@ impl Component for Content {
 
 impl Renderable<Content> for Content {
     fn view(&self) -> Html<Self> {
+        js! { @(no_return)
+            let e = new CustomEvent("loaded");
+            window.dispatchEvent(e);
+        };
         let post_list = match &self.post_list {
             Some(list) => list.posts.clone(),
             None => vec![]

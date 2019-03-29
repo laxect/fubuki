@@ -2,6 +2,8 @@
 $haizakura: rgb(215, 196, 187)
 $kurotobi: rgb(85, 66, 54)
 $shironezumi: rgb(189, 192, 186)
+$shironeri: rgb(252, 250, 242)
+$hai: rgb(130, 130, 130)
 
 body
     overflow-y: scroll
@@ -31,7 +33,7 @@ main
         .category
             margin-left: 1em
         blockquote
-            margin-left: 1em
+            margin-left: -0.8em
             font-family: initial!important
             padding: 0.5em 0.5em
             border-left: 0.3em double $shironezumi
@@ -42,12 +44,13 @@ main
         dfn
             font-style: initial
             text-decoration: underline dashed $shironezumi
-        code
+        pre // code block
             display: inline-block
-            margin-left: 1em
-            padding-left: 1em
+            margin-left: -0.8em
+            padding-left: 0.5em
             border-left: 0.3em solid $shironezumi
-
+        code.inline-code
+            border: 0.1em dashed $shironezumi
     .post-nav
         margin-top: 1.25em
         display: grid
