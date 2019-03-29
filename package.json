@@ -8,6 +8,7 @@
   "private": true,
   "dependencies": {
     "han-css": "^3.3.0",
+    "prismjs": "^1.16.0",
     "sass": "^1.17.3"
   },
   "devDependencies": {

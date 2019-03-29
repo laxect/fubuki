@@ -143,7 +143,7 @@ impl Renderable<Posts> for Posts {
             let post = &self.list[ind as usize];
             let url = post.url.clone();
             html! {
-                <article lang="zh-cmn-Hans", >
+                <article>
                     <h1><button onclick=|_| Msg::Click(url.clone()), >{ &post.title }</button></h1>
                     <p>{ &post.summary }</p>
                     <small><time>{ &post.time }</time><span class="category", >{ &post.category }</span></small>
