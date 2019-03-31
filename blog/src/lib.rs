@@ -3,6 +3,7 @@ mod utils;
 mod navbar;
 mod content;
 mod markdown;
+mod fetch_agent;
 
 use content::Content;
 use navbar::NavBar;

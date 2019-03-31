@@ -1,9 +1,9 @@
 // article list component
 use crate::utils::Page;
-use serde_derive::Deserialize;
+use serde_derive::{ Serialize, Deserialize };
 use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
 
-#[derive(PartialEq, Clone, Deserialize)]
+#[derive(PartialEq, Clone, Deserialize, Serialize)]
 pub struct Post {
     pub url: String,
     pub time: String,
@@ -12,7 +12,7 @@ pub struct Post {
     pub category: String,
 }
 
-#[derive(PartialEq, Clone, Deserialize)]
+#[derive(PartialEq, Clone, Deserialize, Serialize)]
 pub struct PostList {
     pub posts: Vec<Post>,
 }
@@ -144,7 +144,7 @@ impl Renderable<Posts> for Posts {
             let url = post.url.clone();
             html! {
                 <article>
-                    <h1><button onclick=|_| Msg::Click(url.clone()), >{ &post.title }</button></h1>
+                    <h3><button onclick=|_| Msg::Click(url.clone()), >{ &post.title }</button></h3>
                     <p>{ &post.summary }</p>
                     <small><time>{ &post.time }</time><span class="category", >{ &post.category }</span></small>
                 </article>

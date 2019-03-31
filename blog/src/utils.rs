@@ -1,4 +1,7 @@
-#[derive(PartialEq, Clone)]
+use yew::agent::Transferable;
+use serde_derive::{ Serialize, Deserialize };
+
+#[derive(PartialEq, Clone, Serialize, Deserialize)]
 pub enum Page {
     Index,
     Article(String),
@@ -26,4 +29,13 @@ impl Page {
         file.push_str(".md");
         file
     }
+
+    pub fn is_cacheable(&self) -> bool {
+        match self {
+            Page::Posts => false,
+            _ => true,
+        }
+    }
 }
+
+impl Transferable for Page {}
