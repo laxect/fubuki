@@ -1,8 +1,7 @@
-
-use crate::utils::Page;
-use crate::posts::PostList;
+use crate::fetch_agent::{FetchAgent, Load};
 use crate::markdown::render_markdown;
-use crate::fetch_agent::{ Load, FetchAgent };
+use crate::posts::PostList;
+use crate::utils::Page;
 use yew::*;
 
 #[derive(PartialEq, Clone)]
@@ -94,12 +93,12 @@ impl Component for Content {
 
 impl Renderable<Content> for Content {
     fn view(&self) -> Html<Self> {
-        let post_list = match &self.post_list {
-            Some(list) => list.posts.clone(),
-            None => vec![]
-        };
         match self.page {
             Page::Posts => {
+                let post_list = match &self.post_list {
+                    Some(list) => list.posts.clone(),
+                    None => vec![],
+                };
                 html! {
                     <crate::posts::Posts: on_click=self.on_change.clone(), post_list=post_list, />
                 }
