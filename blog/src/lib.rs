@@ -1,9 +1,11 @@
 mod posts;
 mod utils;
 mod navbar;
+mod router;
 mod content;
 mod markdown;
 mod fetch_agent;
+mod route_service;
 
 use content::Content;
 use navbar::NavBar;
