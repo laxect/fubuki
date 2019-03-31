@@ -45,7 +45,7 @@ pub struct Content {
 impl Content {
     pub fn inner(&self) -> String {
         match self.content {
-            None => String::from(self.page.value()),
+            None => self.page.value(),
             Some(ref s) => s.clone(),
         }
     }

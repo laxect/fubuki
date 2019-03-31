@@ -1,5 +1,6 @@
 use yew::agent::Transferable;
 use serde_derive::{ Serialize, Deserialize };
+use stdweb::unstable::TryFrom;
 
 #[derive(PartialEq, Clone, Serialize, Deserialize)]
 pub enum Page {
@@ -11,20 +12,24 @@ pub enum Page {
 }
 
 impl Page {
-    pub fn value(&self) -> &'static str {
+    pub fn value(&self) -> String {
         match self {
-            Page::Index => "index",
-            Page::Article(_) => "post",
-            Page::Posts => "posts",
-            Page::About => "about",
-            Page::Friend => "friends",
+            Page::Index => "index".into(),
+            Page::Article(ref article) => {
+                let mut post = article.clone();
+                post.insert_str(0, "post/");
+                post
+            }
+            Page::Posts => "posts".into(),
+            Page::About => "about".into(),
+            Page::Friend => "friends".into(),
         }
     }
 
     pub fn url(&self) -> String {
         let mut file = match self {
             Page::Article(ref article) => format!("/post/{}", article.clone()),
-            _ => String::from(self.value()),
+            _ => self.value(),
         };
         file.push_str(".md");
         file
@@ -34,6 +39,24 @@ impl Page {
         match self {
             Page::Posts => false,
             _ => true,
+        }
+    }
+}
+
+impl TryFrom<String> for Page {
+    type Error = ();
+
+    fn try_from(input: String) -> Result<Page, Self::Error> {
+        if input.starts_with("post/") {
+            let article = input.replacen("post/", "", 1);
+            return Ok(Page::Article(article));
+        }
+        match input.as_str() {
+            "" | "index" => Ok(Page::Index),
+            "posts" => Ok(Page::Posts),
+            "about" => Ok(Page::About),
+            "friends" => Ok(Page::Friend),
+            _ => Ok(Page::Index),  // 404 here
         }
     }
 }
