@@ -1,13 +1,13 @@
 use crate::Page;
-use stdweb::web::History;
-use stdweb::web::Location;
-use stdweb::web::window;
-use stdweb::Value;
-use stdweb::web::EventListenerHandle;
-use stdweb::web::event::PopStateEvent;
-use stdweb::web::IEventTarget;
+use serde_derive::{Deserialize, Serialize};
 use stdweb::unstable::TryFrom;
-use serde_derive::{ Serialize, Deserialize };
+use stdweb::web::event::PopStateEvent;
+use stdweb::web::window;
+use stdweb::web::EventListenerHandle;
+use stdweb::web::History;
+use stdweb::web::IEventTarget;
+use stdweb::web::Location;
+use stdweb::Value;
 use yew::worker::*;
 
 #[derive(PartialEq, Clone, Serialize, Deserialize)]
@@ -31,38 +31,41 @@ impl Router {
     pub fn register_callback(&mut self) {
         let cb = self.link.send_back(|x| x);
         let fpage = self.f_page.clone();
-        self.event_listener = Some(window().add_event_listener(
-            move |event: PopStateEvent| {
-                let state_value: Value = event.state();
-                if let Ok(state) = String::try_from(state_value) {
-                    if let Ok(page) = Page::try_from(state) {
-                        cb.emit(page);
-                    } else {
-                        cb.emit(fpage.clone());
-                    }
+        self.event_listener = Some(window().add_event_listener(move |event: PopStateEvent| {
+            let state_value: Value = event.state();
+            if let Ok(state) = String::try_from(state_value) {
+                if let Ok(page) = Page::try_from(state) {
+                    cb.emit(page);
                 } else {
-                    eprintln!("Nothing farther back in history, not calling routing callback.");
+                    cb.emit(fpage.clone());
                 }
-            },
-        ));
+            } else {
+                eprintln!("Nothing farther back in history, not calling routing callback.");
+            }
+        }));
     }
 
-    pub fn set_route(&mut self, page: Page) {
+    fn set_route(&mut self, page: Page) {
         let mut route = page.value();
         route.insert_str(0, "/");
-        self.history.push_state(
-            page.value(),
-            "",
-            Some(route.as_str()),
-        );
+        self.history
+            .push_state(page.value(), "", Some(route.as_str()));
     }
 
-    pub fn get_path(&self) -> Page {
+    fn get_path(&self) -> Page {
         let mut path = self.location.pathname().unwrap();
         if path.starts_with('/') {
             path = path.replacen("/", "", 1);
         }
         Page::try_from(path).unwrap()
+    }
+
+    fn replace_path(&mut self, page: Page) {
+        let mut route = page.value();
+        route.insert_str(0, "/");
+        let _ = self
+            .history
+            .replace_state(page.value(), "Gyara studio", Some(route.as_str()));
     }
 }
 
@@ -73,7 +76,9 @@ impl Agent for Router {
     type Output = Page;
 
     fn create(link: AgentLink<Self>) -> Router {
-        let location = window().location().expect("browser does not support location API");
+        let location = window()
+            .location()
+            .expect("browser does not support location API");
         let mut router = Router {
             link,
             history: window().history(),
@@ -82,7 +87,8 @@ impl Agent for Router {
             who: None,
             f_page: Page::Index,
         };
-        router.f_page = router.get_path();
+        let f_page = router.get_path();
+        router.replace_path(f_page);
         router.register_callback();
         router
     }
