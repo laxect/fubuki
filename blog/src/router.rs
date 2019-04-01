@@ -19,7 +19,6 @@ pub enum Request {
 impl Transferable for Request {}
 
 pub struct Router {
-    f_page: Page,
     history: History,
     location: Location,
     link: AgentLink<Router>,
@@ -30,14 +29,11 @@ pub struct Router {
 impl Router {
     pub fn register_callback(&mut self) {
         let cb = self.link.send_back(|x| x);
-        let fpage = self.f_page.clone();
         self.event_listener = Some(window().add_event_listener(move |event: PopStateEvent| {
             let state_value: Value = event.state();
             if let Ok(state) = String::try_from(state_value) {
                 if let Ok(page) = Page::try_from(state) {
                     cb.emit(page);
-                } else {
-                    cb.emit(fpage.clone());
                 }
             } else {
                 eprintln!("Nothing farther back in history, not calling routing callback.");
@@ -85,10 +81,8 @@ impl Agent for Router {
             location,
             event_listener: None,
             who: None,
-            f_page: Page::Index,
         };
-        let f_page = router.get_path();
-        router.replace_path(f_page);
+        router.replace_path(router.get_path());
         router.register_callback();
         router
     }

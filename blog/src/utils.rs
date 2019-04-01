@@ -1,6 +1,6 @@
-use yew::agent::Transferable;
-use serde_derive::{ Serialize, Deserialize };
+use serde_derive::{Deserialize, Serialize};
 use stdweb::unstable::TryFrom;
+use yew::agent::Transferable;
 
 #[derive(PartialEq, Clone, Serialize, Deserialize)]
 pub enum Page {
@@ -56,7 +56,7 @@ impl TryFrom<String> for Page {
             "posts" => Ok(Page::Posts),
             "about" => Ok(Page::About),
             "friends" => Ok(Page::Friend),
-            _ => Ok(Page::Index),  // 404 here
+            _ => Ok(Page::Index), // 404 here
         }
     }
 }

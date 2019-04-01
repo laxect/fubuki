@@ -1,6 +1,6 @@
 // article list component
 use crate::utils::Page;
-use serde_derive::{ Serialize, Deserialize };
+use serde_derive::{Deserialize, Serialize};
 use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
 
 #[derive(PartialEq, Clone, Deserialize, Serialize)]
