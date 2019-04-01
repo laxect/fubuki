@@ -30,6 +30,10 @@ main
         padding-left: 18em
         padding-right: 18em
     article
+        h2 button
+            &:hover
+                text-decoration: underline solid $shironezumi
+                transition: all 3s
         .category
             margin-left: 1em
         blockquote
@@ -51,6 +55,8 @@ main
             border-left: 0.3em solid $shironezumi
         code.inline-code
             border: 0.1em dashed $shironezumi
+        hr
+            background-color: $shironeri
     .post-nav
         margin-top: 1.25em
         display: grid
@@ -66,3 +72,6 @@ button
     background: none
     &.active, .mark
         text-decoration: underline solid $kurotobi
+    &.disable
+        color: $shironezumi
+        pointer-events: none
