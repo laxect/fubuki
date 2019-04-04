@@ -8,6 +8,7 @@
   "private": true,
   "dependencies": {
     "han-css": "^3.3.0",
+    "hover.css": "^2.3.2",
     "sass": "^1.17.3"
   },
   "devDependencies": {
