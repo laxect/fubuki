@@ -65,7 +65,7 @@ impl Renderable<NavBar> for NavBar {
                     <button class="nav-link",
                         onclick=|_| item.clone(), >
                         <span class="mark", >{ "post" }</span>
-                        <span>{ "s" }</span>
+                        <span class="unmark", >{ "s" }</span>
                     </button>
                 }
             } else if item == self.page {

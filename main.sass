@@ -1,9 +1,10 @@
 // color table
-$haizakura: rgb(215, 196, 187)
-$kurotobi: rgb(85, 66, 54)
-$shironezumi: rgb(189, 192, 186)
-$shironeri: rgb(252, 250, 242)
 $hai: rgb(130, 130, 130)
+$kurotobi: rgb(85, 66, 54)
+$haizakura: rgb(215, 196, 187)
+$shironeri: rgb(252, 250, 242)
+$ginnezumi: rgb(145, 152, 159)
+$shironezumi: rgb(189, 192, 186)
 
 body
     overflow-y: scroll
@@ -30,10 +31,6 @@ main
         padding-left: 18em
         padding-right: 18em
     article
-        h2 button
-            &:hover
-                text-decoration: underline solid $shironezumi
-                transition: all 3s
         .category
             margin-left: 1em
         blockquote
@@ -62,6 +59,23 @@ main
         display: grid
         grid-template-columns: repeat(2, 2em)
         grid-gap: 1em
+    .post-title button
+        transform: perspective(1px) translateZ(0)
+        &::before
+            content: ""
+            position: absolute
+            z-index: -1
+            left: 0
+            width: 1em
+            right: 0
+            bottom: 0
+            background: $hai
+            height: 0.15em
+            transition-property: width
+            transition-duration: 0.6s
+            transition-timing-function: ease-out
+        &:hover::before
+            width: 100%
 
 button
     text-align: left
@@ -71,7 +85,7 @@ button
     outline: none
     background: none
     &.active, .mark
-        text-decoration: underline solid $kurotobi
-    &.disable
+        text-decoration: underline double $ginnezumi
+    &.disable, .unmark
         color: $shironezumi
         pointer-events: none
