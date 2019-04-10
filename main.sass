@@ -8,8 +8,14 @@ $ginnezumi: rgb(145, 152, 159)
 $shironezumi: rgb(189, 192, 186)
 // color table - self
 $black: #444
+$little_black: #666
 $gray: #d4d4d4
 $far_gray: #f1f1f1
+// set for decoration line
+=line($style)
+    margin-left: -0.8em
+    padding: 0.5em 0.5em
+    border-left: 0.3em $style $shironezumi
 
 body
     overflow-y: scroll
@@ -40,10 +46,8 @@ main
         .category
             margin-left: 1em
         blockquote
-            margin-left: -0.8em
+            +line(double)
             font-family: initial!important
-            padding: 0.5em 0.5em
-            border-left: 0.3em double $shironezumi
             dfn
                 font-weight: normal!important
             p
@@ -53,9 +57,7 @@ main
             text-decoration: underline dashed $shironezumi
         pre // code block
             display: block
-            margin-left: -0.8em
-            padding-left: 0.5em
-            border-left: 0.3em solid $shironezumi
+            +line(solid)
             background-color: $far_gray
         code.inline-code
             border: 0.1em dashed $shironezumi
@@ -76,9 +78,9 @@ main
             position: absolute
             z-index: -1
             left: 0
-            width: 1em
             right: 0
             bottom: 0
+            width: 1em
             background: $black
             height: 0.15em
             transition-property: width
@@ -98,5 +100,5 @@ button
         background-color: $black
         color: white
     &.disable, .unmark
-        color: gray
+        color: $little_black
         pointer-events: none
