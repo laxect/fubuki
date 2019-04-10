@@ -62,7 +62,7 @@ impl Renderable<NavBar> for NavBar {
             };
             if post && item == Page::Posts {
                 html! {
-                    <button class="nav-link",
+                    <button class="nav-link active",
                         onclick=|_| item.clone(), >
                         <span class="mark", >{ "post" }</span>
                         <span class="unmark", >{ "s" }</span>

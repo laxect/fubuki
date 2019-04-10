@@ -1,35 +1,41 @@
-// color table
+// color table - nihon
+$azu: #877F6C
 $hai: rgb(130, 130, 130)
 $kurotobi: rgb(85, 66, 54)
 $haizakura: rgb(215, 196, 187)
 $shironeri: rgb(252, 250, 242)
 $ginnezumi: rgb(145, 152, 159)
 $shironezumi: rgb(189, 192, 186)
+// color table - self
+$black: #444
+$gray: #d4d4d4
+$far_gray: #f1f1f1
 
 body
     overflow-y: scroll
+    color: $black
 
 .nav-bar
     float: right
     right: 0
     display: grid
-    grid-template-columns: repeat(4, 4em)
+    grid-template-columns: repeat(4, 5em)
     grid-gap: 0.5em
     margin-top: 1em
     margin-right: 2em
     @media (min-width: 600px) and (max-width: 1000px)
         padding-right: 5em
     @media (min-width: 1000px)
-        padding-right: 15em
+        padding-right: 17em
 
 main
-    padding: 2em 3em
+    padding: 3em 3em
     @media (min-width: 600px) and (max-width: 1000px)
         padding-left: 5em
         padding-right: 5em
     @media (min-width: 1000px)
-        padding-left: 18em
-        padding-right: 18em
+        padding-left: 20em
+        padding-right: 20em
     article
         .category
             margin-left: 1em
@@ -46,20 +52,24 @@ main
             font-style: initial
             text-decoration: underline dashed $shironezumi
         pre // code block
-            display: inline-block
+            display: block
             margin-left: -0.8em
             padding-left: 0.5em
             border-left: 0.3em solid $shironezumi
+            background-color: $far_gray
         code.inline-code
             border: 0.1em dashed $shironezumi
         hr
-            background-color: $shironeri
+            background-color: $gray
+            height: 1px
+            border: none
     .post-nav
         margin-top: 1.25em
         display: grid
         grid-template-columns: repeat(2, 2em)
         grid-gap: 1em
     .post-title button
+        padding: 0
         transform: perspective(1px) translateZ(0)
         &::before
             content: ""
@@ -69,7 +79,7 @@ main
             width: 1em
             right: 0
             bottom: 0
-            background: $hai
+            background: $black
             height: 0.15em
             transition-property: width
             transition-duration: 0.6s
@@ -80,12 +90,13 @@ main
 button
     text-align: left
     margin: 0
-    padding: 0
+    padding: 0.5em 0.3em
     border: none
     outline: none
     background: none
     &.active, .mark
-        text-decoration: underline double $ginnezumi
+        background-color: $black
+        color: white
     &.disable, .unmark
-        color: $shironezumi
+        color: gray
         pointer-events: none
