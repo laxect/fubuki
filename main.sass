@@ -37,18 +37,20 @@ nav
         @media (min-width: 1000px)
             padding-right: 17em
     button
-        padding: 0.5em 0.3em
-        transition-property: background-color
+        padding: 0.5em 0.4em
+        transition-property: all
         transition-duration: 0.3s
         transition-timing-function: ease-out
         &.active, .mark
             background-color: $black
             color: white
-            pointer-events: none
-        &.disable, .unmark
+        .unmark
             color: $little_black
+        &.disable
+            color: $little_black
+        &.disable, &.current
             pointer-events: none
-        &:hover
+        &:not(.active):hover
             background-color: $gray
 
 main
@@ -60,8 +62,6 @@ main
         padding-left: 20em
         padding-right: 20em
     article
-        .category
-            margin-left: 1em
         blockquote
             +line(double)
             font-family: initial!important
@@ -85,8 +85,8 @@ main
     .post-nav
         margin-top: 1.25em
         display: grid
-        grid-template-columns: repeat(2, 2em)
-        grid-gap: 1em
+        grid-template-columns: repeat(2, 3em)
+        grid-gap: 1.5em
     .post-title button
         padding: 0
         transform: perspective(1px) translateZ(0)
@@ -97,23 +97,36 @@ main
             left: 0
             right: 0
             bottom: 0
-            width: 1em
+            width: 0.7rem
             background: $black
             height: 0.15em
             transition-property: width
             transition-duration: 0.6s
             transition-timing-function: ease-out
         &:hover::before
-            width: 100%
+            width: 4rem
+    &.post-list
+        time
+            display: inline-block
+            width: 5.5em
+        .category
+            margin-left: 1em
+            padding: 0.3em 0.5em
+            color: white
+            background-color: $black
 
-// button base style
+// base style
 button
     text-align: left
     margin: 0
     border: none
     outline: none
     background: none
+a
+    &:visited
+        color: blue
 
+// load animation
 .bubblingG
     margin: auto
     margin-top: 20em

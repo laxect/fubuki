@@ -70,7 +70,7 @@ impl Renderable<NavBar> for NavBar {
                 }
             } else if item == self.page {
                 html! {
-                    <button class="nav-link active",
+                    <button class="nav-link active current",
                         onclick=|_| item.clone(), >
                         { mark }
                     </button>
