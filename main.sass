@@ -30,17 +30,20 @@ nav
         display: grid
         grid-template-columns: repeat(4, 5em)
         grid-gap: 0.5em
-        margin-top: 1em
-        margin-right: 2em
+        margin:
+            top: 1em
+            right: 2em
+        border-top: $black solid 0.2em
         @media (min-width: 600px) and (max-width: 1000px)
-            padding-right: 5em
+            margin-right: 7em
         @media (min-width: 1000px)
-            padding-right: 17em
+            margin-right: 19em
     button
-        padding: 0.5em 0.4em
-        transition-property: all
-        transition-duration: 0.3s
-        transition-timing-function: ease-out
+        padding: 0.5em 0.4em 0.6em
+        transition:
+            property: all
+            duration: 0.3s
+            timing-function: ease-out
         &.active, .mark
             background-color: $black
             color: white
@@ -56,11 +59,13 @@ nav
 main
     padding: 3em 3em
     @media (min-width: 600px) and (max-width: 1000px)
-        padding-left: 5em
-        padding-right: 5em
+        padding:
+            left: 5em
+            right: 5em
     @media (min-width: 1000px)
-        padding-left: 20em
-        padding-right: 20em
+        padding:
+            left: 20em
+            right: 20em
     article
         blockquote
             +line(double)
@@ -83,10 +88,13 @@ main
             height: 1px
             border: none
     .post-nav
-        margin-top: 1.25em
+        margin:
+            top: 1.25em
+            left: -0.5em
         display: grid
-        grid-template-columns: repeat(2, 3em)
-        grid-gap: 1.5em
+        grid:
+            template-columns: repeat(2, 3em)
+            gap: 1.5em
     .post-title button
         padding: 0
         transform: perspective(1px) translateZ(0)
@@ -100,9 +108,10 @@ main
             width: 0.7rem
             background: $black
             height: 0.15em
-            transition-property: width
-            transition-duration: 0.6s
-            transition-timing-function: ease-out
+            transition
+                property: width
+                duration: 0.6s
+                timing-function: ease-out
         &:hover::before
             width: 4rem
     &.post-list
@@ -116,15 +125,22 @@ main
             background-color: $black
 
 // base style
-button
+button  // reset default button style
     text-align: left
     margin: 0
     border: none
     outline: none
     background: none
 a
+    color: $black
     &:visited
-        color: blue
+        color: $black
+    &:hover
+        color: $black
+        border-bottom: solid $black 0.1em
+    &::after
+        content: ""
+        position: absolute
 
 // load animation
 .bubblingG
@@ -139,8 +155,8 @@ a
         width: 24px
         height: 24px
         margin: 59px auto
-        background: rgb(0,0,0)
         border-radius: 119px
+        background: rgb(0,0,0)
         animation: bubblingG 1.5s infinite alternate
     @for $i from 0 to 3
         #bubblingG_#{$i}
