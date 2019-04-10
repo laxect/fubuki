@@ -113,3 +113,34 @@ button
     border: none
     outline: none
     background: none
+
+.bubblingG
+    margin: auto
+    margin-top: 20em
+    text-align: center
+    width:190px
+    height:119px
+    span
+        display: inline-block
+        vertical-align: middle
+        width: 24px
+        height: 24px
+        margin: 59px auto
+        background: rgb(0,0,0)
+        border-radius: 119px
+        animation: bubblingG 1.5s infinite alternate
+    @for $i from 0 to 3
+        #bubblingG_#{$i}
+            animation-delay: 0.45s * $i
+
+@keyframes bubblingG
+    0%
+        width: 24px
+        height: 24px
+        background-color: rgb(0,0,0)
+        transform: translateY(0)
+    100%
+        width: 57px
+        height: 57px
+        background-color: rgb(255,255,255)
+        transform: translateY(-50px)
