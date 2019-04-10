@@ -45,7 +45,7 @@ impl Router {
         let mut route = page.value();
         route.insert_str(0, "/");
         self.history
-            .push_state(page.value(), "", Some(route.as_str()));
+            .push_state(page.value(), &page.title(), Some(route.as_str()));
     }
 
     fn get_path(&self) -> Page {
@@ -61,7 +61,7 @@ impl Router {
         route.insert_str(0, "/");
         let _ = self
             .history
-            .replace_state(page.value(), "Gyara studio", Some(route.as_str()));
+            .replace_state(page.value(), &page.title(), Some(route.as_str()));
     }
 }
 

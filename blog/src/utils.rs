@@ -12,6 +12,20 @@ pub enum Page {
 }
 
 impl Page {
+    pub fn title(&self) -> String {
+        let mut title: String = "契·工坊 ".into();
+        match self {
+            Page::Article(ref article) => {
+                title.push_str(article);
+                title
+            }
+            _ => {
+                title.push_str(&self.value());
+                title
+            }
+        }
+    }
+
     pub fn value(&self) -> String {
         match self {
             Page::Index => "index".into(),
