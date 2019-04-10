@@ -11,6 +11,8 @@ $black: #444
 $little_black: #666
 $gray: #d4d4d4
 $far_gray: #f1f1f1
+
+// mixin
 // set for decoration line
 =line($style)
     margin-left: -0.8em
@@ -21,18 +23,33 @@ body
     overflow-y: scroll
     color: $black
 
-.nav-bar
-    float: right
-    right: 0
-    display: grid
-    grid-template-columns: repeat(4, 5em)
-    grid-gap: 0.5em
-    margin-top: 1em
-    margin-right: 2em
-    @media (min-width: 600px) and (max-width: 1000px)
-        padding-right: 5em
-    @media (min-width: 1000px)
-        padding-right: 17em
+nav
+    &.nav-bar
+        float: right
+        right: 0
+        display: grid
+        grid-template-columns: repeat(4, 5em)
+        grid-gap: 0.5em
+        margin-top: 1em
+        margin-right: 2em
+        @media (min-width: 600px) and (max-width: 1000px)
+            padding-right: 5em
+        @media (min-width: 1000px)
+            padding-right: 17em
+    button
+        padding: 0.5em 0.3em
+        transition-property: background-color
+        transition-duration: 0.2s
+        transition-timing-function: ease-out
+        &.active, .mark
+            background-color: $black
+            color: white
+            pointer-events: none
+        &.disable, .unmark
+            color: $little_black
+            pointer-events: none
+        &:hover
+            background-color: $gray
 
 main
     padding: 3em 3em
@@ -56,8 +73,8 @@ main
             font-style: initial
             text-decoration: underline dashed $shironezumi
         pre // code block
-            display: block
             +line(solid)
+            display: block
             background-color: $far_gray
         code.inline-code
             border: 0.1em dashed $shironezumi
@@ -89,16 +106,10 @@ main
         &:hover::before
             width: 100%
 
+// button base style
 button
     text-align: left
     margin: 0
-    padding: 0.5em 0.3em
     border: none
     outline: none
     background: none
-    &.active, .mark
-        background-color: $black
-        color: white
-    &.disable, .unmark
-        color: $little_black
-        pointer-events: none
