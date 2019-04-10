@@ -50,7 +50,7 @@ nav
         .unmark
             color: $little_black
         &.disable
-            color: $little_black
+            color: $gray
         &.disable, &.current
             pointer-events: none
         &:not(.active):hover
@@ -123,6 +123,11 @@ main
             padding: 0.3em 0.5em
             color: white
             background-color: $black
+        article
+            padding-bottom: 2em
+            border-bottom: solid 0.05em $gray
+        article:nth-last-of-type(1)
+            border: none
 
 // base style
 button  // reset default button style
@@ -131,6 +136,7 @@ button  // reset default button style
     border: none
     outline: none
     background: none
+
 a
     color: $black
     &:visited
