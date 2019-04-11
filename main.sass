@@ -19,24 +19,33 @@ $far_gray: #f1f1f1
     padding: 0.5em 0.5em
     border-left: 0.3em $style $shironezumi
 
+// base font size
+html
+    font-size: 16px
+    @media (max-width: 480px)
+        font-size: 32px
+
 body
     overflow-y: scroll
     color: $black
 
 nav
     &.nav-bar
-        float: right
-        right: 0
         display: grid
-        grid-template-columns: repeat(4, 5em)
-        grid-gap: 0.5em
+        grid:
+            template-columns: repeat(4, 5em)
+            gap: 0.5em
+        width: 5em * 4 + 0.5em * 3
         margin:
             top: 1em
-            right: 2em
+            left: 3em
+            right: auto
         border-top: $black solid 0.2em
         @media (min-width: 600px) and (max-width: 1000px)
-            margin-right: 7em
+            margin-left: 2em
         @media (min-width: 1000px)
+            right: 0
+            float: right
             margin-right: 19em
     button
         padding: 0.5em 0.4em 0.6em
@@ -57,10 +66,12 @@ nav
             background-color: $gray
 
 main
-    padding: 3em 3em
+    padding:
+        left: 1em
+        top: 4em
     @media (min-width: 600px) and (max-width: 1000px)
         padding:
-            left: 5em
+            left: 2em
             right: 5em
     @media (min-width: 1000px)
         padding:
