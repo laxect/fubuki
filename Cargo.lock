@@ -211,7 +211,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "blog"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "failure 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "pulldown-cmark 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -845,6 +845,10 @@ dependencies = [
  "siphasher 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "unicase 1.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
+
+[[package]]
+name = "posts_gen"
+version = "0.1.0"
 
 [[package]]
 name = "proc-macro2"
