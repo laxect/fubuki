@@ -1,3 +1,4 @@
+mod cache;
 mod content;
 mod fetch_agent;
 mod markdown;

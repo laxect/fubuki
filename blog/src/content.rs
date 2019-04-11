@@ -2,6 +2,7 @@ use crate::fetch_agent::{FetchAgent, Load};
 use crate::markdown::render_markdown;
 use crate::posts::PostList;
 use crate::utils::Page;
+use crate::cache::{ Cache, CacheContent };
 use yew::*;
 
 #[derive(PartialEq, Clone)]
@@ -40,12 +41,13 @@ pub struct Content {
     content: Option<String>,
     post_list: Option<PostList>,
     on_change: Option<Callback<Page>>,
+    cache: Cache,
 }
 
 impl Content {
-    pub fn inner(&self) -> String {
+    fn inner(&self) -> String {
         match self.content {
-            None => self.page.value(),
+            None => "".into(),
             Some(ref s) => s.clone(),
         }
     }
@@ -65,10 +67,12 @@ impl Component for Content {
             content: None,
             post_list: None,
             on_change: props.on_change,
+            cache: Cache::new(),
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        self.cache.set(self.page.clone(), msg.clone().into());
         match msg {
             Msg::Pong(pong) => {
                 self.content = Some(pong);
@@ -83,7 +87,14 @@ impl Component for Content {
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if props.page != self.page {
             self.page = props.page.clone();
-            self.fetch.send(props.page);
+            if let Some(cache) = self.cache.get(&props.page) {
+                match cache {
+                    CacheContent::Page(content) => {self.content = Some(content);}
+                    CacheContent::Posts(pl) => {self.post_list = Some(pl);}
+                }
+            } else {
+                self.fetch.send(props.page);
+            }
             true
         } else {
             false
