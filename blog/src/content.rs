@@ -48,7 +48,26 @@ impl Content {
     fn inner(&self) -> String {
         match self.content {
             None => "".into(),
-            Some(ref s) => s.clone(),
+            Some(ref s) => {
+                if let Some(c) = self.find_content() {
+                    return c;
+                }
+                s.clone()
+            }
+        }
+    }
+
+    fn find_content(&self) -> Option<String> {
+        if let Some(ref c) = self.content {
+            if c.starts_with("---\n") {
+                let after = &c[4..];
+                if let Some(ind) = after.find("---\n") {
+                    return Some(c[ind+4*2..].into());
+                }
+            }
+            Some(c.clone())
+        } else {
+            None
         }
     }
 }
