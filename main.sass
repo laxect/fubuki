@@ -22,8 +22,10 @@ $far_gray: #f1f1f1
 // base font size
 html
     font-size: 16px
-    @media (max-width: 480px)
-        font-size: 32px
+    @media (max-device-width: 1036px) and (min-device-width)
+        font-size: 28px
+    @media (max-device-width: 500px)
+        font-size: 36px
 
 body
     overflow-y: scroll
@@ -41,9 +43,10 @@ nav
             left: 3em
             right: auto
         border-top: $black solid 0.2em
-        @media (min-width: 600px) and (max-width: 1000px)
-            margin-left: 2em
-        @media (min-width: 1000px)
+        @media (min-width: 600px) and (max-width: 1036px)
+            margin:
+                left: 2em
+        @media (min-width: 1036px)
             right: 0
             float: right
             margin-right: 19em
@@ -68,13 +71,14 @@ nav
 main
     padding:
         left: 1em
-        top: 4em
-    @media (min-width: 600px) and (max-width: 1000px)
+        top: 2em
+    @media (min-width: 600px) and (max-width: 1036px)
         padding:
             left: 2em
             right: 5em
-    @media (min-width: 1000px)
+    @media (min-width: 1036px)
         padding:
+            top: 4em
             left: 20em
             right: 20em
     article
