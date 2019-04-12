@@ -22,7 +22,7 @@ $far_gray: #f1f1f1
 // base font size
 html
     font-size: 16px
-    @media (max-device-width: 1036px) and (min-device-width)
+    @media (max-device-width: 1036px) and (min-device-width: 500px)
         font-size: 28px
     @media (max-device-width: 500px)
         font-size: 36px
@@ -30,6 +30,18 @@ html
 body
     overflow-y: scroll
     color: $black
+    padding:
+        left: 1em
+        right: 1em
+    @media (min-width: 600px) and (max-width: 1036px)
+        padding:
+            left: 2em
+            right: 2em
+    @media (min-width: 1036px)
+        padding:
+            left: 20em
+            right: 20em
+
 
 nav
     &.nav-bar
@@ -38,18 +50,11 @@ nav
             template-columns: repeat(4, 5em)
             gap: 0.5em
         width: 5em * 4 + 0.5em * 3
-        margin:
-            top: 1em
-            left: 3em
-            right: auto
+        margin-top: 1em
         border-top: $black solid 0.2em
-        @media (min-width: 600px) and (max-width: 1036px)
-            margin:
-                left: 2em
         @media (min-width: 1036px)
             right: 0
             float: right
-            margin-right: 19em
     button
         padding: 0.5em 0.4em 0.6em
         transition:
@@ -69,18 +74,9 @@ nav
             background-color: $gray
 
 main
-    padding:
-        left: 1em
-        top: 2em
-    @media (min-width: 600px) and (max-width: 1036px)
-        padding:
-            left: 2em
-            right: 5em
+    padding-top: 2em
     @media (min-width: 1036px)
-        padding:
-            top: 4em
-            left: 20em
-            right: 20em
+        padding-top: 4em
     article
         blockquote
             +line(double)
