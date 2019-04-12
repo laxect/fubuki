@@ -1,11 +1,11 @@
 mod cache;
-mod content;
-mod fetch_agent;
-mod markdown;
-mod navbar;
 mod posts;
-mod router;
 mod utils;
+mod router;
+mod navbar;
+mod content;
+mod markdown;
+mod fetch_agent;
 
 use content::Content;
 use navbar::NavBar;
@@ -64,6 +64,9 @@ impl Renderable<Blog> for Blog {
                     on_change=Change::Click, />
                 <Content: page=self.page.clone(),
                     on_change=Change::Click, />
+                <footer>
+                    <p>{ "このブログ記事は " }<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja",>{ "CC BY-NC-SA 3.0" }</a>{ " 契約の下でライセンスされています。" }</p>
+                </footer>
             </>
         }
     }
