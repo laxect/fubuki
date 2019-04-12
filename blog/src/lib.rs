@@ -65,7 +65,7 @@ impl Renderable<Blog> for Blog {
                 <Content: page=self.page.clone(),
                     on_change=Change::Click, />
                 <footer>
-                    <p>{ "このブログ記事は " }<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja",>{ "CC BY-NC-SA 3.0" }</a>{ " 契約の下でライセンスされています。" }</p>
+                    <p>{ "このブログ記事は" }<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja",>{ "クリエイティブ・コモンズ 表示-継承ライセンス" }</a>{ "の下で利用可能です" }</p>
                 </footer>
             </>
         }
