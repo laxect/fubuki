@@ -20,6 +20,10 @@ impl Cache {
         }
     }
 
+    pub fn has(&self, page: &Page) -> bool {
+        self.inner.contains_key(&page.value())
+    }
+
     pub fn get(&self, page: &Page) -> Option<CacheContent> {
         self.inner.get(&page.value()).cloned()
     }

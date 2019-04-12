@@ -1,8 +1,8 @@
+use crate::cache::{Cache, CacheContent};
 use crate::fetch_agent::{FetchAgent, Load};
 use crate::markdown::render_markdown;
 use crate::posts::PostList;
 use crate::utils::Page;
-use crate::cache::{ Cache, CacheContent };
 use yew::*;
 
 #[derive(PartialEq, Clone)]
@@ -37,32 +37,27 @@ impl From<Load> for Msg {
 
 pub struct Content {
     page: Page,
-    fetch: Box<Bridge<FetchAgent>>,
-    content: Option<String>,
-    post_list: Option<PostList>,
-    on_change: Option<Callback<Page>>,
     cache: Cache,
+    fetch: Box<Bridge<FetchAgent>>,
+    on_change: Option<Callback<Page>>,
 }
 
 impl Content {
     fn inner(&self) -> String {
-        match self.content {
-            None => "".into(),
-            Some(ref s) => {
-                if let Some(c) = self.find_content() {
-                    return c;
-                }
-                s.clone()
+        if self.cache.has(&self.page) {
+            if let Some(c) = self.find_content() {
+                return c;
             }
         }
+        "".into()
     }
 
     fn find_content(&self) -> Option<String> {
-        if let Some(ref c) = self.content {
+        if let Some(CacheContent::Page(ref c)) = self.cache.get(&self.page) {
             if c.starts_with("---\n") {
                 let after = &c[4..];
                 if let Some(ind) = after.find("---\n") {
-                    return Some(c[ind+4*2..].into());
+                    return Some(c[ind + 4 * 2..].into());
                 }
             }
             Some(c.clone())
@@ -82,36 +77,21 @@ impl Component for Content {
         fetch_agent.send(props.page.clone());
         Content {
             page: props.page,
-            fetch: fetch_agent,
-            content: None,
-            post_list: None,
-            on_change: props.on_change,
             cache: Cache::new(),
+            fetch: fetch_agent,
+            on_change: props.on_change,
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         self.cache.set(self.page.clone(), msg.clone().into());
-        match msg {
-            Msg::Pong(pong) => {
-                self.content = Some(pong);
-            }
-            Msg::Posts(post_list) => {
-                self.post_list = Some(post_list);
-            }
-        }
         true
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if props.page != self.page {
             self.page = props.page.clone();
-            if let Some(cache) = self.cache.get(&props.page) {
-                match cache {
-                    CacheContent::Page(content) => {self.content = Some(content);}
-                    CacheContent::Posts(pl) => {self.post_list = Some(pl);}
-                }
-            } else {
+            if !self.cache.has(&props.page) {
                 self.fetch.send(props.page);
             }
             true
@@ -125,9 +105,9 @@ impl Renderable<Content> for Content {
     fn view(&self) -> Html<Self> {
         match self.page {
             Page::Posts => {
-                let post_list = match &self.post_list {
-                    Some(list) => list.posts.clone(),
-                    None => vec![],
+                let post_list = match self.cache.get(&self.page) {
+                    Some(CacheContent::Posts(list)) => list.posts,
+                    _ => vec![],
                 };
                 html! {
                     <crate::posts::Posts: on_click=self.on_change.clone(), post_list=post_list, />
