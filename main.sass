@@ -19,6 +19,13 @@ $far_gray: #f1f1f1
     padding: 0.5em 0.5em
     border-left: 0.3em $style $shironezumi
 
+=center($width, $height)
+    position: absolute
+    top: 50%
+    left: 50%
+    margin-top: $height * -0.5
+    margin-left: $width * -0.5
+
 // base font size
 html
     height: 100%
@@ -174,11 +181,10 @@ a
 
 // load animation
 .bubblingG
-    margin: auto
-    margin-top: 15em
+    +center(190px, 120px)
     text-align: center
     width:190px
-    height:119px
+    height:120px
     span
         display: inline-block
         vertical-align: middle
