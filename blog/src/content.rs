@@ -43,16 +43,7 @@ pub struct Content {
 }
 
 impl Content {
-    fn inner(&self) -> String {
-        if self.cache.has(&self.page) {
-            if let Some(c) = self.find_content() {
-                return c;
-            }
-        }
-        "".into()
-    }
-
-    fn find_content(&self) -> Option<String> {
+    fn inner(&self) -> Option<String> {
         if let Some(CacheContent::Page(ref c)) = self.cache.get(&self.page) {
             if c.starts_with("---\n") {
                 let after = &c[4..];
@@ -103,21 +94,34 @@ impl Component for Content {
 
 impl Renderable<Content> for Content {
     fn view(&self) -> Html<Self> {
-        match self.page {
-            Page::Posts => {
-                let post_list = match self.cache.get(&self.page) {
-                    Some(CacheContent::Posts(list)) => list.posts,
-                    _ => vec![],
-                };
-                html! {
-                    <crate::posts::Posts: on_click=self.on_change.clone(), post_list=post_list, />
-                }
+        if !self.cache.has(&self.page) {
+            html! {
+                <main>
+                    <div class="bubblingG", >
+                        <span id="bubblingG_0", ></span>
+                        <span id="bubblingG_1", ></span>
+                        <span id="bubblingG_2", ></span>
+                    </div>
+                </main>
             }
-            _ => {
-                html! {
-                    <main>
-                        <article>{ render_markdown(self.inner().as_str()) }</article>
-                    </main>
+        } else {
+            match self.page {
+                Page::Posts => {
+                    let post_list = match self.cache.get(&self.page) {
+                        Some(CacheContent::Posts(list)) => list.posts,
+                        _ => vec![],
+                    };
+                    html! {
+                        <crate::posts::Posts: on_click=self.on_change.clone(), post_list=post_list, />
+                    }
+                }
+                _ => {
+                    let c = self.inner().unwrap();
+                    html! {
+                        <main>
+                            <article>{ render_markdown(&c) }</article>
+                        </main>
+                    }
                 }
             }
         }
