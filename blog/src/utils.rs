@@ -69,8 +69,8 @@ impl TryFrom<String> for Page {
             "" | "index" => Ok(Page::Index),
             "posts" => Ok(Page::Posts),
             "about" => Ok(Page::About),
-            "Linkss" => Ok(Page::Links),
-            _ => Ok(Page::Index), // 404 here
+            "links" => Ok(Page::Links),
+            _ => Ok(Page::Index), // should be 404 here
         }
     }
 }

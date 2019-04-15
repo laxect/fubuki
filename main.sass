@@ -11,6 +11,11 @@ $black: #444
 $little_black: #666
 $gray: #d4d4d4
 $far_gray: #f1f1f1
+// layout
+$footer-top: 6em
+$footer-bottom: 2em
+$footer-h: 4em
+$footer: $footer-top + $footer-bottom + $footer-h
 
 // mixin
 // set for decoration line
@@ -25,6 +30,28 @@ $far_gray: #f1f1f1
     left: 50%
     margin-top: $height * -0.5
     margin-left: $width * -0.5
+
+// base style
+button  // reset default button style
+    text-align: left
+    margin: 0
+    border: none
+    outline: none
+    background: none
+
+a
+    color: $black
+    &:visited
+        color: $black
+    &:hover
+        color: $black
+        border-bottom: solid $hai 0.1em
+    &::after
+        content: ""
+        position: absolute
+
+ol, ul
+    margin-left: -2em
 
 // base font size
 html
@@ -90,7 +117,7 @@ main
     @media (min-width: 1036px)
         --main-top: 4em
     padding-top: var(--main-top)
-    min-height: calc(100vh - var(--main-top) - 8em)
+    min-height: calc(100vh - var(--main-top) - #{$footer})
     article
         blockquote
             +line(double)
@@ -116,7 +143,7 @@ main
             border: none
     .post-nav
         margin:
-            top: 1.25em
+            top: 1em
             left: -0.5em
         display: grid
         grid:
@@ -157,33 +184,13 @@ main
             border: none
 
 footer
-    color: $hai
     font-size: 0.8rem
-    height: 4em
+    height: $footer-h
     padding:
-        top: 2em
-        bottom: 2em
-    a, a:visited
-        color: $black
-
-// base style
-button  // reset default button style
-    text-align: left
-    margin: 0
-    border: none
-    outline: none
-    background: none
-
-a
-    color: $black
-    &:visited
-        color: $black
-    &:hover
-        color: $black
-        border-bottom: solid $black 0.1em
-    &::after
-        content: ""
-        position: absolute
+        top: $footer-top
+        bottom: $footer-bottom
+    &, a, a:visited
+        color: $gray
 
 // load animation
 .bubblingG
