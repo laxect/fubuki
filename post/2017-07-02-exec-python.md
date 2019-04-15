@@ -6,6 +6,7 @@ tags:
   - traps
 date: 2017-07-02 15:58:01
 ---
+#python 里的 exec
 
 ```python
 a = 1
