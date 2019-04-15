@@ -3,6 +3,7 @@ use serde_derive::{Deserialize, Serialize};
 use stdweb::unstable::TryFrom;
 use stdweb::web::event::PopStateEvent;
 use stdweb::web::window;
+use stdweb::web::document;
 use stdweb::web::EventListenerHandle;
 use stdweb::web::History;
 use stdweb::web::IEventTarget;
@@ -46,6 +47,7 @@ impl Router {
         route.insert_str(0, "/");
         self.history
             .push_state(page.value(), &page.title(), Some(route.as_str()));
+        document().set_title(&page.title());
     }
 
     fn get_path(&self) -> Page {
@@ -62,6 +64,7 @@ impl Router {
         let _ = self
             .history
             .replace_state(page.value(), &page.title(), Some(route.as_str()));
+        document().set_title(&page.title());
     }
 }
 
