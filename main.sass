@@ -53,18 +53,22 @@ body
 
 
 nav
+    font-family: 'iosevka ss09 web'
     &.nav-bar
+        --nav-item-width: 4em
+        --nav-gap: 0.5em
         display: grid
         grid:
-            template-columns: repeat(4, 5em)
-            gap: 0.5em
-        width: 5em * 4 + 0.5em * 3
+            template-columns: repeat(4, var(--nav-item-width))
+            gap: var(--nav-gap)
+        width: calc(var(--nav-item-width) * 4 + var(--nav-gap) * 3)
         margin-top: 1em
         @media (min-width: 1036px)
             right: 0
             float: right
     button
-        padding: 0.5em 0.4em 0.6em
+        text-align: center
+        padding: 0.4em 0
         transition:
             property: all
             duration: 0.3s
@@ -102,6 +106,8 @@ main
             +line(solid)
             display: block
             background-color: $far_gray
+        code
+            font-family: 'iosevka ss09 web'!important
         code.inline-code
             border: 0.1em dashed $shironezumi
         hr

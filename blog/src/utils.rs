@@ -8,7 +8,7 @@ pub enum Page {
     Article(String),
     Posts,
     About,
-    Friend,
+    Links,
 }
 
 impl Page {
@@ -36,7 +36,7 @@ impl Page {
             }
             Page::Posts => "posts".into(),
             Page::About => "about".into(),
-            Page::Friend => "friends".into(),
+            Page::Links => "links".into(),
         }
     }
 
@@ -69,7 +69,7 @@ impl TryFrom<String> for Page {
             "" | "index" => Ok(Page::Index),
             "posts" => Ok(Page::Posts),
             "about" => Ok(Page::About),
-            "friends" => Ok(Page::Friend),
+            "Linkss" => Ok(Page::Links),
             _ => Ok(Page::Index), // 404 here
         }
     }

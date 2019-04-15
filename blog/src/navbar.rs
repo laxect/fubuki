@@ -90,7 +90,7 @@ impl Renderable<NavBar> for NavBar {
                 { link(Page::Index) }
                 { link(Page::Posts) }
                 { link(Page::About) }
-                { link(Page::Friend) }
+                { link(Page::Links) }
             </nav>
         }
     }
