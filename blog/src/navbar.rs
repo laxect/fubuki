@@ -89,8 +89,8 @@ impl Renderable<NavBar> for NavBar {
             <nav class="nav nav-bar", >
                 { link(Page::Index) }
                 { link(Page::Posts) }
-                { link(Page::About) }
                 { link(Page::Links) }
+                { link(Page::About) }
             </nav>
         }
     }
