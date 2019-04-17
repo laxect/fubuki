@@ -1,5 +1,8 @@
 ---
-title: Hello World
+title: hello world
+categories: Coding
+tags: dev
+date: 2018-04-01 13:20:30
 ---
 # Hello World
 

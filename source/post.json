@@ -1,6 +1,13 @@
 {
     "posts": [
         {
+            "url": "saikinn-leetcode-no-repoto",
+            "title": "平成最后的 leetcode 解题报告",
+            "time": "平成31/4/17",
+            "summary": "令和最初？",
+            "category": "dev"
+        },
+        {
             "url": "hello-world",
             "title": "hello world",
             "time": "平成31/3/24",
