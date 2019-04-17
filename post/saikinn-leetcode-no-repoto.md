@@ -62,7 +62,7 @@ matrix67 上一个类似的[实例](http://www.matrix67.com/blog/archives/6584)
 
 [代码](https://github.com/laxect/leetcode/blob/master/src/e155_min_stack.rs)
 
-## longest valid parenthess
+## 032 longest valid parenthess
 
 基本就是基于栈的括号匹配...稍微扩展下就好了。在栈里一起存下括号序列长度就可以了。
 
