@@ -1,9 +1,9 @@
 use crate::Page;
 use serde_derive::{Deserialize, Serialize};
 use stdweb::unstable::TryFrom;
+use stdweb::web::document;
 use stdweb::web::event::PopStateEvent;
 use stdweb::web::window;
-use stdweb::web::document;
 use stdweb::web::EventListenerHandle;
 use stdweb::web::History;
 use stdweb::web::IEventTarget;

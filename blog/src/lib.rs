@@ -1,11 +1,11 @@
 mod cache;
-mod posts;
-mod utils;
-mod router;
-mod navbar;
 mod content;
-mod markdown;
 mod fetch_agent;
+mod markdown;
+mod navbar;
+mod posts;
+mod router;
+mod utils;
 
 use content::Content;
 use navbar::NavBar;
