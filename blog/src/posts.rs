@@ -40,7 +40,6 @@ pub enum Msg {
     Prev,
     Next,
     Click(String),
-    PostsLoaded(PostList),
 }
 
 impl Msg {
@@ -50,12 +49,6 @@ impl Msg {
             Msg::Next => "Next",
             _ => unreachable!(),
         }
-    }
-}
-
-impl From<PostList> for Msg {
-    fn from(item: PostList) -> Msg {
-        Msg::PostsLoaded(item)
     }
 }
 
@@ -88,7 +81,7 @@ impl Component for Posts {
     fn create(prop: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Posts {
             page_num: 0,
-            page_count: 0,
+            page_count: (prop.post_list.len() as u32 + 4) / 5,
             list: prop.post_list,
             on_click: prop.on_click,
         }
@@ -118,19 +111,12 @@ impl Component for Posts {
                 }
                 false
             }
-            Msg::PostsLoaded(post_list) => {
-                self.list = post_list.posts;
-                self.page_count = (self.list.len() as u32 + 4) / 5;
-                if self.page_count > 0 {
-                    self.page_count -= 1;
-                }
-                true
-            }
         }
     }
 
     fn change(&mut self, prop: Self::Properties) -> ShouldRender {
         // never change
+        self.page_count = (prop.post_list.len() as u32 + 4) / 5;
         self.list = prop.post_list;
         true
     }
@@ -155,7 +141,7 @@ impl Renderable<Posts> for Posts {
         // pagnation link item
         let link = |item: Msg| -> Html<Self> {
             let disabled = match item {
-                Msg::Next => self.page_num == self.page_count,
+                Msg::Next => self.page_num + 1 >= self.page_count,
                 Msg::Prev => self.page_num == 0,
                 _ => unreachable!(),
             };
