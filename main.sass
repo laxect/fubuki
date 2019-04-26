@@ -31,29 +31,6 @@ $footer: $footer-top + $footer-bottom + $footer-h
     margin-top: $height * -0.5
     margin-left: $width * -0.5
 
-// base style
-button  // reset default button style
-    text-align: left
-    margin: 0
-    border: none
-    outline: none
-    background: none
-
-a
-    color: $hai
-    border-bottom: solid $little_black 0.07em
-    &:visited
-        color: $black
-    &:hover
-        color: $black
-        border-bottom: solid $black 0.1em
-    &::after
-        content: ""
-        position: absolute
-
-ol, ul
-    margin-left: -2em
-
 // base font size
 html
     height: 100%
@@ -79,6 +56,37 @@ body
             left: 20em
             right: 20em
 
+// base style
+button  // reset default button style
+    text-align: left
+    margin: 0
+    border: none
+    outline: none
+    background: none
+
+a
+    --sora: #58B2DC
+    --nakabeni: #DB4D6D
+    color: $hai
+    transition: all 0.3s
+    &::after
+        content: "°"
+        position: relative
+        top: -0.15em
+        right: -0.10em
+        color: var(--sora)
+        transition: all 0.5s
+    &:visited::after
+        color: var(--sora)
+    &:hover
+        color: $black
+        padding: 0.2em 0
+        background: $far_gray
+        &::after
+            color: var(--nakabeni)
+
+ol, ul
+    margin-left: -2em
 
 nav
     font-family: 'iosevka ss09 web'
