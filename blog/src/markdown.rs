@@ -61,6 +61,12 @@ where
                 }
             }
             Event::Text(text) => add_child!(VText::new(text.to_string()).into()),
+            Event::Code(text) => {
+                let mut code = VTag::new("code");
+                code.add_class("inline-code");
+                code.add_child(VText::new(text.to_string()).into());
+                add_child!(code.into())
+            }
             Event::SoftBreak => add_child!(VText::new("\n".to_string()).into()),
             Event::HardBreak => add_child!(VTag::new("br").into()),
             _ => println!("Unknown event: {:#?}", ev),
@@ -71,7 +77,7 @@ where
         VNode::VTag(elems.pop().unwrap())
     } else {
         html! {
-            <div>{ for elems.into_iter() }</div>
+            <section>{ for elems.into_iter() }</section>
         }
     }
 }
@@ -122,11 +128,6 @@ where
         Tag::Strong => {
             let mut el = VTag::new("em");
             el.add_class("font-weight-bold");
-            el
-        }
-        Tag::Code => {
-            let mut el = VTag::new("code");
-            el.add_class("inline-code");
             el
         }
         Tag::Link(ref _type, ref href, ref title) => {
