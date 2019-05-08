@@ -49,6 +49,6 @@ pub fn read_files() -> io::Result<()> {
     dist.push_str("/posts.json");
     println!("## write result to {}", dist);
     let mut output = fs::File::create(dist)?;
-    output.write_all(serde_json::to_string(&fms).unwrap().as_bytes())?;
-    Ok(())
+    // json
+    output.write_all(serde_json::to_string(&fms).unwrap().as_bytes())
 }
