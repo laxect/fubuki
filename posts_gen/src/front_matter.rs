@@ -1,7 +1,8 @@
 use serde_derive::{Deserialize, Serialize};
 
+/// instead of a front matter
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
-struct FrontMatter {
+pub struct FrontMatter {
     url: Option<String>,
     title: String,
     date: String,
@@ -14,8 +15,16 @@ impl FrontMatter {
     pub fn fill_url(&mut self, url: String) {
         self.url = Some(url);
     }
+
+    pub fn get_url(&self) -> &str {
+        match self.url {
+            Some(ref u) => u,
+            None => ""
+        }
+    }
 }
 
+/// find front matter from content
 fn find_front_matter(content: String) -> Option<String> {
     if content.starts_with("---\n") {
         let after = &content[4..];
@@ -26,30 +35,31 @@ fn find_front_matter(content: String) -> Option<String> {
     None
 }
 
-fn front_matter_transfer(fm_str: String) -> Result<String, serde_yaml::Error> {
-    let fm: FrontMatter = serde_yaml::from_str(&fm_str)?;
-    Ok(serde_json::to_string(&fm).unwrap())
+/// transfer front matter from yaml to json
+fn front_matter_transfer(fm_str: String) -> Result<FrontMatter, serde_yaml::Error> {
+    serde_yaml::from_str(&fm_str)
 }
 
-pub fn parse_front_matter(content: String) -> String {
+/// parse content and return front matter json
+pub fn parse_front_matter(content: String) -> Option<FrontMatter> {
     if let Some(fm_yaml) = find_front_matter(content) {
         match front_matter_transfer(fm_yaml) {
-            Ok(fm_json) => {
+            Ok(fm) => {
                 println!("    O parser passed");
-                return fm_json;
+                return Some(fm);
             }
             Err(e) => println!("    E {}", e),
         }
     }
     println!("    X parser failed");
-    "".into()
+    None
 }
 
 #[cfg(test)]
 mod test {
     use super::*;
     #[test]
-    fn find_front_matter_test() {
+    fn find_test() {
         let content = "---\nabc---\n".to_string();
         let fm = find_front_matter(content);
         assert_eq!(fm, Some("abc".to_string()));

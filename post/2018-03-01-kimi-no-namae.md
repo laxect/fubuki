@@ -1,10 +1,11 @@
 ---
 title: 君の名は
-categories: After reading
+category: After reading
 tags:
   - movie
   - anime
-date: 2018-03-01 11:20:00
+date: 平成30/3/1
+summary: 你的名字
 ---
 # 君の名は
 

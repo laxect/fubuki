@@ -1,8 +1,9 @@
 ---
 title: 平成最后的 leetcode 解题报告
-categories: Coding
-tags: leetcode rust
-date: 2019-04-17 20:49:30
+category: Coding
+tags: [ leetcode, rust ]
+date: 平成31/4/17
+summary: 令和最初？
 ---
 # 平成最后的 leetcode 解题报告
 

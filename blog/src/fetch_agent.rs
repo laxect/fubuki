@@ -49,7 +49,7 @@ impl FetchAgent {
 
     pub fn load(&mut self, target: Page) {
         let url = if target == Page::Posts {
-            "post.json".into()
+            "posts.json".into()
         } else {
             target.url()
         };

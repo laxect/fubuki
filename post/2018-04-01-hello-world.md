@@ -1,8 +1,9 @@
 ---
 title: hello world
-categories: Coding
-tags: dev
-date: 2018-04-01 13:20:30
+category: Coding
+tags: [ dev ]
+date: 平成30/4/1
+summary: こにちわ
 ---
 # Hello World
 

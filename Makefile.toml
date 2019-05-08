@@ -9,6 +9,7 @@ script = [
 '''
 Copy-Item .\source\* -Destination .\dist -Recurse -Force
 Copy-Item .\post -Destination .\dist\ -Recurse -Force
+cargo run --bin posts_gen
 '''
 ]
 
@@ -18,6 +19,7 @@ script = [
 '''
 cp ./source/* dist -r
 cp ./post dist/post -r
+cargo run --bin posts_gen
 '''
 ]
 

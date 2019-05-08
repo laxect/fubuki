@@ -2,7 +2,6 @@
 title: TicWatch Pro 上手体验
 categories: Life
 tags: TicWatch_Pro
-date: 2019-05-05 09:33:30
 ---
 # TicWatch Pro 上手体验
 

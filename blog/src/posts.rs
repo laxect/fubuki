@@ -6,25 +6,24 @@ use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRend
 #[derive(PartialEq, Clone, Deserialize, Serialize)]
 pub struct Post {
     pub url: String,
-    pub time: String,
+    pub date: String,
     pub title: String,
     pub summary: String,
     pub category: String,
+    tags: Vec<String>,
 }
 
-#[derive(PartialEq, Clone, Deserialize, Serialize)]
-pub struct PostList {
-    pub posts: Vec<Post>,
-}
+pub type PostList = Vec<Post>;
 
 impl Default for Post {
     fn default() -> Post {
         Post {
             url: String::from(""),
-            time: String::from(""),
+            date: String::from(""),
             title: String::from(""),
             summary: String::from(""),
             category: String::from(""),
+            tags: Vec::new(),
         }
     }
 }
@@ -134,7 +133,7 @@ impl Renderable<Posts> for Posts {
                         <button class="post-title", onclick=|_| Msg::Click(url.clone()), >{ &post.title }</button>
                     </h2>
                     <p>{ &post.summary }</p>
-                    <small><time>{ &post.time }</time><span class="category", >{ &post.category }</span></small>
+                    <small><time>{ &post.date }</time><span class="category", >{ &post.category }</span></small>
                 </article>
             }
         };

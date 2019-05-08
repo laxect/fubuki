@@ -1,10 +1,11 @@
 ---
 title: python 里的 exec
-categories: Coding
+category: Coding
 tags:
   - python
   - traps
-date: 2017-07-02 15:58:01
+date: 平成29/7/2
+summary: あれれ、おかしいよ
 ---
 # python 里的 exec
 

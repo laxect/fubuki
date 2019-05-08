@@ -108,7 +108,7 @@ impl Renderable<Content> for Content {
             match self.page {
                 Page::Posts => {
                     let post_list = match self.cache.get(&self.page) {
-                        Some(CacheContent::Posts(list)) => list.posts,
+                        Some(CacheContent::Posts(list)) => list,
                         _ => vec![],
                     };
                     html! {
