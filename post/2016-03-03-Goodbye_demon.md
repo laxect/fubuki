@@ -1,9 +1,9 @@
 ---
-layout : post
-title : "Goodbye Demon"
+title : Goodbye Demon
 date : 2016-03-03 23:11
-categories : After reading
+category : After reading
 tags : [ 米澤 穂信, light-novel ]
+summary: 再见，妖精
 ---
 # 再见妖精
 
