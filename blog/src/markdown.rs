@@ -72,11 +72,7 @@ where
             Event::TaskListMarker(done) => {
                 let mut task_marker = VTag::new("span");
                 task_marker.add_class("task_marker");
-                let marker = if done {
-                    "✔️"
-                } else {
-                    "⚪"
-                };
+                let marker = if done { "✔️" } else { "⚪" };
                 task_marker.add_child(VText::new(marker.to_string()).into());
                 add_child!(task_marker.into());
             }

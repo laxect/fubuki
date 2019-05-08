@@ -1,3 +1,3 @@
 fn main() {
-    println!("Hello, world!");
+    posts_gen::read_files().expect("error!");
 }
