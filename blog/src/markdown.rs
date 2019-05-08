@@ -69,7 +69,17 @@ where
             }
             Event::SoftBreak => add_child!(VText::new("\n".to_string()).into()),
             Event::HardBreak => add_child!(VTag::new("br").into()),
-            _ => println!("Unknown event: {:#?}", ev),
+            Event::TaskListMarker(done) => {
+                let mut task_marker = VTag::new("span");
+                task_marker.add_class("task_marker");
+                if done {
+                    task_marker.add_child(VText::new("✔️".to_string()).into());
+                } else {
+                    task_marker.add_child(VText::new("⚪".to_string()).into());
+                }
+                add_child!(task_marker.into());
+            }
+            _ => {}
         }
     }
 
