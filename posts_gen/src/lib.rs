@@ -19,6 +19,9 @@ fn read_option() -> (String, String) {
 }
 
 fn file_handle(entry: &fs::DirEntry) -> io::Result<FrontMatter> {
+    if entry.path().is_dir() {
+        return Err(io::Error::from(io::ErrorKind::Other));
+    }
     println!("::  {}", entry.path().to_str().unwrap());
     let mut file = fs::File::open(entry.path())?;
     let mut contents = String::new();
@@ -27,7 +30,7 @@ fn file_handle(entry: &fs::DirEntry) -> io::Result<FrontMatter> {
         fm.fill_url(entry.file_name().into_string().unwrap().replace(".md", ""));
         Ok(fm)
     } else {
-        Err(std::io::Error::from(std::io::ErrorKind::InvalidData))
+        Err(io::Error::from(io::ErrorKind::InvalidData))
     }
 }
 
@@ -49,6 +52,7 @@ pub fn read_files() -> io::Result<()> {
     dist.push_str("/posts.json");
     println!("## write result to {}", dist);
     let mut output = fs::File::create(dist)?;
-    // json
+    // get json
+    // this place will always success, so just unwrap
     output.write_all(serde_json::to_string(&fms).unwrap().as_bytes())
 }
