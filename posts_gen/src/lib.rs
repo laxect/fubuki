@@ -41,7 +41,7 @@ fn file_handle(entry: &fs::DirEntry) -> io::Result<Post> {
 }
 
 /// update pubsubhubbub
-fn update_pubsubhubbub() -> Result<(), Box<std::error::Error>> {
+fn update_pubsubhubbub() -> reqwest::Result<reqwest::Response> {
     let mut body = std::collections::HashMap::new();
     body.insert("hub.mode", "publish");
     body.insert("hub.url", "https://blog.gyara.moe/atom.xml");
@@ -49,8 +49,7 @@ fn update_pubsubhubbub() -> Result<(), Box<std::error::Error>> {
     client
         .post("https://pubsubhubbub.appspot.com/")
         .form(&body)
-        .send()?;
-    Ok(())
+        .send()
 }
 
 /// entry
