@@ -1,7 +1,4 @@
-enum Genngo {
-    Meiji(u32),   // 1868 - 1912
-    Taishou(u32), // 1912 - 1926
-    Shouwa(u32),  // 1926 - 1989
+pub enum Genngo {
     Heisei(u32),  // 1989 - 2019
     Reiwa(u32),   // 2019 - ima
 }
@@ -9,9 +6,6 @@ enum Genngo {
 impl Genngo {
     fn get_ce_year(&self) -> u32 {
         match self {
-            Genngo::Meiji(n) => 1867 + n,
-            Genngo::Taishou(n) => 1911 + n,
-            Genngo::Shouwa(n) => 1925 + n,
             Genngo::Heisei(n) => 1988 + n,
             Genngo::Reiwa(n) => 2018 + n,
         }
@@ -24,7 +18,6 @@ pub struct Date {
     year: u32,
     month: u32,
     day: u32,
-    genngo: Genngo,
 }
 
 impl Date {
@@ -49,7 +42,6 @@ impl Date {
                 year: genngo.get_ce_year(),
                 month: spines[1],
                 day: spines[2],
-                genngo,
             })
         } else {
             None

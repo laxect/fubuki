@@ -1,7 +1,7 @@
 use serde_derive::{Deserialize, Serialize};
 
 /// instead of a front matter
-#[derive(Debug, PartialEq, Deserialize, Serialize)]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct FrontMatter {
     pub url: Option<String>,
     pub title: String,
@@ -25,11 +25,11 @@ impl FrontMatter {
 }
 
 /// find front matter from content
-fn find_front_matter(content: String) -> Option<String> {
+fn find_front_matter(content: String) -> Option<(String, String)> {
     if content.starts_with("---\n") {
         let after = &content[4..];
         if let Some(end) = after.find("---\n") {
-            return Some(after[..end].into());
+            return Some((after[..end].into(), after[end+4..].into()));
         }
     }
     None
@@ -41,12 +41,12 @@ fn front_matter_transfer(fm_str: String) -> Result<FrontMatter, serde_yaml::Erro
 }
 
 /// parse content and return front matter json
-pub fn parse_front_matter(content: String) -> Option<FrontMatter> {
-    if let Some(fm_yaml) = find_front_matter(content) {
+pub fn parse_front_matter(content: String) -> Option<(FrontMatter, String)> {
+    if let Some((fm_yaml, content)) = find_front_matter(content) {
         match front_matter_transfer(fm_yaml) {
             Ok(fm) => {
                 println!("    O parser passed");
-                return Some(fm);
+                return Some((fm, content));
             }
             Err(e) => println!("    E {}", e),
         }

@@ -2,14 +2,22 @@ use crate::date;
 use crate::front_matter::FrontMatter;
 use atom_syndication::*;
 
+#[derive(Clone)]
 pub struct Post {
-    front_matter: FrontMatter,
-    content: String,
+    pub front_matter: FrontMatter,
+    pub content: String,
 }
 
 impl Post {
     fn id(&self) -> String {
-        format!("https://blog.gyara.moe/post/{}", self.front_matter.get_url())
+        format!(
+            "https://blog.gyara.moe/post/{}/",
+            self.front_matter.get_url()
+        )
+    }
+
+    pub fn updated(&self) -> String {
+        date::from_jp_to_iso(self.front_matter.date.clone()).unwrap()
     }
 }
 
@@ -19,7 +27,7 @@ impl From<Post> for Entry {
         entry.set_title(post.front_matter.title.clone());
         entry.set_id(post.id());
         // updated
-        let updated = date::from_jp_to_iso(post.front_matter.date.clone()).unwrap();
+        let updated = post.updated();
         entry.set_updated(updated.clone());
         entry.set_published(updated);
         entry.set_authors(vec![get_me()]);
@@ -32,11 +40,20 @@ impl From<Post> for Entry {
         entry.set_summary(post.front_matter.summary.clone());
         // content
         let mut content = Content::default();
-        content.set_value(post.content.clone());
-        content.set_src(post.id());
-        content.set_content_type("html".to_string());
+        let mut html = String::new();
+        let parser = pulldown_cmark::Parser::new(&post.content);
+        pulldown_cmark::html::push_html(&mut html, parser);
+        let escaped = htmlescape::encode_minimal(&html);
+        content.set_value(escaped);
+        content.set_content_type("text/html".to_string());
         entry.set_content(content);
         entry
+    }
+}
+
+impl From<Post> for FrontMatter {
+    fn from(post: Post) -> FrontMatter {
+        post.front_matter
     }
 }
 
@@ -44,7 +61,7 @@ fn get_me() -> Person {
     let mut me = Person::default();
     me.set_name("gyara");
     me.set_email("me@gyara.moe".to_string());
-    me.set_uri("https://blog.gyara.moe".to_string());
+    me.set_uri("https://blog.gyara.moe/".to_string());
     me
 }
 
@@ -62,7 +79,7 @@ fn gen_atom_feed() -> Feed {
     // feed
     feed.set_authors(vec![get_me()]);
     feed.set_title("Gyara Studio");
-    feed.set_id("https://blog.gyara.moe");
+    feed.set_id("https://blog.gyara.moe/");
     feed.set_generator(generator);
     feed.set_links(vec![link]);
     feed.set_rights("© 2019 gyara".to_string());
@@ -73,6 +90,9 @@ fn gen_atom_feed() -> Feed {
 pub fn gather_posts(posts: Vec<Post>) -> Feed {
     let mut feed = gen_atom_feed();
     let entrys: Vec<Entry> = posts.into_iter().map(std::convert::Into::into).collect();
+    if let Some(entry) = entrys.first() {
+        feed.set_updated(entry.updated());
+    }
     feed.set_entries(entrys);
     feed
 }
