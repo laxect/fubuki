@@ -19,7 +19,7 @@ impl FrontMatter {
     pub fn get_url(&self) -> &str {
         match self.url {
             Some(ref u) => u,
-            None => ""
+            None => "",
         }
     }
 }

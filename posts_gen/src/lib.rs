@@ -1,6 +1,6 @@
-mod front_matter;
 mod atom;
 mod date;
+mod front_matter;
 
 use crate::front_matter::FrontMatter;
 
