@@ -49,7 +49,7 @@ impl Date {
                 year: genngo.get_ce_year(),
                 month: spines[1],
                 day: spines[2],
-                genngo
+                genngo,
             })
         } else {
             None
@@ -57,8 +57,15 @@ impl Date {
     }
 
     pub fn to_iso_string(&self) -> String {
-        format!("{:04}-{:02}-{:02}T00:00:00Z", self.year, self.month, self.day)
+        format!(
+            "{:04}-{:02}-{:02}T00:00:00Z",
+            self.year, self.month, self.day
+        )
     }
+}
+
+pub fn from_jp_to_iso(jp: String) -> Option<String> {
+    Date::from_japan_locale(jp).map(|x| x.to_iso_string())
 }
 
 #[cfg(test)]

@@ -3,12 +3,12 @@ use serde_derive::{Deserialize, Serialize};
 /// instead of a front matter
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
 pub struct FrontMatter {
-    url: Option<String>,
-    title: String,
-    date: String,
-    summary: String,
-    tags: Vec<String>,
-    category: String,
+    pub url: Option<String>,
+    pub title: String,
+    pub date: String,
+    pub summary: String,
+    pub tags: Vec<String>,
+    pub category: String,
 }
 
 impl FrontMatter {
