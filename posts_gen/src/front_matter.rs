@@ -29,7 +29,7 @@ fn find_front_matter(content: String) -> Option<(String, String)> {
     if content.starts_with("---\n") {
         let after = &content[4..];
         if let Some(end) = after.find("---\n") {
-            return Some((after[..end].into(), after[end+4..].into()));
+            return Some((after[..end].into(), after[end + 4..].into()));
         }
     }
     None

@@ -1,6 +1,6 @@
 pub enum Genngo {
-    Heisei(u32),  // 1989 - 2019
-    Reiwa(u32),   // 2019 - ima
+    Heisei(u32), // 1989 - 2019
+    Reiwa(u32),  // 2019 - ima
 }
 
 impl Genngo {

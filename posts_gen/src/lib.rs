@@ -33,7 +33,7 @@ fn file_handle(entry: &fs::DirEntry) -> io::Result<Post> {
         front_matter.fill_url(entry.file_name().into_string().unwrap().replace(".md", ""));
         Ok(Post {
             front_matter,
-            content
+            content,
         })
     } else {
         Err(io::Error::from(io::ErrorKind::InvalidData))
@@ -46,7 +46,8 @@ fn update_pubsubhubbub() -> Result<(), Box<std::error::Error>> {
     body.insert("hub.mode", "publish");
     body.insert("hub.url", "https://blog.gyara.moe/atom.xml");
     let client = reqwest::Client::new();
-    client.post("https://pubsubhubbub.appspot.com/")
+    client
+        .post("https://pubsubhubbub.appspot.com/")
         .form(&body)
         .send()?;
     Ok(())
@@ -73,9 +74,14 @@ pub fn read_files() -> io::Result<()> {
     let mut atom_output = fs::File::create(feed)?;
     let atom_feed = atom::gather_posts(posts.clone());
     atom_output.write_all(atom_feed.to_string().as_bytes())?;
-    if let Err(e) = update_pubsubhubbub() {
-        println!("## publish failed {}", e);
-        return Err(io::Error::from(io::ErrorKind::Interrupted));
+    match update_pubsubhubbub() {
+        Err(e) => {
+            println!("## publish failed {}", e);
+            return Err(io::Error::from(io::ErrorKind::Interrupted));
+        }
+        Ok(r) => {
+            println!("    {:?}", r);
+        }
     }
     // get json
     let json = [dist, "/post.json".into()].concat();
