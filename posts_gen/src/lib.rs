@@ -40,6 +40,18 @@ fn file_handle(entry: &fs::DirEntry) -> io::Result<Post> {
     }
 }
 
+/// update pubsubhubbub
+fn update_pubsubhubbub() -> Result<(), Box<std::error::Error>> {
+    let mut body = std::collections::HashMap::new();
+    body.insert("hub.mode", "publish");
+    body.insert("hub.url", "https://blog.gyara.moe/atom.xml");
+    let client = reqwest::Client::new();
+    client.post("https://pubsubhubbub.appspot.com/")
+        .form(&body)
+        .send()?;
+    Ok(())
+}
+
 /// entry
 pub fn read_files() -> io::Result<()> {
     let (dist, orig) = read_option();
@@ -61,6 +73,10 @@ pub fn read_files() -> io::Result<()> {
     let mut atom_output = fs::File::create(feed)?;
     let atom_feed = atom::gather_posts(posts.clone());
     atom_output.write_all(atom_feed.to_string().as_bytes())?;
+    if let Err(e) = update_pubsubhubbub() {
+        println!("## publish failed {}", e);
+        return Err(io::Error::from(io::ErrorKind::Interrupted));
+    }
     // get json
     let json = [dist, "/post.json".into()].concat();
     println!("## write post json result to {}", json);
