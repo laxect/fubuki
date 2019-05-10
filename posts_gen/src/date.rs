@@ -29,7 +29,7 @@ pub struct Date {
 
 impl Date {
     /// from 平成31/4/29
-    fn from_japan_locale(locale: String) -> Option<Date> {
+    pub fn from_japan_locale(locale: String) -> Option<Date> {
         if locale.len() < 10 {
             return None;
         }
@@ -56,7 +56,7 @@ impl Date {
         }
     }
 
-    fn to_iso_string(&self) -> String {
+    pub fn to_iso_string(&self) -> String {
         format!("{:04}-{:02}-{:02}T00:00:00Z", self.year, self.month, self.day)
     }
 }
