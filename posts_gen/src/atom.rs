@@ -76,12 +76,16 @@ fn gen_atom_feed() -> Feed {
     let mut link = Link::default();
     link.set_href("https://blog.gyara.moe/atom.xml");
     link.set_rel("self".to_string());
+    // pubsubhubbub
+    let mut pubsubhubbub = Link::default();
+    pubsubhubbub.set_href("https://pubsubhubbub.appspot.com/");
+    pubsubhubbub.set_rel("hub".to_string());
     // feed
     feed.set_authors(vec![get_me()]);
     feed.set_title("Gyara Studio");
     feed.set_id("https://blog.gyara.moe/");
     feed.set_generator(generator);
-    feed.set_links(vec![link]);
+    feed.set_links(vec![link, pubsubhubbub]);
     feed.set_rights("© 2019 gyara".to_string());
     feed.set_subtitle("gyara's studio".to_string());
     feed
