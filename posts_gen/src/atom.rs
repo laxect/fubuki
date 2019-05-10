@@ -45,7 +45,7 @@ impl From<Post> for Entry {
         pulldown_cmark::html::push_html(&mut html, parser);
         let escaped = htmlescape::encode_minimal(&html);
         content.set_value(escaped);
-        content.set_content_type("text/html".to_string());
+        content.set_content_type("html".to_string());
         entry.set_content(content);
         entry
     }
