@@ -86,6 +86,13 @@ pub fn read_files() -> io::Result<()> {
     println!("## write post json result to {}", json);
     let mut json_output = fs::File::create(json)?;
     // this place will always success, so just unwrap
-    let fms: Vec<FrontMatter> = posts.into_iter().map(|x| x.front_matter).collect();
+    let fms: Vec<FrontMatter> = posts
+        .into_iter()
+        .map(|x| x.front_matter)
+        .map(|mut fm| {
+            fm.remove_time();
+            fm
+        })
+        .collect();
     json_output.write_all(serde_json::to_string(&fms).unwrap().as_bytes())
 }

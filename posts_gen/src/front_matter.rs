@@ -22,6 +22,11 @@ impl FrontMatter {
             None => "",
         }
     }
+
+    pub fn remove_time(&mut self) {
+        let ds: Vec<&str> = self.date.split(' ').collect();
+        self.date = ds[0].to_string();
+    }
 }
 
 /// find front matter from content
@@ -61,8 +66,8 @@ mod test {
     #[test]
     fn find_test() {
         let content = "---\nabc---\n".to_string();
-        let fm = find_front_matter(content);
-        assert_eq!(fm, Some("abc".to_string()));
+        let fm = find_front_matter(content).unwrap();
+        assert_eq!(fm.0, "abc".to_string());
     }
     #[test]
     fn transfer_test() {
@@ -74,5 +79,18 @@ mod test {
             summary: 再见，妖精"#
             .into();
         assert!(front_matter_transfer(input).is_ok());
+    }
+    #[test]
+    fn remove_time() {
+        let input: String = r#"
+            title : Goodbye Demon
+            date : 令和1/5/11 23:11
+            category : After reading
+            tags : [ 米澤 穂信, light-novel ]
+            summary: 再见，妖精"#
+            .into();
+        let mut fm = front_matter_transfer(input).unwrap();
+        fm.remove_time();
+        assert_eq!(fm.date, "令和1/5/11".to_string());
     }
 }

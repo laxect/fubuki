@@ -18,6 +18,9 @@ pub struct Date {
     year: u32,
     month: u32,
     day: u32,
+    hour: u32,
+    minute: u32,
+    second: u32,
 }
 
 impl Date {
@@ -28,11 +31,17 @@ impl Date {
         }
         if let Some(genngo) = locale.get(..6) {
             let date = locale.get(6..).unwrap();
-            let spines: Vec<u32> = date
-                .split('/')
+            let mut spines: Vec<u32> = date
+                .split(' ')
+                .flat_map(|s| s.split('/'))
+                .flat_map(|s| s.split(':'))
                 .map(|s| u32::from_str_radix(s, 10).unwrap())
                 .collect();
-            assert_eq!(spines.len(), 3, "date invalid");
+            let mut push = spines.len();
+            if push < 6 {
+                push = 6 - push;
+                spines.append(&mut vec![0; push]);
+            }
             let genngo = match genngo {
                 "平成" => Genngo::Heisei(spines[0]),
                 "令和" => Genngo::Reiwa(spines[0]),
@@ -42,6 +51,9 @@ impl Date {
                 year: genngo.get_ce_year(),
                 month: spines[1],
                 day: spines[2],
+                hour: spines[3],
+                minute: spines[4],
+                second: spines[5],
             })
         } else {
             None
@@ -50,8 +62,8 @@ impl Date {
 
     pub fn to_iso_string(&self) -> String {
         format!(
-            "{:04}-{:02}-{:02}T00:00:00Z",
-            self.year, self.month, self.day
+            "{:04}-{:02}-{:02}T{:02}:{:02}:{:02}Z",
+            self.year, self.month, self.day, self.hour, self.minute, self.second
         )
     }
 }
@@ -65,9 +77,9 @@ mod test {
     use super::*;
     #[test]
     fn from_jp_to_iso() {
-        let input = String::from("平成31/4/29");
+        let input = String::from("平成31/4/29 23:45");
         let output = Date::from_japan_locale(input).unwrap().to_iso_string();
-        assert_eq!(output, "2019-04-29T00:00:00Z".to_string());
+        assert_eq!(output, "2019-04-29T23:45:00Z".to_string());
     }
     #[test]
     fn reiwa() {
