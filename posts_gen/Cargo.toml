@@ -1,6 +1,6 @@
 [package]
 name = "posts_gen"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Gyara <me@gyara.moe>"]
 edition = "2018"
 
