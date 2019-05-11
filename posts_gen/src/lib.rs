@@ -76,14 +76,13 @@ pub fn read_files() -> io::Result<()> {
     match update_pubsubhubbub() {
         Err(e) => {
             println!("## publish failed {}", e);
-            return Err(io::Error::from(io::ErrorKind::Interrupted));
         }
         Ok(r) => {
             println!("    {:?}", r);
         }
     }
     // get json
-    let json = [dist, "/post.json".into()].concat();
+    let json = [dist, "/posts.json".into()].concat();
     println!("## write post json result to {}", json);
     let mut json_output = fs::File::create(json)?;
     // this place will always success, so just unwrap
