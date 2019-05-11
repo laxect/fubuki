@@ -117,8 +117,12 @@ impl Renderable<Content> for Content {
                 }
                 _ => {
                     let c = self.inner().unwrap();
+                    let class = match self.page {
+                        Page::Article(_) => "post",
+                        _ => "",
+                    };
                     html! {
-                        <main>
+                        <main class=class, >
                             <article>{ render_markdown(&c) }</article>
                         </main>
                     }
