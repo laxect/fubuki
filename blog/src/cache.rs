@@ -2,35 +2,14 @@ use crate::content::Msg;
 use crate::posts::PostList;
 use crate::Page;
 use std::collections::HashMap;
+use yew::format::Json;
+use yew::services::StorageService;
+use serde_derive::{Serialize, Deserialize};
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub enum CacheContent {
     Page(String),
     Posts(PostList),
-}
-
-pub struct Cache {
-    inner: HashMap<String, CacheContent>,
-}
-
-impl Cache {
-    pub fn new() -> Cache {
-        Cache {
-            inner: HashMap::new(),
-        }
-    }
-
-    pub fn has(&self, page: &Page) -> bool {
-        self.inner.contains_key(&page.value())
-    }
-
-    pub fn get(&self, page: &Page) -> Option<CacheContent> {
-        self.inner.get(&page.value()).cloned()
-    }
-
-    pub fn set(&mut self, page: Page, content: CacheContent) {
-        self.inner.insert(page.value(), content);
-    }
 }
 
 impl From<String> for CacheContent {
@@ -51,5 +30,32 @@ impl From<Msg> for CacheContent {
             Msg::Pong(s) => s.into(),
             Msg::Posts(pl) => pl.into(),
         }
+    }
+}
+
+pub struct Cache {
+    inner: StorageService,
+}
+
+impl Cache {
+    pub fn new() -> Cache {
+        Cache {
+            inner: StorageService::new(yew::services::storage::Area::Local)
+        }
+    }
+
+    pub fn get(&mut self, page: &Page) -> Option<CacheContent> {
+        let key = page.value();
+        if let Json(Ok(cc)) = self.inner.restore(&key) {
+            Some(cc)
+        } else {
+            None
+        }
+
+    }
+
+    pub fn set(&mut self, page: Page, content: CacheContent) {
+        let key = page.value();
+        self.inner.store(&key, Json(&content));
     }
 }

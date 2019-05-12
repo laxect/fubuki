@@ -37,14 +37,14 @@ impl From<Load> for Msg {
 
 pub struct Content {
     page: Page,
-    cache: Cache,
+    inner: Option<CacheContent>,
     fetch: Box<Bridge<FetchAgent>>,
     on_change: Option<Callback<Page>>,
 }
 
 impl Content {
     fn inner(&self) -> Option<String> {
-        if let Some(CacheContent::Page(ref c)) = self.cache.get(&self.page) {
+        if let Some(CacheContent::Page(ref c)) = self.inner {
             if c.starts_with("---\n") {
                 let after = &c[4..];
                 if let Some(ind) = after.find("---\n") {
@@ -68,33 +68,30 @@ impl Component for Content {
         fetch_agent.send(props.page.clone());
         Content {
             page: props.page,
-            cache: Cache::new(),
+            inner: None,
             fetch: fetch_agent,
             on_change: props.on_change,
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        self.cache.set(self.page.clone(), msg.clone().into());
+        self.inner = Some(msg.into());
         true
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if props.page != self.page {
+            self.inner = None;
             self.page = props.page.clone();
-            if !self.cache.has(&props.page) {
-                self.fetch.send(props.page);
-            }
-            true
-        } else {
-            false
+            self.fetch.send(props.page);
         }
+        false
     }
 }
 
 impl Renderable<Content> for Content {
     fn view(&self) -> Html<Self> {
-        if !self.cache.has(&self.page) {
+        if self.inner.is_none() {
             html! {
                 <main>
                     <div class="bubblingG", >
@@ -107,7 +104,7 @@ impl Renderable<Content> for Content {
         } else {
             match self.page {
                 Page::Posts => {
-                    let post_list = match self.cache.get(&self.page) {
+                    let post_list = match self.inner.clone() {
                         Some(CacheContent::Posts(list)) => list,
                         _ => vec![],
                     };
