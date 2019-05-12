@@ -1,4 +1,3 @@
-use crate::cache::{Cache, CacheContent};
 use crate::fetch_agent::{FetchAgent, Load};
 use crate::markdown::render_markdown;
 use crate::posts::PostList;
@@ -30,21 +29,21 @@ impl From<Load> for Msg {
     fn from(load: Load) -> Msg {
         match load {
             Load::Page(payload) => Msg::Pong(payload),
-            Load::PostList(postlist) => Msg::Posts(postlist),
+            Load::Posts(postlist) => Msg::Posts(postlist),
         }
     }
 }
 
 pub struct Content {
     page: Page,
-    inner: Option<CacheContent>,
+    inner: Option<Load>,
     fetch: Box<Bridge<FetchAgent>>,
     on_change: Option<Callback<Page>>,
 }
 
 impl Content {
     fn inner(&self) -> Option<String> {
-        if let Some(CacheContent::Page(ref c)) = self.inner {
+        if let Some(Load::Page(ref c)) = self.inner {
             if c.starts_with("---\n") {
                 let after = &c[4..];
                 if let Some(ind) = after.find("---\n") {
@@ -94,18 +93,13 @@ impl Renderable<Content> for Content {
         if self.inner.is_none() {
             html! {
                 <main>
-                    <div class="bubblingG", >
-                        <span id="bubblingG_0", ></span>
-                        <span id="bubblingG_1", ></span>
-                        <span id="bubblingG_2", ></span>
-                    </div>
                 </main>
             }
         } else {
             match self.page {
                 Page::Posts => {
                     let post_list = match self.inner.clone() {
-                        Some(CacheContent::Posts(list)) => list,
+                        Some(Load::Posts(list)) => list,
                         _ => vec![],
                     };
                     html! {

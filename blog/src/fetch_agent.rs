@@ -1,25 +1,18 @@
+pub use crate::cache::{Cache, Load};
 use crate::posts::PostList;
 use crate::utils::Page;
 use failure::Error;
-use serde_derive::Deserialize;
-use serde_derive::Serialize;
 use yew::format::Nothing;
 use yew::services::fetch::{FetchService, FetchTask, Request, Response};
 use yew::worker::*;
 use yew::Callback;
 
-#[derive(PartialEq, Clone, Serialize, Deserialize)]
-pub enum Load {
-    Page(String),
-    PostList(PostList),
-}
-
-impl Transferable for Load {}
-
 pub struct FetchAgent {
-    web: FetchService,
-    task: Option<FetchTask>,
+    cache: Cache,
+    current_target: Option<Page>,
     link: AgentLink<FetchAgent>,
+    task: Option<FetchTask>,
+    web: FetchService,
     who: Option<HandlerId>,
 }
 
@@ -30,7 +23,7 @@ impl FetchAgent {
             if meta.status.is_success() {
                 if let Ok(payload) = body {
                     let list: PostList = serde_json::from_str(payload.as_str()).unwrap();
-                    cb.emit(Load::PostList(list));
+                    cb.emit(Load::Posts(list));
                 }
             }
         }
@@ -55,10 +48,11 @@ impl FetchAgent {
         };
         let cb = self.link.send_back(|x| x);
         let req = Request::get(url).body(Nothing).unwrap();
-        let task = match target {
+        let task = match &target {
             Page::Posts => self.web.fetch(req, self.post_list_handle(cb).into()),
             _ => self.web.fetch(req, self.page_handle(cb).into()),
         };
+        self.current_target = Some(target);
         self.task = Some(task);
     }
 }
@@ -75,10 +69,13 @@ impl Agent for FetchAgent {
             web: FetchService::new(),
             task: None,
             who: None,
+            cache: Cache::new(),
+            current_target: None,
         }
     }
 
     fn update(&mut self, msg: Self::Message) {
+        self.cache.set(&self.current_target.take().unwrap(), &msg);
         if let Some(who) = self.who {
             self.link.response(who, msg.clone());
         }
@@ -87,6 +84,10 @@ impl Agent for FetchAgent {
 
     fn handle(&mut self, input: Self::Input, who: HandlerId) {
         self.who = Some(who);
+        if let Some(cc) = self.cache.get(&input) {
+            // cache response
+            self.link.response(who, cc);
+        }
         self.load(input);
     }
 }

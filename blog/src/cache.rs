@@ -1,37 +1,38 @@
 use crate::content::Msg;
 use crate::posts::PostList;
 use crate::Page;
-use std::collections::HashMap;
+use serde_derive::{Deserialize, Serialize};
 use yew::format::Json;
 use yew::services::StorageService;
-use serde_derive::{Serialize, Deserialize};
 
 #[derive(Clone, Serialize, Deserialize)]
-pub enum CacheContent {
+pub enum Load {
     Page(String),
     Posts(PostList),
 }
 
-impl From<String> for CacheContent {
-    fn from(s: String) -> CacheContent {
-        CacheContent::Page(s)
+impl From<String> for Load {
+    fn from(s: String) -> Load {
+        Load::Page(s)
     }
 }
 
-impl From<PostList> for CacheContent {
-    fn from(pl: PostList) -> CacheContent {
-        CacheContent::Posts(pl)
+impl From<PostList> for Load {
+    fn from(pl: PostList) -> Load {
+        Load::Posts(pl)
     }
 }
 
-impl From<Msg> for CacheContent {
-    fn from(m: Msg) -> CacheContent {
+impl From<Msg> for Load {
+    fn from(m: Msg) -> Load {
         match m {
             Msg::Pong(s) => s.into(),
             Msg::Posts(pl) => pl.into(),
         }
     }
 }
+
+impl yew::agent::Transferable for Load {}
 
 pub struct Cache {
     inner: StorageService,
@@ -40,22 +41,21 @@ pub struct Cache {
 impl Cache {
     pub fn new() -> Cache {
         Cache {
-            inner: StorageService::new(yew::services::storage::Area::Local)
+            inner: StorageService::new(yew::services::storage::Area::Local),
         }
     }
 
-    pub fn get(&mut self, page: &Page) -> Option<CacheContent> {
+    pub fn get(&mut self, page: &Page) -> Option<Load> {
         let key = page.value();
         if let Json(Ok(cc)) = self.inner.restore(&key) {
             Some(cc)
         } else {
             None
         }
-
     }
 
-    pub fn set(&mut self, page: Page, content: CacheContent) {
+    pub fn set(&mut self, page: &Page, content: &Load) {
         let key = page.value();
-        self.inner.store(&key, Json(&content));
+        self.inner.store(&key, Json(content));
     }
 }
