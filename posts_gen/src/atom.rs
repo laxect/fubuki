@@ -1,5 +1,4 @@
-use crate::date;
-use crate::front_matter::FrontMatter;
+use crate::{date, front_matter::FrontMatter};
 use atom_syndication::*;
 
 #[derive(Clone)]

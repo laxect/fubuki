@@ -1,8 +1,11 @@
 /// Original author of this code is [Nathan Ringo](https://github.com/remexre)
 /// Source: https://github.com/acmumn/mentoring/blob/master/web-client/src/view/markdown.rs
 use pulldown_cmark::{Alignment, Event, Options, Parser, Tag};
-use yew::virtual_dom::{VNode, VTag, VText};
-use yew::{html, Component, Html};
+use yew::{
+    html,
+    virtual_dom::{VNode, VTag, VText},
+    Component, Html,
+};
 
 pub fn render_markdown<COMP>(src: &str) -> Html<COMP>
 where

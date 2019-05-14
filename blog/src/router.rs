@@ -1,14 +1,13 @@
 use crate::Page;
 use serde_derive::{Deserialize, Serialize};
-use stdweb::unstable::TryFrom;
-use stdweb::web::document;
-use stdweb::web::event::PopStateEvent;
-use stdweb::web::window;
-use stdweb::web::EventListenerHandle;
-use stdweb::web::History;
-use stdweb::web::IEventTarget;
-use stdweb::web::Location;
-use stdweb::Value;
+use stdweb::{
+    unstable::TryFrom,
+    web::{
+        document, event::PopStateEvent, window, EventListenerHandle, History, IEventTarget,
+        Location,
+    },
+    Value,
+};
 use yew::worker::*;
 
 #[derive(PartialEq, Clone, Serialize, Deserialize)]
