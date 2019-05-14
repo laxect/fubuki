@@ -12,4 +12,4 @@ serde_yaml = "0.8.9"
 pulldown-cmark = { version = "0.5.1", default-features = false, features = ["simd"] }
 atom_syndication = "0.6.0"
 htmlescape = "0.3.1"
-reqwest = "0.9.16"
+reqwest = { version = "0.9.16", features = ["rustls-tls"] }
