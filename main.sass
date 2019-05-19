@@ -211,6 +211,32 @@ footer
     &, a, a:visited
         color: $gray
 
+// all other custom html style
+=html_mark
+    display: inline-block
+    padding:
+        left: 0.5em
+        right: 0.5em
+        bottom: 0
+    background: $far_gray
+    border-bottom: 0.05em solid $gray
+    text-decoration: none
+
+ins.html, ins.inline-html
+    +html_mark
+    &::before
+        color: green
+        content: "+"
+        padding-right: 0.4em
+
+del.html, del.inline-html
+    +html_mark
+    &::before
+        color: red
+        content: "-"
+        padding-right: 0.4em
+
+
 // load animation
 .bubblingG
     +center(190px, 120px)

@@ -1,5 +1,5 @@
-/// Original author of this code is [Nathan Ringo](https://github.com/remexre)
-/// Source: https://github.com/acmumn/mentoring/blob/master/web-client/src/view/markdown.rs
+mod custom_tag;
+
 use pulldown_cmark::{Alignment, Event, Options, Parser, Tag};
 use yew::{
     html,
@@ -79,7 +79,23 @@ where
                 task_marker.add_child(VText::new(marker.to_string()).into());
                 add_child!(task_marker.into());
             }
-            _ => {}
+            Event::Html(html) => {
+                if let Some(tag) = custom_tag::parse_custom_tag(&html.to_string()) {
+                    let mut v_tag = VTag::new(tag.name());
+                    v_tag.add_child(VText::new(tag.text()).into());
+                    v_tag.add_class("html");
+                    add_child!(v_tag.into());
+                }
+            }
+            Event::InlineHtml(html) => {
+                if let Some(tag) = custom_tag::parse_custom_tag(&html.to_string()) {
+                    let mut v_tag = VTag::new(tag.name());
+                    v_tag.add_child(VText::new(tag.text()).into());
+                    v_tag.add_class("inline-html");
+                    add_child!(v_tag.into());
+                }
+            }
+            Event::FootnoteReference(_) => {}
         }
     }
 
@@ -111,10 +127,6 @@ where
         }
         Tag::CodeBlock(lang) => {
             let mut el = VTag::new("code");
-            // Different color schemes may be used for different code blocks,
-            // but a different library (likely js based at the moment) would be necessary to actually provide the
-            // highlighting support by locating the language classes and applying dom transforms
-            // on their contents.
             el.add_class(lang.as_ref());
             el
         }
@@ -156,7 +168,7 @@ where
             }
             el
         }
-        Tag::FootnoteDefinition(ref _id) => VTag::new("span"), // Footnotes are not rendered as anything special
+        Tag::FootnoteDefinition(ref _id) => VTag::new("span"),
         Tag::HtmlBlock => VTag::new("div"),
         Tag::Strikethrough => VTag::new("del"),
     }
