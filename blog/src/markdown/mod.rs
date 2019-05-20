@@ -64,8 +64,12 @@ where
                 }
                 let mut task_marker = VTag::new("img");
                 task_marker.add_class("task-marker");
-                let marker = if done { "icon/check.svg" } else { "icon/square.svg" };
-                task_marker.add_attribute("src" , &marker);
+                let marker = if done {
+                    "icon/check.svg"
+                } else {
+                    "icon/square.svg"
+                };
+                task_marker.add_attribute("src", &marker);
                 add_child!(task_marker.into());
             }
             Event::Html(html) => {
