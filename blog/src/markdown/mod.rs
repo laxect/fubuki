@@ -103,7 +103,19 @@ where
                     _ => unreachable!(),
                 };
             }
-            Event::FootnoteReference(_) => {}
+            Event::FootnoteReference(fnn) => {
+                let fr = format!("r:fr:{}", fnn);
+                let fd = format!("#r:fd:{}", fnn);
+                // link to defin
+                let mut v_tag = VTag::new("sup");
+                v_tag.add_class("fr");
+                v_tag.add_attribute("id", &fr);
+                let mut inner = VTag::new("a");
+                inner.add_attribute("href", &fd);
+                inner.add_child(VText::new(fnn.to_string()).into());
+                v_tag.add_child(inner.into());
+                add_child!(v_tag.into());
+            }
         }
     }
 
@@ -176,7 +188,20 @@ where
             }
             el
         }
-        Tag::FootnoteDefinition(ref _id) => VTag::new("span"),
+        Tag::FootnoteDefinition(ref fnn) => {
+            let fr = format!("#r:fr:{}", fnn);
+            let fd = format!("r:fd:{}", fnn);
+            // link to defin
+            let mut el = VTag::new("div");
+            el.add_class("fd");
+            el.add_attribute("id", &fd);
+            // link back
+            let mut inner = VTag::new("a");
+            inner.add_attribute("href", &fr);
+            inner.add_child(VText::new(fnn.to_string()).into());
+            el.add_child(inner.into());
+            el
+        }
         Tag::HtmlBlock => {
             let mut el = VTag::new("div");
             el.add_class("html");

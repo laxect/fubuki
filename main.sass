@@ -165,6 +165,20 @@ main
         hr
             display: inline-block
             width: 10em
+        sup a, .fd a
+            &::before
+                content: "["
+            &::after
+                content: "]"
+                position: static
+                color: inherit
+            &:visited::after
+                color: inherit
+        .fd
+            a
+                padding-right: 0.3em
+                &+p
+                    display: inline
     .post-nav
         margin:
             top: 1em
