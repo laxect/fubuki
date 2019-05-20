@@ -59,10 +59,13 @@ where
             Event::SoftBreak => add_child!(VText::new("\n".to_string()).into()),
             Event::HardBreak => add_child!(VTag::new("br").into()),
             Event::TaskListMarker(done) => {
-                let mut task_marker = VTag::new("span");
-                task_marker.add_class("task_marker");
-                let marker = if done { "✔️" } else { "⚪" };
-                task_marker.add_child(VText::new(marker.to_string()).into());
+                if let Some(back) = spine.last_mut() {
+                    back.add_class("task-list");
+                }
+                let mut task_marker = VTag::new("img");
+                task_marker.add_class("task-marker");
+                let marker = if done { "icon/check.svg" } else { "icon/square.svg" };
+                task_marker.add_attribute("src" , &marker);
                 add_child!(task_marker.into());
             }
             Event::Html(html) => {
