@@ -54,6 +54,9 @@ impl Router {
         if path.starts_with('/') {
             path = path.replacen("/", "", 1);
         }
+        if path.ends_with('/') {
+            path.pop();
+        }
         Page::try_from(path).unwrap()
     }
 
