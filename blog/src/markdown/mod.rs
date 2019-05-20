@@ -1,6 +1,7 @@
 mod custom_tag;
 
-use pulldown_cmark::{Alignment, Event, Options, Parser, Tag};
+use custom_tag::HTag;
+use pulldown_cmark::{Event, Options, Parser, Tag};
 use yew::{
     html,
     virtual_dom::{VNode, VTag, VText},
@@ -35,21 +36,6 @@ where
                     let mut pre = VTag::new("pre");
                     pre.add_child(top.into());
                     top = pre;
-                } else if let Tag::Table(aligns) = tag {
-                    for r in top.childs.iter_mut() {
-                        if let VNode::VTag(ref mut vtag) = r {
-                            for (i, c) in vtag.childs.iter_mut().enumerate() {
-                                if let VNode::VTag(ref mut vtag) = c {
-                                    match aligns[i] {
-                                        Alignment::None => {}
-                                        Alignment::Left => vtag.add_class("text-left"),
-                                        Alignment::Center => vtag.add_class("text-center"),
-                                        Alignment::Right => vtag.add_class("text-right"),
-                                    }
-                                }
-                            }
-                        }
-                    }
                 } else if let Tag::TableHead = tag {
                     for c in top.childs.iter_mut() {
                         if let VNode::VTag(ref mut vtag) = c {
@@ -80,20 +66,39 @@ where
                 add_child!(task_marker.into());
             }
             Event::Html(html) => {
-                if let Some(tag) = custom_tag::parse_custom_tag(&html.to_string()) {
-                    let mut v_tag = VTag::new(tag.name());
-                    v_tag.add_child(VText::new(tag.text()).into());
-                    v_tag.add_class("html");
-                    add_child!(v_tag.into());
+                let tags = custom_tag::html_parse(html.as_ref());
+                for tag in tags.into_iter() {
+                    match tag {
+                        HTag::Left(t_name) => {
+                            let mut v_tag = VTag::new(t_name);
+                            v_tag.add_class("html");
+                            spine.push(v_tag);
+                        }
+                        HTag::Right(_) => {
+                            let v_tag = spine.pop().unwrap();
+                            add_child!(v_tag.into());
+                        }
+                        HTag::Text(inner) => {
+                            let v_text = VText::new(inner);
+                            add_child!(v_text.into());
+                        }
+                    };
                 }
             }
             Event::InlineHtml(html) => {
-                if let Some(tag) = custom_tag::parse_custom_tag(&html.to_string()) {
-                    let mut v_tag = VTag::new(tag.name());
-                    v_tag.add_child(VText::new(tag.text()).into());
-                    v_tag.add_class("inline-html");
-                    add_child!(v_tag.into());
-                }
+                let tag = HTag::from_string(html.as_ref());
+                match tag {
+                    HTag::Left(t_name) => {
+                        let mut v_tag = VTag::new(t_name);
+                        v_tag.add_class("inline-html");
+                        spine.push(v_tag);
+                    }
+                    HTag::Right(_) => {
+                        let v_tag = spine.pop().unwrap();
+                        add_child!(v_tag.into());
+                    }
+                    _ => unreachable!(),
+                };
             }
             Event::FootnoteReference(_) => {}
         }
@@ -169,7 +174,11 @@ where
             el
         }
         Tag::FootnoteDefinition(ref _id) => VTag::new("span"),
-        Tag::HtmlBlock => VTag::new("div"),
+        Tag::HtmlBlock => {
+            let mut el = VTag::new("div");
+            el.add_class("html");
+            el
+        }
         Tag::Strikethrough => VTag::new("del"),
     }
 }

@@ -1,46 +1,37 @@
 #[derive(Debug, PartialEq)]
-pub struct Tag {
-    name: String,
-    text: String,
+pub enum HTag {
+    Left(String),
+    Right(String),
+    Text(String),
 }
 
-impl Tag {
-    pub fn name(&self) -> String {
-        self.name.clone()
-    }
-
-    pub fn text(&self) -> String {
-        self.text.clone()
-    }
-}
-
-pub fn parse_custom_tag(text: &str) -> Option<Tag> {
-    if text.starts_with("<") {
-        if let Some(tag_l_end) = text.find('>') {
-            if let Some(tag_r_start) = text[1..].find('<') {
-                return Some(Tag {
-                    name: text[1..tag_l_end].to_string(),
-                    text: text[tag_l_end + 1..tag_r_start + 1].to_string(),
-                });
-            }
+impl HTag {
+    pub fn from_string(html_tag: &str) -> HTag {
+        if html_tag.starts_with("</") {
+            HTag::Right(String::from(&html_tag[1..html_tag.len() - 1]))
+        } else {
+            HTag::Left(String::from(&html_tag[1..html_tag.len() - 1]))
         }
     }
-    None
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
-    #[test]
-    fn parser() {
-        let text = "<ins>aaa</ins>";
-        let tag = parse_custom_tag(text);
-        assert_eq!(
-            tag,
-            Some(Tag {
-                name: "ins".to_string(),
-                text: "aaa".to_string(),
-            })
-        );
+pub fn html_parse(html: &str) -> Vec<HTag> {
+    let mut h_tags = Vec::new();
+    for tom in html.split('>') {
+        if tom.starts_with("</") {
+            h_tags.push(HTag::Right(String::from(&tom[2..])));
+        } else if tom.starts_with('<') {
+            h_tags.push(HTag::Left(String::from(&tom[1..])));
+        } else if let Some(ind) = tom.find('<') {
+            h_tags.push(HTag::Text(String::from(&tom[..ind])));
+            if tom[ind..].starts_with("</") {
+                h_tags.push(HTag::Right(String::from(&tom[ind + 2..])));
+            } else {
+                h_tags.push(HTag::Left(String::from(&tom[ind + 1..])));
+            }
+        } else {
+            h_tags.push(HTag::Text(String::from(tom)));
+        }
     }
+    h_tags
 }
