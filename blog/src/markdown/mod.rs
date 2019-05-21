@@ -17,10 +17,18 @@ where
 
     macro_rules! add_child {
         ($child:expr) => {{
-            let l = spine.len();
-            assert_ne!(l, 0);
-            spine[l - 1].add_child($child);
+            if let Some(node) = spine.last_mut() {
+                node.add_child($child.into());
+            }
         }};
+    }
+
+    macro_rules! fold {
+        () => {
+            if let Some(node) = spine.pop() {
+                add_child!(node);
+            }
+        };
     }
 
     for ev in Parser::new_ext(src, Options::all()) {
@@ -29,35 +37,29 @@ where
                 spine.push(make_tag(tag));
             }
             Event::End(tag) => {
-                let l = spine.len();
-                assert!(l >= 1);
+                // there should be atleast one tag in spines
+                // so just unwrap
                 let mut top = spine.pop().unwrap();
                 if let Tag::CodeBlock(_) = tag {
                     let mut pre = VTag::new("pre");
                     pre.add_child(top.into());
                     top = pre;
-                } else if let Tag::TableHead = tag {
-                    for c in top.childs.iter_mut() {
-                        if let VNode::VTag(ref mut vtag) = c {
-                            vtag.add_attribute("scope", &"col");
-                        }
-                    }
                 }
-                if l == 1 {
-                    elems.push(top);
+                if let Some(node) = spine.last_mut() {
+                    node.add_child(top.into());
                 } else {
-                    spine[l - 2].add_child(top.into());
+                    elems.push(top);
                 }
             }
-            Event::Text(text) => add_child!(VText::new(text.to_string()).into()),
+            Event::Text(text) => add_child!(VText::new(text.to_string())),
             Event::Code(text) => {
                 let mut code = VTag::new("code");
                 code.add_class("inline-code");
                 code.add_child(VText::new(text.to_string()).into());
-                add_child!(code.into())
+                add_child!(code);
             }
-            Event::SoftBreak => add_child!(VText::new("\n".to_string()).into()),
-            Event::HardBreak => add_child!(VTag::new("br").into()),
+            Event::SoftBreak => add_child!(VText::new("\n".to_string())),
+            Event::HardBreak => add_child!(VTag::new("br")),
             Event::TaskListMarker(done) => {
                 if let Some(back) = spine.last_mut() {
                     back.add_class("task-list");
@@ -70,7 +72,7 @@ where
                     "icon/square.svg"
                 };
                 task_marker.add_attribute("src", &marker);
-                add_child!(task_marker.into());
+                add_child!(task_marker);
             }
             Event::Html(html) => {
                 let tags = custom_tag::html_parse(html.as_ref());
@@ -82,33 +84,27 @@ where
                             spine.push(v_tag);
                         }
                         HTag::Right(_) => {
-                            let v_tag = spine.pop().unwrap();
-                            add_child!(v_tag.into());
+                            fold!();
                         }
                         HTag::Text(inner) => {
                             let v_text = VText::new(inner);
-                            add_child!(v_text.into());
+                            add_child!(v_text);
                         }
                     };
                 }
             }
             Event::InlineHtml(html) => {
-                let tag = HTag::from_string(html.as_ref());
-                match tag {
-                    HTag::Left(t_name) => {
-                        let mut v_tag = VTag::new(t_name);
-                        v_tag.add_class("inline-html");
-                        spine.push(v_tag);
-                    }
-                    HTag::Right(_) => {
-                        let v_tag = spine.pop().unwrap();
-                        add_child!(v_tag.into());
-                    }
-                    _ => unreachable!(),
-                };
+                if let HTag::Left(t_name) = HTag::from_str(html.as_ref()) {
+                    let mut v_tag = VTag::new(t_name);
+                    v_tag.add_class("inline-html");
+                    spine.push(v_tag);
+                } else {
+                    // tag::right and this is something in spine
+                    fold!();
+                }
             }
             Event::FootnoteReference(fnn) => {
-                let fr = format!("r:fr:{}", fnn);
+                let fr = format!("r:fr:{}", fnn); // self
                 let fd = format!("#r:fd:{}", fnn);
                 // link to defin
                 let mut v_tag = VTag::new("sup");
@@ -118,7 +114,7 @@ where
                 inner.add_attribute("href", &fd);
                 inner.add_child(VText::new(fnn.to_string()).into());
                 v_tag.add_child(inner.into());
-                add_child!(v_tag.into());
+                add_child!(v_tag);
             }
         }
     }
