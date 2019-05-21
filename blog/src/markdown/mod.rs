@@ -12,7 +12,7 @@ pub fn render_markdown<COMP>(src: &str) -> Html<COMP>
 where
     COMP: Component,
 {
-    let mut depth = 0; // virtal stack
+    let mut depth: u32 = 0; // virtal stack
     let mut spine = Vec::new();
 
     macro_rules! add_child {
