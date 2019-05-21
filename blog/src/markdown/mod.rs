@@ -12,8 +12,8 @@ pub fn render_markdown<COMP>(src: &str) -> Html<COMP>
 where
     COMP: Component,
 {
-    let mut elems = vec![];
-    let mut spine = vec![];
+    let mut depth = 0; // virtal stack
+    let mut spine = Vec::new();
 
     macro_rules! add_child {
         ($child:expr) => {{
@@ -23,17 +23,10 @@ where
         }};
     }
 
-    macro_rules! fold {
-        () => {
-            if let Some(node) = spine.pop() {
-                add_child!(node);
-            }
-        };
-    }
-
     for ev in Parser::new_ext(src, Options::all()) {
         match ev {
             Event::Start(tag) => {
+                depth += 1;
                 spine.push(make_tag(tag));
             }
             Event::End(tag) => {
@@ -45,11 +38,12 @@ where
                     pre.add_child(top.into());
                     top = pre;
                 }
-                if let Some(node) = spine.last_mut() {
-                    node.add_child(top.into());
+                if depth > 1 {
+                    add_child!(top);
                 } else {
-                    elems.push(top);
+                    spine.push(top);
                 }
+                depth -= 1;
             }
             Event::Text(text) => add_child!(VText::new(text.to_string())),
             Event::Code(text) => {
@@ -84,7 +78,9 @@ where
                             spine.push(v_tag);
                         }
                         HTag::Right(_) => {
-                            fold!();
+                            if let Some(node) = spine.pop() {
+                                add_child!(node);
+                            }
                         }
                         HTag::Text(inner) => {
                             let v_text = VText::new(inner);
@@ -100,7 +96,9 @@ where
                     spine.push(v_tag);
                 } else {
                     // tag::right and this is something in spine
-                    fold!();
+                    if let Some(node) = spine.pop() {
+                        add_child!(node);
+                    }
                 }
             }
             Event::FootnoteReference(fnn) => {
@@ -119,11 +117,11 @@ where
         }
     }
 
-    if elems.len() == 1 {
-        VNode::VTag(elems.pop().unwrap())
+    if spine.len() == 1 {
+        VNode::VTag(spine.pop().unwrap())
     } else {
         html! {
-            <section>{ for elems.into_iter() }</section>
+            <section>{ for spine.into_iter() }</section>
         }
     }
 }
