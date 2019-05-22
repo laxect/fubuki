@@ -48,7 +48,10 @@ impl FetchAgent {
             target.url()
         };
         let cb = self.link.send_back(|x| x);
-        let req = Request::get(url).body(Nothing).unwrap();
+        let req = Request::get(url)
+            .header("Cache-Control", "max-age=120")
+            .body(Nothing)
+            .unwrap();
         let task = match &target {
             Page::Posts => self.web.fetch(req, self.post_list_handle(cb).into()),
             _ => self.web.fetch(req, self.page_handle(cb).into()),
