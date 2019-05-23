@@ -1,11 +1,12 @@
 pub use crate::cache::{Cache, Load};
-use crate::posts::PostList;
-use crate::utils::Page;
+use crate::{posts::PostList, utils::Page};
 use failure::Error;
-use yew::format::Nothing;
-use yew::services::fetch::{FetchService, FetchTask, Request, Response};
-use yew::worker::*;
-use yew::Callback;
+use yew::{
+    format::Nothing,
+    services::fetch::{FetchService, FetchTask, Request, Response},
+    worker::*,
+    Callback,
+};
 
 pub struct FetchAgent {
     cache: Cache,
@@ -47,7 +48,10 @@ impl FetchAgent {
             target.url()
         };
         let cb = self.link.send_back(|x| x);
-        let req = Request::get(url).body(Nothing).unwrap();
+        let req = Request::get(url)
+            .header("Cache-Control", "max-age=120")
+            .body(Nothing)
+            .unwrap();
         let task = match &target {
             Page::Posts => self.web.fetch(req, self.post_list_handle(cb).into()),
             _ => self.web.fetch(req, self.page_handle(cb).into()),

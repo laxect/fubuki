@@ -12,7 +12,6 @@
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.3",
-    "parcel-plugin-cargo-web": "^0.3.1",
-    "typescript": "^3.4.5"
+    "parcel-plugin-cargo-web": "^0.3.1"
   }
 }

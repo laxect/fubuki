@@ -121,10 +121,6 @@ nav
         &:not(.active):hover
             background-color: $gray
 
-span.task_marker
-    display: inline-block
-    width: 1.5em
-
 main
     --main-top: 2em
     @media (min-width: 1036px)
@@ -156,6 +152,33 @@ main
             border: none
         img
             max-width: 100%
+            &.task-marker
+                display: inline
+                width: 0.9em
+                padding-right: 0.4em
+                &+p
+                    display: inline
+        li.task-list
+            list-style-type: none
+        time
+            color: $hai
+        hr
+            display: inline-block
+            width: 10em
+        sup a, .fd a
+            &::before
+                content: "["
+            &::after
+                content: "]"
+                position: static
+                color: inherit
+            &:visited::after
+                color: inherit
+        .fd
+            a
+                padding-right: 0.3em
+                &+p
+                    display: inline
     .post-nav
         margin:
             top: 1em
@@ -210,6 +233,35 @@ footer
         bottom: $footer-bottom
     &, a, a:visited
         color: $gray
+
+// all other custom html style
+=html_mark($bgc)
+    display: inline-block
+    padding:
+        left: 0.5em
+        right: 0.5em
+        bottom: 0
+    margin:
+        left: 0.2em
+        right: 0.2em
+    background: $bgc
+    border-bottom: none
+    text-decoration: none
+
+ins.html, ins.inline-html
+    +html_mark(#d6f7cd)
+    &::before
+        color: green
+        content: "+"
+        padding-right: 0.4em
+
+del.html, del.inline-html
+    +html_mark(#ffced4)
+    &::before
+        color: red
+        content: "-"
+        padding-right: 0.4em
+
 
 // load animation
 .bubblingG

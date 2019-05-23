@@ -2,13 +2,13 @@ mod atom;
 mod date;
 mod front_matter;
 
-use crate::atom::Post;
-use crate::front_matter::FrontMatter;
+use crate::{atom::Post, front_matter::FrontMatter};
 
-use std::env;
-use std::fs;
-use std::io::{self, prelude::*};
-use std::path;
+use std::{
+    env, fs,
+    io::{self, prelude::*},
+    path,
+};
 
 /// return command option
 /// return (dist, orig)

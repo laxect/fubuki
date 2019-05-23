@@ -1,7 +1,9 @@
-use crate::fetch_agent::{FetchAgent, Load};
-use crate::markdown::render_markdown;
-use crate::posts::PostList;
-use crate::utils::Page;
+use crate::{
+    fetch_agent::{FetchAgent, Load},
+    markdown::render_markdown,
+    posts::PostList,
+    utils::Page,
+};
 use yew::*;
 
 #[derive(PartialEq, Clone)]
