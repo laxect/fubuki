@@ -20,7 +20,7 @@ pub enum Change {
 
 pub struct Blog {
     page: Page,
-    router: Box<Bridge<Router>>,
+    router: Box<dyn Bridge<Router>>,
 }
 
 impl Component for Blog {

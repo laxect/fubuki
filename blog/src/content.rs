@@ -39,7 +39,7 @@ impl From<Load> for Msg {
 pub struct Content {
     page: Page,
     inner: Option<Load>,
-    fetch: Box<Bridge<FetchAgent>>,
+    fetch: Box<dyn Bridge<FetchAgent>>,
     on_change: Option<Callback<Page>>,
 }
 
