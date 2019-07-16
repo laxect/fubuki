@@ -7,6 +7,8 @@ pub struct Post {
     pub content: String,
 }
 
+const RIGHTS: &str = "© 2016 - 2019 gyara";
+
 impl Post {
     fn id(&self) -> String {
         format!(
@@ -35,7 +37,7 @@ impl From<Post> for Entry {
         link.set_href(post.id());
         link.set_rel("alternate");
         entry.set_links(vec![link]);
-        entry.set_rights("© 2017 gyara".to_string());
+        entry.set_rights(RIGHTS.to_string());
         entry.set_summary(post.front_matter.summary.clone());
         // content
         let mut content = Content::default();
@@ -85,7 +87,7 @@ fn gen_atom_feed() -> Feed {
     feed.set_id("https://blog.gyara.moe/");
     feed.set_generator(generator);
     feed.set_links(vec![link, pubsubhubbub]);
-    feed.set_rights("© 2019 gyara".to_string());
+    feed.set_rights(RIGHTS.to_string());
     feed.set_subtitle("gyara's studio".to_string());
     feed
 }
