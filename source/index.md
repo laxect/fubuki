@@ -1,6 +1,6 @@
 # Gyara Studio
 
-cyno __up__!
+## Pray for kyoani
 
 ---
 
