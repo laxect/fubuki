@@ -18,7 +18,7 @@ steps:
 - script: cargo install cargo-web
   displayName: 'install cargo web'
 
-- script: cargo tests
+- script: cargo test --all
   displayName: 'cargo test'
 
 - script: cargo web build -p blog --release
