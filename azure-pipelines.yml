@@ -17,7 +17,7 @@ stages:
       displayName: install rustup
     - script: rustup default nightly
       displayName: set nightly as default
-    - script: rustup update
+    - script: rustup update nightly
       displayName: update toolchain
     - script: cargo test -p posts_gen
       displayName: test post gen
@@ -33,7 +33,7 @@ stages:
       displayName: install rustup
     - script: rustup default nightly
       displayName: set nightly as default
-    - script: rustup update
+    - script: rustup update nightly
       displayName: update toolchain
     - script: cargo --version
       displayName: verify cargo version
