@@ -35,7 +35,5 @@ stages:
   - job: blog_test
     displayName: blog test
     steps:
-    - script: cargo install cargo-web
-      displayName: install cargo-web
-    - script: cargo web build -p blog --release
+    - script: cargo build --target wasm32-unknown-unknown
       displayName: try blog build
