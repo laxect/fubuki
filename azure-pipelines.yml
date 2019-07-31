@@ -6,36 +6,33 @@
 trigger:
 - dev
 
-stages:
-- stage: install_rust
-  displayName: install rust
-  jobs:
-  - job: install_rustup
-    displayName: install rustup
-    steps:
-    - script: curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
-      displayName: install rustup
-    - script: rustup default nightly
-      displayName: set nightly as default toolchain
-    - script: rustup toolchain list
-      displayName: verify install
-
 - stage: posts_gen_test
   displayName: blog test
   jobs:
   - job: test_post_gen
     displayName: test post gen
     steps:
+    - script: curl https://sh.rustup.rs -sSf | sh -s -- -y
+      displayName: install rustup
+    - script: rustup default nightly
+      displayName: set nightly as default
+    - script: rustup update
+      displayName: update toolchain
     - script: cargo test -p posts_gen
       displayName: test post gen
 
 - stage: blog_test
   displayName: blog test
-  dependsOn: install_rust
   jobs:
   - job: blog_test
     displayName: blog test
     steps:
+    - script: curl https://sh.rustup.rs -sSf | sh -s -- -y
+      displayName: install rustup
+    - script: rustup default nightly
+      displayName: set nightly as default
+    - script: rustup update
+      displayName: update toolchain
     - script: cargo --version
       displayName: verify cargo version
     - script: rustup toolchain list
