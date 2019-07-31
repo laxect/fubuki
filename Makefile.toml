@@ -35,8 +35,14 @@ workspace = false
 command = "node_modules\\.bin\\parcel.cmd"
 args = ["index.html"]
 
+[tasks.parcel_unix]
+workspace = false
+command = "node_modules/.bin/parcel"
+args = ["build", "index.html"]
+
 [tasks.parcel]
 workspace = false
 run_task = [
     { name = "parcel_win", condition = { platforms = ["windows"] } },
+    { name = "parcel_unix", condition = { platforms = ["mac", "linux"] } },
 ]
