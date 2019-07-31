@@ -7,7 +7,7 @@ trigger:
 - dev
 
 stages:
-- stage: install rust
+- stage: install_rust
   displayName: install rust
   jobs:
   - job: install_rustup
@@ -19,7 +19,7 @@ stages:
     - script: rustup toolchain list
       displayName: verify install
 
-- stage: post gen test
+- stage: posts_gen_test
   displayName: blog test
   jobs:
   - job: test_post_gen
@@ -28,9 +28,9 @@ stages:
     - script: cargo test -p posts_gen
       displayName: test post gen
 
-- stage: blog test
+- stage: blog_test
   displayName: blog test
-  dependsOn: install rust
+  dependsOn: install_rust
   jobs:
   - job: blog_test
     displayName: blog test
