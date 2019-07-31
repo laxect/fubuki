@@ -6,39 +6,36 @@
 trigger:
 - dev
 
-pool:
-  vmImage: 'ubuntu-latest'
-
 stages:
-- stage: 'install rust'
-  displayName: 'install rust'
+- stage: install rust
+  displayName: install rust
   jobs:
-  - job: 'install rustup'
-    displayName: 'install rustup'
+  - job: install_rustup
+    displayName: install rustup
     steps:
     - script: curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly
-      displayName: 'install rust - nightly'
+      displayName: install rust - nightly
 
     - script: rustup toolchain list
-      displayName: 'verify install'
+      displayName: verify install
 
-- stage: 'post gen test'
-  displayName: 'blog test'
+- stage: post gen test
+  displayName: blog test
   jobs:
-  - job: 'test post gen'
-    displayName: 'test post gen'
+  - job: test_post_gen
+    displayName: test post gen
     steps:
     - script: cargo test -p posts_gen
-      displayName: 'test post gen'
+      displayName: test post gen
 
-- stage: 'blog test'
-  displayName: 'blog test'
-  dependsOn: 'install rust'
+- stage: blog test
+  displayName: blog test
+  dependsOn: install rust
   jobs:
-  - job: 'blog test'
-    displayName: 'blog test'
+  - job: blog_test
+    displayName: blog test
     steps:
     - script: cargo install cargo-web
-      displayName: 'install cargo-web'
+      displayName: install cargo-web
     - script: cargo web build -p blog --release
-      displayName: 'try blog build'
+      displayName: try blog build
