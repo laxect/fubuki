@@ -6,6 +6,7 @@
 trigger:
 - dev
 
+stages:
 - stage: posts_gen_test
   displayName: blog test
   jobs:
