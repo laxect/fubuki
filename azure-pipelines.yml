@@ -24,6 +24,7 @@ stages:
 
 - stage: blog_test
   displayName: blog test
+  dependsOn: []
   jobs:
   - job: blog_test
     displayName: blog test
