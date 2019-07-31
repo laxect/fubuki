@@ -35,5 +35,7 @@ stages:
   - job: blog_test
     displayName: blog test
     steps:
+    - script: rustup target add wasm32-unknown-unknown
+      displayName: wasm target install
     - script: cargo build --target wasm32-unknown-unknown
       displayName: try blog build
