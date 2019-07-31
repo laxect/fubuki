@@ -105,7 +105,7 @@ impl Renderable<Content> for Content {
                         _ => vec![],
                     };
                     html! {
-                        <crate::posts::Posts: on_click=self.on_change.clone(), post_list=post_list, />
+                        <crate::posts::Posts: on_click=self.on_change.clone() post_list=post_list/>
                     }
                 }
                 _ => {
@@ -115,7 +115,7 @@ impl Renderable<Content> for Content {
                         _ => "",
                     };
                     html! {
-                        <main class=class, >
+                        <main class=class>
                             <article>{ render_markdown(&c) }</article>
                         </main>
                     }

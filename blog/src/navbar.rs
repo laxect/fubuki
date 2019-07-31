@@ -62,23 +62,23 @@ impl Renderable<NavBar> for NavBar {
             };
             if post && item == Page::Posts {
                 html! {
-                    <button class="nav-link active",
-                        onclick=|_| item.clone(), >
-                        <span class="mark", >{ "post" }</span>
-                        <span class="unmark", >{ "s" }</span>
+                    <button class="nav-link active"
+                        onclick=|_| item.clone()>
+                        <span class="mark">{ "post" }</span>
+                        <span class="unmark">{ "s" }</span>
                     </button>
                 }
             } else if item == self.page {
                 html! {
-                    <button class="nav-link active current",
-                        onclick=|_| item.clone(), >
+                    <button class="nav-link active current"
+                        onclick=|_| item.clone()>
                         { mark }
                     </button>
                 }
             } else {
                 html! {
-                    <button class="nav-link",
-                        onclick=|_| item.clone(), >
+                    <button class="nav-link"
+                        onclick=|_| item.clone()>
                         { mark }
                     </button>
                 }
@@ -86,7 +86,7 @@ impl Renderable<NavBar> for NavBar {
         };
         // nav bar
         html! {
-            <nav class="nav nav-bar", >
+            <nav class="nav nav-bar">
                 { link(Page::Index) }
                 { link(Page::Posts) }
                 { link(Page::Links) }
