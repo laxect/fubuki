@@ -9,17 +9,36 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- script: |
-      curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly
-      echo "##vso[task.setvariable variable=PATH;]$PATH:$HOME/.cargo/bin"
+stages:
+- stage: 'install rust'
   displayName: 'install rust'
+  jobs:
+  - job: 'install rustup'
+    displayName: 'install rustup'
+    steps:
+    - script: curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly
+      displayName: 'install rust - nightly'
 
-- script: cargo test -p posts_gen
-  displayName: 'cargo test post gen'
+    - script: rustup toolchain list
+      displayName: 'verify install'
 
-- script: cargo install cargo-web
-  displayName: 'install cargo web'
+- stage: 'post gen test'
+  displayName: 'blog test'
+  jobs:
+  - job: 'test post gen'
+    displayName: 'test post gen'
+    steps:
+    - script: cargo test -p posts_gen
+      displayName: 'test post gen'
 
-- script: cargo web build -p blog --release
-  displayName: 'blog build'
+- stage: 'blog test'
+  displayName: 'blog test'
+  dependsOn: 'install rust'
+  jobs:
+  - job: 'blog test'
+    displayName: 'blog test'
+    steps:
+    - script: cargo install cargo-web
+      displayName: 'install cargo-web'
+    - script: cargo web build -p blog --release
+      displayName: 'try blog build'
