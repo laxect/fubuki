@@ -36,6 +36,10 @@ stages:
   - job: blog_test
     displayName: blog test
     steps:
+    - script: cargo --version
+      displayName: verify cargo version
+    - script: rustup toolchain list
+      displayName: verify toolchain install
     - script: rustup target add wasm32-unknown-unknown
       displayName: wasm target install
     - script: cargo build --target wasm32-unknown-unknown
