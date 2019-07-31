@@ -13,9 +13,10 @@ stages:
   - job: install_rustup
     displayName: install rustup
     steps:
-    - script: curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly
-      displayName: install rust - nightly
-
+    - script: curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
+      displayName: install rustup
+    - script: rustup default nightly
+      displayName: set nightly as default toolchain
     - script: rustup toolchain list
       displayName: verify install
 
