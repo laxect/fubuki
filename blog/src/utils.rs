@@ -17,26 +17,25 @@ impl Page {
         match self {
             Page::Article(ref article) => {
                 title.push_str(article);
-                title
             }
             _ => {
                 title.push_str(&self.value());
-                title
             }
         }
+        title
     }
 
     pub fn value(&self) -> String {
         match self {
-            Page::Index => "index".into(),
             Page::Article(ref article) => {
                 let mut post = article.clone();
                 post.insert_str(0, "post/");
                 post
             }
-            Page::Posts => "posts".into(),
             Page::About => "about".into(),
+            Page::Index => "index".into(),
             Page::Links => "links".into(),
+            Page::Posts => "posts".into(),
         }
     }
 
@@ -60,10 +59,9 @@ impl Page {
 impl TryFrom<String> for Page {
     type Error = ();
 
-    fn try_from(input: String) -> Result<Page, Self::Error> {
+    fn try_from(mut input: String) -> Result<Page, Self::Error> {
         if input.starts_with("post/") {
-            let article = input.replacen("post/", "", 1);
-            return Ok(Page::Article(article));
+            return Ok(Page::Article(input.split_off(5)));
         }
         match input.as_str() {
             "" | "index" => Ok(Page::Index),
