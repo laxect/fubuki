@@ -1,7 +1,7 @@
 // article list component
 use crate::utils::Page;
 use serde_derive::{Deserialize, Serialize};
-use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
+use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender, Properties};
 
 #[derive(PartialEq, Clone, Deserialize, Serialize)]
 pub struct Post {
@@ -51,26 +51,18 @@ impl Msg {
     }
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct PostsStatus {
-    pub on_click: Option<Callback<Page>>,
+    #[props(required)]
+    pub on_click: Callback<Page>,
     pub post_list: Vec<Post>,
-}
-
-impl Default for PostsStatus {
-    fn default() -> PostsStatus {
-        PostsStatus {
-            on_click: None,
-            post_list: Vec::new(),
-        }
-    }
 }
 
 pub struct Posts {
     page_num: u32,
     page_count: u32,
     list: Vec<Post>,
-    on_click: Option<Callback<Page>>,
+    on_click: Callback<Page>,
 }
 
 impl Component for Posts {
@@ -105,9 +97,7 @@ impl Component for Posts {
                 }
             }
             Msg::Click(post) => {
-                if let Some(ref mut on_click) = self.on_click {
-                    on_click.emit(Page::Article(post));
-                }
+                self.on_click.emit(Page::Article(post));
                 false
             }
         }

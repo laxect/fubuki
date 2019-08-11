@@ -6,19 +6,12 @@ use crate::{
 };
 use yew::*;
 
-#[derive(PartialEq, Clone)]
+#[derive(PartialEq, Clone, Properties)]
 pub struct ContentStatus {
+    #[props(required)]
     pub page: Page,
-    pub on_change: Option<Callback<Page>>,
-}
-
-impl Default for ContentStatus {
-    fn default() -> ContentStatus {
-        ContentStatus {
-            page: Page::Index,
-            on_change: None,
-        }
-    }
+    #[props(required)]
+    pub on_change: Callback<Page>,
 }
 
 #[derive(PartialEq, Clone)]
@@ -40,7 +33,7 @@ pub struct Content {
     page: Page,
     inner: Option<Load>,
     fetch: Box<dyn Bridge<FetchAgent>>,
-    on_change: Option<Callback<Page>>,
+    on_change: Callback<Page>,
 }
 
 impl Content {
