@@ -12,12 +12,20 @@ use std::{
 
 /// return command option
 /// return (dist, orig)
-fn read_option() -> (String, String) {
+fn read_option() -> (String, String, bool) {
+    let mut will_pub = true;
     let mut args: Vec<String> = env::args().collect();
     args.remove(0);
+    if let Some(append) = args.last() {
+        if append == "--nopub" {
+            will_pub = false;
+            args.pop();
+        }
+    }
     (
         args.pop().unwrap_or_else(|| "dist".into()),
         args.pop().unwrap_or_else(|| "post".into()),
+        will_pub,
     )
 }
 
@@ -54,7 +62,7 @@ fn update_pubsubhubbub() -> reqwest::Result<reqwest::Response> {
 
 /// entry
 pub fn read_files() -> io::Result<()> {
-    let (dist, orig) = read_option();
+    let (dist, orig, will_pub) = read_option();
     println!("{} -> {}", orig, dist);
     let from = path::Path::new(&orig);
     assert!(from.exists(), "origin not exist!");
@@ -73,12 +81,14 @@ pub fn read_files() -> io::Result<()> {
     let mut atom_output = fs::File::create(feed)?;
     let atom_feed = atom::gather_posts(posts.clone());
     atom_output.write_all(atom_feed.to_string().as_bytes())?;
-    match update_pubsubhubbub() {
-        Err(e) => {
-            println!("## publish failed {}", e);
-        }
-        Ok(r) => {
-            println!("    {:?}", r);
+    if will_pub {
+        match update_pubsubhubbub() {
+            Err(e) => {
+                println!("## publish failed {}", e);
+            }
+            Ok(r) => {
+                println!("    {:?}", r);
+            }
         }
     }
     // get json
