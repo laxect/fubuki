@@ -1,24 +1,17 @@
 use crate::utils::Page;
-use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender};
+use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender, Properties};
 
-#[derive(PartialEq, Clone)]
+#[derive(PartialEq, Clone, Properties)]
 pub struct NavStatus {
+    #[props(required)]
     pub page: Page,
-    pub on_change: Option<Callback<Page>>,
-}
-
-impl Default for NavStatus {
-    fn default() -> NavStatus {
-        NavStatus {
-            page: Page::Index,
-            on_change: None,
-        }
-    }
+    #[props(required)]
+    pub on_change: Callback<Page>,
 }
 
 pub struct NavBar {
     page: Page,
-    on_change: Option<Callback<Page>>,
+    on_change: Callback<Page>,
 }
 
 impl Component for NavBar {
@@ -35,9 +28,7 @@ impl Component for NavBar {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         if msg != self.page {
             self.page = msg.clone();
-            if let Some(ref mut cb) = self.on_change {
-                cb.emit(msg);
-            }
+            self.on_change.emit(msg);
             true
         } else {
             false
