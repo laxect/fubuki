@@ -1,7 +1,7 @@
 // article list component
 use crate::utils::Page;
 use serde_derive::{Deserialize, Serialize};
-use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender, Properties};
+use yew::{html, Callback, Component, ComponentLink, Html, Properties, Renderable, ShouldRender};
 
 #[derive(PartialEq, Clone, Deserialize, Serialize)]
 pub struct Post {

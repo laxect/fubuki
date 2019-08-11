@@ -1,5 +1,5 @@
 use crate::utils::Page;
-use yew::{html, Callback, Component, ComponentLink, Html, Renderable, ShouldRender, Properties};
+use yew::{html, Callback, Component, ComponentLink, Html, Properties, Renderable, ShouldRender};
 
 #[derive(PartialEq, Clone, Properties)]
 pub struct NavStatus {
