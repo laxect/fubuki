@@ -1,10 +1,13 @@
 ### 朋友们
 
++ [igaryhe](https://blog.igaryhe.io/)
++ [ddddxxx](https://ddddxxx.github.io/)
+
+### 以前是朋友，现在不知道了
+
 + [yunyang088](https://blog.y01.me/)
 + [max](https://mmmmmax.cn/)
-+ [igaryhe](https://blog.igaryhe.io/)
 + [xixing](https://xixing.dev/)
-+ [ddddxxx](https://ddddxxx.github.io/)
 
 ### 这个网站使用了以下这些资源
 
