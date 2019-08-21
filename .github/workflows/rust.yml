@@ -15,3 +15,13 @@ jobs:
     - uses: actions/checkout@master
     - name: Run tests
       run: cargo test --verbose
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: nightly
+    - name: install rustfmt
+      run: rustup component add rustfmt
+    - name: fmt check
+      run: cargo fmt --all -- --check --verbose
