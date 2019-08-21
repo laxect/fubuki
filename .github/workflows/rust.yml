@@ -23,5 +23,6 @@ jobs:
         rust-version: nightly
     - name: install rustfmt
       run: rustup component add rustfmt
+    - uses: actions/checkout@master
     - name: fmt check
       run: cargo fmt --all -- --check --verbose
