@@ -2,9 +2,6 @@
 
 + [igaryhe](https://blog.igaryhe.io/)
 + [ddddxxx](https://ddddxxx.github.io/)
-
-### 以前是朋友，现在不知道
-
 + [yunyang088](https://blog.y01.me/)
 + [max](https://mmmmmax.cn/)
 + [xixing](https://xixing.dev/)
