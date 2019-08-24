@@ -187,8 +187,12 @@ main
             left: -0.5em
         display: grid
         grid:
-            template-columns: repeat(2, 3em)
+            template-columns: repeat(2, 4em)
             gap: 1.5em
+        button
+            border-top: solid $far-gray 0.2em
+            &:hover
+                border-top: solid $little_black 0.2em
     .post-title button
         padding: 0
         transform: perspective(1px) translateZ(0)

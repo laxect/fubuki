@@ -44,8 +44,8 @@ pub enum Msg {
 impl Msg {
     pub fn value(&self) -> &'static str {
         match self {
-            Msg::Prev => "Prev",
-            Msg::Next => "Next",
+            Msg::Prev => "← Prev",
+            Msg::Next => "Next →",
             _ => unreachable!(),
         }
     }
