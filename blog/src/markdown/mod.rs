@@ -89,18 +89,6 @@ where
                     };
                 }
             }
-            Event::InlineHtml(html) => {
-                if let HTag::Left(t_name) = HTag::from_str(html.as_ref()) {
-                    let mut v_tag = VTag::new(t_name);
-                    v_tag.add_class("inline-html");
-                    spine.push(v_tag);
-                } else {
-                    // tag::right and this is something in spine
-                    if let Some(node) = spine.pop() {
-                        add_child!(node);
-                    }
-                }
-            }
             Event::FootnoteReference(fnn) => {
                 let fr = format!("r:fr:{}", fnn); // self
                 let fd = format!("#r:fd:{}", fnn);
@@ -113,6 +101,10 @@ where
                 inner.add_child(VText::new(fnn.to_string()).into());
                 v_tag.add_child(inner.into());
                 add_child!(v_tag);
+            }
+            Event::Rule => {
+                let hr_tag = VTag::new("hr");
+                add_child!(hr_tag);
             }
         }
     }
@@ -132,12 +124,7 @@ where
 {
     match t {
         Tag::Paragraph => VTag::new("p"),
-        Tag::Rule => VTag::new("hr"),
-        Tag::Header(n) => {
-            assert!(n > 0);
-            assert!(n < 7);
-            VTag::new(format!("h{}", n))
-        }
+        Tag::Heading(n) => VTag::new(format!("h{}", n)),
         Tag::BlockQuote => {
             let mut el = VTag::new("blockquote");
             el.add_class("blockquote");
@@ -198,11 +185,6 @@ where
             inner.add_attribute("href", &fr);
             inner.add_child(VText::new(fnn.to_string()).into());
             el.add_child(inner.into());
-            el
-        }
-        Tag::HtmlBlock => {
-            let mut el = VTag::new("div");
-            el.add_class("html");
             el
         }
         Tag::Strikethrough => VTag::new("del"),
