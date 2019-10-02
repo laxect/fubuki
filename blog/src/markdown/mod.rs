@@ -17,20 +17,23 @@ where
 
     macro_rules! add_child {
         ($child:expr) => {{
-            if let Some(node) = spine.last_mut() {
+            if depth < 1 {
+                log::warn!("stack error");
+            } else if let Some(node) = spine.last_mut() {
                 node.add_child($child.into());
             }
         }};
     }
 
     for ev in Parser::new_ext(src, Options::all()) {
+        log::info!("e - {:?}", &ev);
         match ev {
             Event::Start(tag) => {
                 depth += 1;
                 spine.push(make_tag(tag));
             }
             Event::End(tag) => {
-                // there should be atleast one tag in spines
+                // there should be at least one tag in spines
                 // so just unwrap
                 let mut top = spine.pop().unwrap();
                 if let Tag::CodeBlock(_) = tag {
@@ -104,7 +107,11 @@ where
             }
             Event::Rule => {
                 let hr_tag = VTag::new("hr");
-                add_child!(hr_tag);
+                if depth > 1 {
+                    add_child!(hr_tag);
+                } else {
+                    spine.push(hr_tag);
+                }
             }
         }
     }
@@ -122,6 +129,7 @@ fn make_tag<COMP>(t: Tag) -> VTag<COMP>
 where
     COMP: Component,
 {
+    log::info!("t - {:?}", &t);
     match t {
         Tag::Paragraph => VTag::new("p"),
         Tag::Heading(n) => VTag::new(format!("h{}", n)),
