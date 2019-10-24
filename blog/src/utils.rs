@@ -33,7 +33,7 @@ impl Page {
                 post
             }
             Page::About => "about".into(),
-            Page::Index => "G.S.".into(),
+            Page::Index => "g.s.".into(),
             Page::Links => "links".into(),
             Page::Posts => "posts".into(),
         }
