@@ -33,7 +33,7 @@ impl Page {
                 post
             }
             Page::About => "about".into(),
-            Page::Index => "index".into(),
+            Page::Index => "G.S.".into(),
             Page::Links => "links".into(),
             Page::Posts => "posts".into(),
         }
@@ -42,6 +42,7 @@ impl Page {
     pub fn url(&self) -> String {
         let mut file = match self {
             Page::Article(ref article) => format!("/post/{}", article.clone()),
+            Page::Index => "index".into(),
             _ => self.value(),
         };
         file.push_str(".md");

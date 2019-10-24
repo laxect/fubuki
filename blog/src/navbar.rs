@@ -59,16 +59,16 @@ impl Renderable<NavBar> for NavBar {
                         <span class="unmark">{ "s" }</span>
                     </button>
                 }
-            } else if item == self.page {
-                html! {
-                    <button class="nav-link active current"
-                        onclick=|_| item.clone()>
-                        { mark }
-                    </button>
-                }
             } else {
+                let class = if item == Page::Index {
+                    "nav-brand"
+                } else if item == self.page {
+                    "nav-link active current"
+                } else {
+                    "nav-link"
+                };
                 html! {
-                    <button class="nav-link"
+                    <button class=class
                         onclick=|_| item.clone()>
                         { mark }
                     </button>
