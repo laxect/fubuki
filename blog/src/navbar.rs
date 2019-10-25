@@ -77,12 +77,16 @@ impl Renderable<NavBar> for NavBar {
         };
         // nav bar
         html! {
+            <>
             <nav class="nav nav-bar">
                 { link(Page::Index) }
-                { link(Page::Posts) }
-                { link(Page::Links) }
-                { link(Page::About) }
+                <div class="nav-bar-right">
+                    { link(Page::Posts) }
+                    { link(Page::Links) }
+                    { link(Page::About) }
+                </div>
             </nav>
+            </>
         }
     }
 }

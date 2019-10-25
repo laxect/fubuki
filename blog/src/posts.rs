@@ -152,7 +152,7 @@ impl Renderable<Posts> for Posts {
         html! {
             <main class="post-list">
                 { for (start..end).map(article) }
-                <nav class="nav post-nav">
+                <nav class="post-nav">
                     { link(Msg::Prev) }
                     { link(Msg::Next) }
                 </nav>

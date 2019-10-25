@@ -92,17 +92,23 @@ ol, ul
 nav
     font-family: 'iosevka ss09 web'
     &.nav-bar
-        --nav-item-width: 4em
-        --nav-gap: 0.5em
-        display: grid
-        grid:
-            template-columns: repeat(4, var(--nav-item-width))
-            gap: var(--nav-gap)
-        width: calc(var(--nav-item-width) * 4 + var(--nav-gap) * 3)
         margin-top: 1em
-        @media (min-width: 1036px)
-            right: 0
-            float: right
+        .nav-brand
+            background-color: gray
+            color: gray
+            &:hover
+                color: white
+        .nav-bar-right
+            --nav-item-width: 4em
+            --nav-gap: 0.5em
+            display: grid
+            grid:
+                template-columns: repeat(3, var(--nav-item-width))
+                gap: var(--nav-gap)
+            width: calc(var(--nav-item-width) * 3 + var(--nav-gap) * 2)
+            @media (min-width: 1036px)
+                right: 0
+                float: right
     button
         text-align: center
         padding: 0.4em 0
