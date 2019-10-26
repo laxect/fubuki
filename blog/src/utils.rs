@@ -33,7 +33,7 @@ impl Page {
                 post
             }
             Page::About => "about".into(),
-            Page::Index => "g.s.".into(),
+            Page::Index => "gs".into(),
             Page::Links => "links".into(),
             Page::Posts => "posts".into(),
         }
@@ -65,7 +65,7 @@ impl TryFrom<String> for Page {
             return Ok(Page::Article(input.split_off(5)));
         }
         match input.as_str() {
-            "" | "g.s." => Ok(Page::Index),
+            "" | "gs" => Ok(Page::Index),
             "posts" => Ok(Page::Posts),
             "about" => Ok(Page::About),
             "links" => Ok(Page::Links),

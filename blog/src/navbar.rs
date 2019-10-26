@@ -46,7 +46,11 @@ impl Renderable<NavBar> for NavBar {
     fn view(&self) -> Html<Self> {
         // link item
         let link = |item: Page| -> Html<Self> {
-            let mark = item.value();
+            let mark = if item != Page::Index {
+                item.value()
+            } else {
+                "g.s.".into()
+            };
             let mut post = false;
             if let Page::Article(_) = self.page {
                 post = true;
