@@ -148,13 +148,13 @@ impl Component for Posts {
         let start = self.page_num * 5;
         let end = std::cmp::min(start + 5, self.list.len() as u32);
         html! {
-            <main class="post-list">
+            <>
                 { for (start..end).map(article) }
                 <nav class="post-nav">
                     { link(Msg::Prev) }
                     { link(Msg::Next) }
                 </nav>
-            </main>
+            </>
         }
     }
 }

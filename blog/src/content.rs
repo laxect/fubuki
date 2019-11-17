@@ -96,7 +96,9 @@ impl Component for Content {
                         _ => vec![],
                     };
                     html! {
-                        <crate::posts::Posts: on_click=self.on_change.clone() post_list=post_list/>
+                        <main class="post-list">
+                            <crate::posts::Posts: on_click=self.on_change.clone() post_list=post_list/>
+                        </main>
                     }
                 }
                 _ => {
