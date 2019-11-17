@@ -117,7 +117,7 @@ where
     }
 
     if spine.len() == 1 {
-        VNode::VTag(spine.pop().unwrap())
+        VNode::VTag(Box::new(spine.pop().unwrap()))
     } else {
         html! {
             <section>{ for spine.into_iter() }</section>

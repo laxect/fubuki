@@ -1,7 +1,7 @@
 // article list component
 use crate::utils::Page;
 use serde_derive::{Deserialize, Serialize};
-use yew::{html, Callback, Component, ComponentLink, Html, Properties, Renderable, ShouldRender};
+use yew::{html, Callback, Component, ComponentLink, Html, Properties, ShouldRender};
 
 #[derive(PartialEq, Clone, Deserialize, Serialize)]
 pub struct Post {
@@ -109,9 +109,7 @@ impl Component for Posts {
         self.list = prop.post_list;
         true
     }
-}
 
-impl Renderable<Posts> for Posts {
     fn view(&self) -> Html<Self> {
         // article item
         let article = |ind| -> Html<Self> {

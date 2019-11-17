@@ -1,6 +1,5 @@
 use serde_derive::{Deserialize, Serialize};
 use stdweb::unstable::TryFrom;
-use yew::agent::Transferable;
 
 #[derive(PartialEq, Clone, Serialize, Deserialize)]
 pub enum Page {
@@ -73,5 +72,3 @@ impl TryFrom<String> for Page {
         }
     }
 }
-
-impl Transferable for Page {}

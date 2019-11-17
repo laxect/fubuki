@@ -29,8 +29,6 @@ impl From<Msg> for Load {
     }
 }
 
-impl yew::agent::Transferable for Load {}
-
 pub struct Cache {
     inner: StorageService,
 }

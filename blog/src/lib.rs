@@ -54,9 +54,7 @@ impl Component for Blog {
             false
         }
     }
-}
 
-impl Renderable<Blog> for Blog {
     fn view(&self) -> Html<Self> {
         html! {
             <>

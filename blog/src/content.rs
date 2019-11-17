@@ -81,9 +81,7 @@ impl Component for Content {
         }
         false
     }
-}
 
-impl Renderable<Content> for Content {
     fn view(&self) -> Html<Self> {
         if self.inner.is_none() {
             html! {

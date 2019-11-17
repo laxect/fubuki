@@ -16,8 +16,6 @@ pub enum Request {
     Goto(Page),
 }
 
-impl Transferable for Request {}
-
 pub struct Router {
     history: History,
     location: Location,
