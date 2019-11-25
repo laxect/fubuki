@@ -7,7 +7,7 @@ edition = "2018"
 [dependencies]
 failure = "0.1.6"
 serde = "1.0.102"
-serde_derive = "1.0.102"
+serde_derive = "1.0.103"
 stdweb = "0.4.20"
 yew = "0.10.0"
 pulldown-cmark = { version = "0.6.1", default-features = false }
