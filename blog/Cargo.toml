@@ -11,6 +11,6 @@ serde_derive = "1.0.103"
 stdweb = "0.4.20"
 yew = "0.10.0"
 pulldown-cmark = { version = "0.6.1", default-features = false }
-serde_json = "1.0.43"
+serde_json = "1.0.44"
 log = "0.4.8"
 web_logger = "0.2.0"
