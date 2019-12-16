@@ -6,7 +6,7 @@ edition = "2018"
 
 [dependencies]
 failure = "0.1.6"
-serde = "1.0.103"
+serde = "1.0.104"
 serde_derive = "1.0.103"
 stdweb = "0.4.20"
 yew = "0.10.0"
