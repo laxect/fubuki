@@ -7,7 +7,7 @@ pub struct Post {
     pub content: String,
 }
 
-const RIGHTS: &str = "© 2016 - 2019 gyara";
+const RIGHTS: &str = "© 2016 - 2020 gyara";
 
 impl Post {
     fn id(&self) -> String {
@@ -29,8 +29,8 @@ impl From<Post> for Entry {
         entry.set_id(post.id());
         // updated
         let updated = post.updated();
-        entry.set_updated(updated.clone());
-        entry.set_published(updated);
+        entry.set_updated(FixedDateTime::parse_from_rfc3339(&updated).unwrap());
+        entry.set_published(FixedDateTime::parse_from_rfc3339(&updated).unwrap());
         entry.set_authors(vec![get_me()]);
         // link
         let mut link = Link::default();
@@ -96,7 +96,7 @@ pub fn gather_posts(posts: Vec<Post>) -> Feed {
     let mut feed = gen_atom_feed();
     let entrys: Vec<Entry> = posts.into_iter().map(std::convert::Into::into).collect();
     if let Some(entry) = entrys.first() {
-        feed.set_updated(entry.updated());
+        feed.set_updated(entry.updated().clone());
     }
     feed.set_entries(entrys);
     feed
