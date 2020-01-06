@@ -63,18 +63,20 @@ pub struct Posts {
     page_count: u32,
     list: Vec<Post>,
     on_click: Callback<Page>,
+    link: ComponentLink<Self>,
 }
 
 impl Component for Posts {
     type Message = Msg;
     type Properties = PostsStatus;
 
-    fn create(prop: Self::Properties, _link: ComponentLink<Self>) -> Self {
+    fn create(prop: Self::Properties, link: ComponentLink<Self>) -> Self {
         Posts {
             page_num: 0,
             page_count: (prop.post_list.len() as u32 + 4) / 5,
             list: prop.post_list,
             on_click: prop.on_click,
+            link
         }
     }
 
@@ -110,15 +112,16 @@ impl Component for Posts {
         true
     }
 
-    fn view(&self) -> Html<Self> {
+    fn view(&self) -> Html {
         // article item
-        let article = |ind| -> Html<Self> {
+        let article = |ind| -> Html {
             let post = &self.list[ind as usize];
             let url = post.url.clone();
+            let on_click_top = self.link.callback(|_| Msg::Click(url.clone()));
             html! {
                 <article>
                     <h2 class="post-title">
-                        <button class="post-title" onclick=|_| Msg::Click(url.clone())>{ &post.title }</button>
+                        <button class="post-title" onclick=on_click_top>{ &post.title }</button>
                     </h2>
                     <p>{ &post.summary }</p>
                     <small><time>{ &post.date }</time><span class="category">{ &post.category }</span></small>
@@ -126,7 +129,7 @@ impl Component for Posts {
             }
         };
         // pagnation link item
-        let link = |item: Msg| -> Html<Self> {
+        let link = |item: Msg| -> Html {
             let disabled = match item {
                 Msg::Next => self.page_num + 1 >= self.page_count,
                 Msg::Prev => self.page_num == 0,
@@ -138,9 +141,10 @@ impl Component for Posts {
             } else {
                 "btn btn-post"
             };
+            let on_click = self.link.callback(|_| item.clone());
             html! {
                 <button class=class
-                    onclick=|_| item.clone()>
+                    onclick=on_click>
                     { mark }
                 </button>
             }

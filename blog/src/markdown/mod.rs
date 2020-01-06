@@ -8,9 +8,7 @@ use yew::{
     Component, Html,
 };
 
-pub fn render_markdown<COMP>(src: &str) -> Html<COMP>
-where
-    COMP: Component,
+pub fn render_markdown(src: &str) -> Html
 {
     let mut depth: u32 = 0; // virtal stack
     let mut spine = Vec::new();
@@ -125,9 +123,7 @@ where
     }
 }
 
-fn make_tag<COMP>(t: Tag) -> VTag<COMP>
-where
-    COMP: Component,
+fn make_tag(t: Tag) -> VTag
 {
     log::info!("t - {:?}", &t);
     match t {

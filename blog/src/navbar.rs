@@ -12,16 +12,18 @@ pub struct NavStatus {
 pub struct NavBar {
     page: Page,
     on_change: Callback<Page>,
+    link: ComponentLink<Self>,
 }
 
 impl Component for NavBar {
     type Message = Page;
     type Properties = NavStatus;
 
-    fn create(prop: Self::Properties, _: ComponentLink<Self>) -> Self {
+    fn create(prop: Self::Properties, link: ComponentLink<Self>) -> Self {
         NavBar {
             page: prop.page,
             on_change: prop.on_change,
+            link
         }
     }
 
@@ -41,9 +43,9 @@ impl Component for NavBar {
         true
     }
 
-    fn view(&self) -> Html<Self> {
+    fn view(&self) -> Html {
         // link item
-        let link = |item: Page| -> Html<Self> {
+        let link = |item: Page| -> Html {
             let mark = if item != Page::Index {
                 item.value()
             } else {
@@ -53,10 +55,11 @@ impl Component for NavBar {
             if let Page::Article(_) = self.page {
                 post = true;
             };
+            let on_click = self.link.callback(|_| item.clone());
             if post && item == Page::Posts {
                 html! {
                     <button class="nav-link active"
-                        onclick=|_| item.clone()>
+                        onclick=on_click>
                         <span class="mark">{ "post" }</span>
                         <span class="unmark">{ "s" }</span>
                     </button>
@@ -71,7 +74,7 @@ impl Component for NavBar {
                 };
                 html! {
                     <button class=class
-                        onclick=|_| item.clone()>
+                        onclick=on_click>
                         { mark }
                     </button>
                 }

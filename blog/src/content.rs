@@ -57,7 +57,7 @@ impl Component for Content {
     type Properties = ContentStatus;
 
     fn create(props: Self::Properties, mut link: ComponentLink<Self>) -> Self {
-        let callback = link.send_back(Msg::from);
+        let callback = link.callback(Msg::from);
         let mut fetch_agent = FetchAgent::bridge(callback);
         fetch_agent.send(props.page.clone());
         Content {
@@ -82,7 +82,7 @@ impl Component for Content {
         false
     }
 
-    fn view(&self) -> Html<Self> {
+    fn view(&self) -> Html {
         if self.inner.is_none() {
             html! {
                 <main>

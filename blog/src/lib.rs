@@ -21,6 +21,7 @@ pub enum Change {
 pub struct Blog {
     page: Page,
     router: Box<dyn Bridge<Router>>,
+    link: ComponentLink<Self>
 }
 
 impl Component for Blog {
@@ -28,12 +29,13 @@ impl Component for Blog {
     type Properties = ();
 
     fn create(_: Self::Properties, mut link: ComponentLink<Self>) -> Self {
-        let cb = link.send_back(Change::NavTo);
+        let cb = link.callback(Change::NavTo);
         let mut router = Router::bridge(cb);
         router.send(Request::Where);
         Blog {
             page: Page::Index,
             router,
+            link,
         }
     }
 
@@ -55,13 +57,14 @@ impl Component for Blog {
         }
     }
 
-    fn view(&self) -> Html<Self> {
+    fn view(&self) -> Html {
+        let on_change = self.link.callback(Change::Click);
         html! {
             <>
                 <NavBar: page=self.page.clone()
-                    on_change=Change::Click/>
+                    on_change=on_change/>
                 <Content: page=self.page.clone()
-                    on_change=Change::Click/>
+                    on_change=on_change/>
                 <footer>
                     <p>{ "このブログ記事は" }<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja">{ "クリエイティブ・コモンズ 表示-継承ライセンス" }</a>{ "の下で利用可能です" }</p>
                 </footer>

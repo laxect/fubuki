@@ -47,7 +47,7 @@ impl FetchAgent {
         } else {
             target.url()
         };
-        let cb = self.link.send_back(|x| x);
+        let cb = self.link.callback(|x| x);
         let req = Request::get(url)
             .header("Cache-Control", "max-age=120")
             .body(Nothing)
@@ -81,16 +81,16 @@ impl Agent for FetchAgent {
     fn update(&mut self, msg: Self::Message) {
         self.cache.set(&self.current_target.take().unwrap(), &msg);
         if let Some(who) = self.who {
-            self.link.response(who, msg.clone());
+            self.link.respond(who, msg.clone());
         }
         self.task = None;
     }
 
-    fn handle(&mut self, input: Self::Input, who: HandlerId) {
+    fn handle_input(&mut self, input: Self::Input, who: HandlerId) {
         self.who = Some(who);
         if let Some(cc) = self.cache.get(&input) {
             // cache response
-            self.link.response(who, cc);
+            self.link.respond(who, cc);
         }
         self.load(input);
     }

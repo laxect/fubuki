@@ -26,7 +26,7 @@ pub struct Router {
 
 impl Router {
     pub fn register_callback(&mut self) {
-        let cb = self.link.send_back(|x| x);
+        let cb = self.link.callback(|x| x);
         self.event_listener = Some(window().add_event_listener(move |event: PopStateEvent| {
             let state_value: Value = event.state();
             if let Ok(state) = String::try_from(state_value) {
@@ -92,15 +92,15 @@ impl Agent for Router {
 
     fn update(&mut self, page: Self::Message) {
         if let Some(who) = self.who {
-            self.link.response(who, page);
+            self.link.respond(who, page);
         }
     }
 
-    fn handle(&mut self, msg: Self::Input, who: HandlerId) {
+    fn handle_input(&mut self, msg: Self::Input, who: HandlerId) {
         self.who = Some(who);
         match msg {
             Request::Where => {
-                self.link.response(who, self.get_path());
+                self.link.respond(who, self.get_path());
             }
             Request::Goto(page) => {
                 self.set_route(page);
