@@ -1,5 +1,6 @@
 use crate::{content::Msg, posts::PostList, Page};
 use serde_derive::{Deserialize, Serialize};
+use stdweb::js;
 use yew::{format::Json, services::StorageService};
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -34,10 +35,26 @@ pub struct Cache {
 }
 
 impl Cache {
+    pub fn clear() {
+        let store = stdweb::web::window().local_storage();
+        store.clear();
+    }
+
     pub fn new() -> Cache {
-        Cache {
-            inner: StorageService::new(yew::services::storage::Area::Local),
+        let mut inner = StorageService::new(yew::services::storage::Area::Local);
+        let key = "build_version";
+        let version = std::env!("CARGO_PKG_VERSION");
+        if let Ok(cache_version) = inner.restore(key) {
+            if cache_version != version {
+                inner.remove("");
+                Self::clear();
+                inner.store(key, Ok(version.to_string()));
+            }
+        } else {
+            Self::clear();
+            inner.store(key, Ok(version.to_string()));
         }
+        Cache { inner }
     }
 
     pub fn get(&mut self, page: &Page) -> Option<Load> {
