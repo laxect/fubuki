@@ -40,12 +40,12 @@ impl Cache {
         let version = std::env!("CARGO_PKG_VERSION").to_string();
         if let Some(cache_version) = store.get(key) {
             if cache_version != version {
-                store.insert(key, &version).unwrap();
                 store.clear();
+                store.insert(key, &version).unwrap();
             }
         } else {
-            store.insert(key, &version).unwrap();
             store.clear();
+            store.insert(key, &version).unwrap();
         }
     }
 
