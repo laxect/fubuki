@@ -5,11 +5,10 @@ use pulldown_cmark::{Event, Options, Parser, Tag};
 use yew::{
     html,
     virtual_dom::{VNode, VTag, VText},
-    Component, Html,
+    Html,
 };
 
-pub fn render_markdown(src: &str) -> Html
-{
+pub fn render_markdown(src: &str) -> Html {
     let mut depth: u32 = 0; // virtal stack
     let mut spine = Vec::new();
 
@@ -123,8 +122,7 @@ pub fn render_markdown(src: &str) -> Html
     }
 }
 
-fn make_tag(t: Tag) -> VTag
-{
+fn make_tag(t: Tag) -> VTag {
     log::info!("t - {:?}", &t);
     match t {
         Tag::Paragraph => VTag::new("p"),

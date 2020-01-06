@@ -23,7 +23,7 @@ impl Component for NavBar {
         NavBar {
             page: prop.page,
             on_change: prop.on_change,
-            link
+            link,
         }
     }
 

@@ -56,7 +56,7 @@ impl Component for Content {
     type Message = Msg;
     type Properties = ContentStatus;
 
-    fn create(props: Self::Properties, mut link: ComponentLink<Self>) -> Self {
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         let callback = link.callback(Msg::from);
         let mut fetch_agent = FetchAgent::bridge(callback);
         fetch_agent.send(props.page.clone());

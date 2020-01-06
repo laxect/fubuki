@@ -76,7 +76,7 @@ impl Component for Posts {
             page_count: (prop.post_list.len() as u32 + 4) / 5,
             list: prop.post_list,
             on_click: prop.on_click,
-            link
+            link,
         }
     }
 

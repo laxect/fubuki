@@ -21,14 +21,14 @@ pub enum Change {
 pub struct Blog {
     page: Page,
     router: Box<dyn Bridge<Router>>,
-    link: ComponentLink<Self>
+    link: ComponentLink<Self>,
 }
 
 impl Component for Blog {
     type Message = Change;
     type Properties = ();
 
-    fn create(_: Self::Properties, mut link: ComponentLink<Self>) -> Self {
+    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         let cb = link.callback(Change::NavTo);
         let mut router = Router::bridge(cb);
         router.send(Request::Where);
