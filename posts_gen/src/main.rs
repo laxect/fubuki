@@ -15,7 +15,7 @@ pub async fn main() -> Result<(), reqwest::Error> {
             }
         };
     });
-    task_files.await;
-    task_pub.await;
+    task_files.await.expect("task files failed");
+    task_pub.await.expect("task pub failed");
     Ok(())
 }
