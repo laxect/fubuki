@@ -62,7 +62,7 @@ impl Component for Blog {
         html! {
             <>
                 <NavBar: page=self.page.clone()
-                    on_change=on_change/>
+                    on_change=on_change.clone()/>
                 <Content: page=self.page.clone()
                     on_change=on_change/>
                 <footer>

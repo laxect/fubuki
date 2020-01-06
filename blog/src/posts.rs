@@ -117,7 +117,7 @@ impl Component for Posts {
         let article = |ind| -> Html {
             let post = &self.list[ind as usize];
             let url = post.url.clone();
-            let on_click_top = self.link.callback(|_| Msg::Click(url.clone()));
+            let on_click_top = self.link.callback(move |_| Msg::Click(url.clone()));
             html! {
                 <article>
                     <h2 class="post-title">
@@ -141,7 +141,7 @@ impl Component for Posts {
             } else {
                 "btn btn-post"
             };
-            let on_click = self.link.callback(|_| item.clone());
+            let on_click = self.link.callback(move |_| item.clone());
             html! {
                 <button class=class
                     onclick=on_click>

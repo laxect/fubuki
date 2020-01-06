@@ -55,7 +55,8 @@ impl Component for NavBar {
             if let Page::Article(_) = self.page {
                 post = true;
             };
-            let on_click = self.link.callback(|_| item.clone());
+            let move_item = item.clone();
+            let on_click = self.link.callback(move |_| move_item.clone());
             if post && item == Page::Posts {
                 html! {
                     <button class="nav-link active"
