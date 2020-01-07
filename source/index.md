@@ -1,5 +1,5 @@
 
-![](https://i.pximg.net/img-original/img/2019/12/27/23/13/37/78517232_p0.jpg)
+![](https://storage.googleapis.com/blog_gyara/img/%E3%81%BE%E3%82%82%E3%81%AA%E3%81%8F%E5%87%BA%E8%88%AA.jpg)
 
 ---
 
