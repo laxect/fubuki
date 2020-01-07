@@ -67,6 +67,7 @@ impl Component for Blog {
                     on_change=on_change/>
                 <footer>
                     <p>{ "このブログ記事は" }<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja">{ "クリエイティブ・コモンズ 表示-継承ライセンス" }</a>{ "の下で利用可能です" }</p>
+                    <p>{ ["ビルドバージョン：", std::env!("CARGO_PKG_VERSION")].concat() }</p>
                 </footer>
             </>
         }
