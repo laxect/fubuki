@@ -8,7 +8,7 @@
   "private": true,
   "dependencies": {
     "han-css": "^3.3.0",
-    "sass": "^1.24.3"
+    "sass": "^1.24.4"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.4",
