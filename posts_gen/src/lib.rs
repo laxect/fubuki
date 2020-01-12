@@ -3,6 +3,7 @@ mod date;
 mod front_matter;
 
 use crate::{atom::Post, front_matter::FrontMatter};
+use serde::{Deserialize, Serialize};
 
 use std::{
     env, fs,
@@ -40,17 +41,25 @@ fn file_handle(entry: &fs::DirEntry) -> io::Result<Post> {
     }
 }
 
+#[derive(Deserialize, Serialize)]
+struct PubSubForm {
+    #[serde(rename = "hub.mode")]
+    pub mode: &'static str,
+    #[serde(rename = "hub.url")]
+    pub url: &'static str,
+}
+
 /// update pubsubhubbub
-pub async fn update_pubsubhubbub() -> reqwest::Result<reqwest::Response> {
-    let mut body = std::collections::HashMap::new();
-    body.insert("hub.mode", "publish");
-    body.insert("hub.url", "https://blog.gyara.moe/atom.xml");
-    let client = reqwest::Client::new();
-    client
-        .post("https://pubsubhubbub.appspot.com/")
-        .form(&body)
-        .send()
-        .await
+pub async fn update_pubsubhubbub() -> Result<String, surf::Exception> {
+    let body = PubSubForm {
+        mode: "publish",
+        url: "https://blog.gyara.moe/atom.xml",
+    };
+    let publish_result = surf::post("https://pubsubhubbub.appspot.com/")
+        .body_form(&body)?
+        .recv_string()
+        .await?;
+    Ok(publish_result)
 }
 
 /// entry

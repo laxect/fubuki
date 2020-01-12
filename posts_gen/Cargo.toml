@@ -5,12 +5,22 @@ authors = ["Gyara <me@gyara.moe>"]
 edition = "2018"
 
 [dependencies]
-serde = "1.0.104"
-serde_derive = "1.0.103"
+serde_derive = "1.0.104"
 serde_json = "1.0.44"
 serde_yaml = "0.8.11"
-pulldown-cmark = { version = "0.6.1", default-features = false, features = ["simd"] }
 atom_syndication = "0.7.0"
 htmlescape = "0.3.1"
-reqwest = { version = "0.10.1", features = ["rustls-tls"] }
-tokio = { version = "0.2.9", features = ["macros", "rt-core"] }
+surf = "1.0.3"
+
+[dependencies.serde]
+version = "1.0.104"
+features = ["derive"]
+
+[dependencies.async-std]
+version = "1.4.0"
+features = ["attributes"]
+
+[dependencies.pulldown-cmark]
+version = "0.6.1"
+default-features = false
+features = ["simd"]
