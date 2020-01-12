@@ -1,5 +1,5 @@
 
-![](https://storage.googleapis.com/blog_gyara/img/%E3%81%BE%E3%82%82%E3%81%AA%E3%81%8F%E5%87%BA%E8%88%AA.jpg)
+[![まもなく出航](https://storage.googleapis.com/blog_gyara/img/%E3%81%BE%E3%82%82%E3%81%AA%E3%81%8F%E5%87%BA%E8%88%AA.jpg)](https://www.pixiv.net/artworks/78517232)
 
 ---
 
