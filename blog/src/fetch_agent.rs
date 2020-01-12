@@ -1,6 +1,7 @@
 pub use crate::cache::{Cache, Load};
 use crate::{posts::PostList, utils::Page};
 use failure::Error;
+use std::time::{SystemTime, UNIX_EPOCH};
 use yew::{
     format::Nothing,
     services::fetch::{FetchService, FetchTask, Request, Response},
@@ -42,11 +43,17 @@ impl FetchAgent {
     }
 
     pub fn load(&mut self, target: Page) {
-        let url = if target == Page::Posts {
+        let mut url = if target == Page::Posts {
             "posts.json".into()
         } else {
             target.url()
         };
+        // avoid cache
+        url.push('?');
+        // get unix timestamp
+        let now = SystemTime::now();
+        let since_the_epoch = now.duration_since(UNIX_EPOCH).expect("time wrap!");
+        url.push_str(&since_the_epoch.as_secs().to_string());
         let cb = self.link.callback(|x| x);
         let req = Request::get(url)
             .header("Cache-Control", "max-age=120")
@@ -91,7 +98,9 @@ impl Agent for FetchAgent {
         if let Some(cc) = self.cache.get(&input) {
             // cache response
             self.link.respond(who, cc);
+        } else {
+            // only load when no cache
+            self.load(input);
         }
-        self.load(input);
     }
 }
