@@ -43,12 +43,11 @@ impl FetchAgent {
 
     pub fn load(&mut self, target: Page) {
         let mut url = if target == Page::Posts {
-            "posts.json".into()
+            "/posts.json".into()
         } else {
             target.url()
         };
         // avoid cache
-        url.insert(0, '/');
         url.push('?');
         // get rand u8
         let mut end = [0u8; 1];
