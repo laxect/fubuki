@@ -55,7 +55,6 @@ impl FetchAgent {
         getrandom::getrandom(&mut end).unwrap();
         let [end] = end;
         url.push_str(&end.to_string());
-        stdweb::console!(log, &url);
         let cb = self.link.callback(|x| x);
         let req = Request::get(url)
             .header("Cache-Control", "max-age=120")
