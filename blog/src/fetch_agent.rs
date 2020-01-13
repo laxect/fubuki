@@ -1,7 +1,6 @@
 pub use crate::cache::{Cache, Load};
 use crate::{posts::PostList, utils::Page};
 use failure::Error;
-use std::time::{SystemTime, UNIX_EPOCH};
 use yew::{
     format::Nothing,
     services::fetch::{FetchService, FetchTask, Request, Response},
@@ -49,11 +48,14 @@ impl FetchAgent {
             target.url()
         };
         // avoid cache
+        url.insert(0, '/');
         url.push('?');
-        // get unix timestamp
-        let now = SystemTime::now();
-        let since_the_epoch = now.duration_since(UNIX_EPOCH).expect("time wrap!");
-        url.push_str(&since_the_epoch.as_secs().to_string());
+        // get rand u8
+        let mut end = [0u8; 1];
+        getrandom::getrandom(&mut end).unwrap();
+        let [end] = end;
+        url.push_str(&end.to_string());
+        stdweb::console!(log, &url);
         let cb = self.link.callback(|x| x);
         let req = Request::get(url)
             .header("Cache-Control", "max-age=120")
