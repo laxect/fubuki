@@ -107,7 +107,7 @@ impl Agent for FetchAgent {
     }
 }
 
-#[cfg(test)] 
+#[cfg(test)]
 mod fetch_agent_tests {
     use super::*;
     #[test]
