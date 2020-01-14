@@ -1,6 +1,6 @@
 [package]
 name = "blog"
-version = "0.5.7"
+version = "0.5.8"
 authors = ["Gyara <me@gyara.moe>"]
 edition = "2018"
 

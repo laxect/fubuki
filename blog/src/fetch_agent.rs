@@ -41,6 +41,13 @@ impl FetchAgent {
         }
     }
 
+    pub fn random_link(url: &mut String) {
+        let mut end = [0u8; 1];
+        getrandom::getrandom(&mut end).unwrap();
+        let append = format!("?{}", end[0]);
+        url.push_str(&append);
+    }
+
     pub fn load(&mut self, target: Page) {
         let mut url = if target == Page::Posts {
             "/posts.json".into()
@@ -48,12 +55,7 @@ impl FetchAgent {
             target.url()
         };
         // avoid cache
-        url.push('?');
-        // get rand u8
-        let mut end = [0u8; 1];
-        getrandom::getrandom(&mut end).unwrap();
-        let [end] = end;
-        url.push_str(&end.to_string());
+        Self::random_link(&mut url);
         let cb = self.link.callback(|x| x);
         let req = Request::get(url)
             .header("Cache-Control", "max-age=120")
@@ -102,5 +104,19 @@ impl Agent for FetchAgent {
             // only load when no cache
             self.load(input);
         }
+    }
+}
+
+#[cfg(test)] 
+mod fetch_agent_tests {
+    use super::*;
+    #[test]
+    fn random_link_test() {
+        let mut url = "/index.md".to_string();
+        let mid = url.len() + 1;
+        FetchAgent::random_link(&mut url);
+        let (front, end) = url.split_at(mid);
+        assert_eq!(front, "/index.md?");
+        let _end_num: u8 = end.parse().unwrap();
     }
 }
