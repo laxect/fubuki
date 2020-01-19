@@ -36,7 +36,7 @@ impl Router {
                 eprintln!("Nothing farther back in history, not calling routing callback.");
             }
         }) as Box<dyn FnMut(PopStateEvent)>);
-        window()
+        let _ = window()
             .unwrap()
             .add_event_listener_with_callback("popstate", handle.as_ref().unchecked_ref());
     }
@@ -44,7 +44,7 @@ impl Router {
     fn set_route(&mut self, page: Page) {
         let mut route = page.value();
         route.insert_str(0, "/");
-        self.history.push_state_with_url(
+        let _ = self.history.push_state_with_url(
             &(page.value().into()),
             &page.title(),
             Some(route.as_str()),
@@ -75,7 +75,7 @@ impl Router {
     }
 
     fn reload(&self, forced_reload: bool) {
-        self.location.reload_with_forceget(forced_reload);
+        let _ = self.location.reload_with_forceget(forced_reload);
     }
 }
 
