@@ -84,34 +84,33 @@ impl Component for Content {
 
     fn view(&self) -> Html {
         if self.inner.is_none() {
-            html! {
+            return html! {
                 <main>
                 </main>
-            }
-        } else {
-            match self.page {
-                Page::Posts => {
-                    let post_list = match self.inner.clone() {
-                        Some(Load::Posts(list)) => list,
-                        _ => vec![],
-                    };
-                    html! {
-                        <main class="post-list">
-                            <crate::posts::Posts: on_click=self.on_change.clone() post_list=post_list/>
-                        </main>
-                    }
+            };
+        }
+        match self.page {
+            Page::Posts => {
+                let post_list = match self.inner.clone() {
+                    Some(Load::Posts(post_list)) => post_list,
+                    _ => Vec::new(),
+                };
+                html! {
+                    <main class="post-list">
+                        <crate::posts::Posts: on_click=self.on_change.clone() post_list=post_list/>
+                    </main>
                 }
-                _ => {
-                    let c = self.inner().unwrap();
-                    let class = match self.page {
-                        Page::Article(_) => "post",
-                        _ => "",
-                    };
-                    html! {
-                        <main class=class>
-                            <article>{ render_markdown(&c) }</article>
-                        </main>
-                    }
+            }
+            _ => {
+                let c = self.inner().unwrap();
+                let class = match self.page {
+                    Page::Article(_) => "post",
+                    _ => "",
+                };
+                html! {
+                    <main class=class>
+                        <article>{ render_markdown(&c) }</article>
+                    </main>
                 }
             }
         }
