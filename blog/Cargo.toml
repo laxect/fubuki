@@ -4,14 +4,21 @@ version = "0.5.7"
 authors = ["Gyara <me@gyara.moe>"]
 edition = "2018"
 
+[lib]
+crate-type = ["dylib", "rlib"]
+
 [dependencies]
 failure = "0.1.6"
 serde_derive = "1.0.104"
-stdweb = "0.4.20"
 yew = "0.11.0"
 serde_json = "1.0.44"
 log = "0.4.8"
 web_logger = "0.2.0"
+wasm-bindgen = "0.2.58"
+
+[dependencies.web-sys]
+version = "0.3.35"
+features = ["Location", "Window", "History", "EventTarget", "PopStateEvent", "Document"]
 
 [dependencies.serde]
 version = "1.0.104"

@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use stdweb::unstable::TryFrom;
+use std::convert::TryFrom;
 
 #[derive(PartialEq, Clone, Serialize, Deserialize)]
 pub enum Page {

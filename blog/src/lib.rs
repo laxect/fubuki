@@ -1,7 +1,6 @@
 mod cache;
 mod content;
 mod fetch_agent;
-mod location;
 mod markdown;
 mod navbar;
 mod posts;
@@ -14,6 +13,7 @@ use navbar::NavBar;
 use router::{Request, Router};
 use utils::Page;
 use yew::*;
+use wasm_bindgen::prelude::*;
 
 pub enum Change {
     Click(Page),
@@ -74,4 +74,12 @@ impl Component for Blog {
             </>
         }
     }
+}
+
+#[wasm_bindgen]
+pub fn run_app() {
+    web_logger::custom_init(web_logger::Config {
+        level: log::Level::Error,
+    });
+    yew::start_app::<Blog>();
 }
