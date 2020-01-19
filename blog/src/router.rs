@@ -1,4 +1,4 @@
-use crate::Page;
+use crate::{location::LocationExt, Page};
 use serde_derive::{Deserialize, Serialize};
 use stdweb::{
     unstable::TryFrom,
@@ -14,6 +14,7 @@ use yew::worker::*;
 pub enum Request {
     Where,
     Goto(Page),
+    Reload(bool),
 }
 
 pub struct Router {
@@ -66,6 +67,10 @@ impl Router {
             .replace_state(page.value(), &page.title(), Some(route.as_str()));
         document().set_title(&page.title());
     }
+
+    fn reload(&self, forced_reload: bool) {
+        self.location.reload(forced_reload);
+    }
 }
 
 impl Agent for Router {
@@ -104,6 +109,9 @@ impl Agent for Router {
             }
             Request::Goto(page) => {
                 self.set_route(page);
+            }
+            Request::Reload(forced_reload) => {
+                self.reload(forced_reload);
             }
         }
     }

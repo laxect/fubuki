@@ -1,11 +1,13 @@
 mod cache;
 mod content;
 mod fetch_agent;
+mod location;
 mod markdown;
 mod navbar;
 mod posts;
 mod router;
 mod utils;
+mod version_check;
 
 use content::Content;
 use navbar::NavBar;
