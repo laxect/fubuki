@@ -1,6 +1,7 @@
 use crate::{content::Msg, posts::PostList, Page};
 use serde_derive::{Deserialize, Serialize};
 use yew::{format::Json, services::StorageService};
+use web_sys::window;
 
 #[derive(Clone, Serialize, Deserialize)]
 pub enum Load {
@@ -35,17 +36,17 @@ pub struct Cache {
 
 impl Cache {
     pub fn check_cache_version() {
-        let store = stdweb::web::window().local_storage();
+        let store = window().unwrap().local_storage().unwrap().unwrap();
         let key = "build_version";
         let version = std::env!("CARGO_PKG_VERSION").to_string();
-        if let Some(cache_version) = store.get(key) {
+        if let Ok(Some(cache_version)) = store.get(key) {
             if cache_version != version {
-                store.clear();
-                store.insert(key, &version).unwrap();
+                let _ = store.clear();
+                store.set(key, &version).unwrap();
             }
         } else {
-            store.clear();
-            store.insert(key, &version).unwrap();
+            let _ = store.clear();
+            store.set(key, &version).unwrap();
         }
     }
 
