@@ -49,9 +49,20 @@ impl Page {
     }
 
     pub fn is_cacheable(&self) -> bool {
+        !self.is_posts()
+    }
+
+    pub fn is_posts(&self) -> bool {
         match self {
-            Page::Posts => false,
-            _ => true,
+            Page::Posts => true,
+            _ => false,
+        }
+    }
+
+    pub fn is_article(&self) -> bool {
+        match self {
+            Page::Article(_) => true,
+            _ => false,
         }
     }
 }
