@@ -1,7 +1,7 @@
 use crate::{content::Msg, posts::PostList, Page};
 use serde_derive::{Deserialize, Serialize};
-use yew::{format::Json, services::StorageService};
 use web_sys::window;
+use yew::{format::Json, services::StorageService};
 
 #[derive(Clone, Serialize, Deserialize)]
 pub enum Load {

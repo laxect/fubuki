@@ -4,3 +4,5 @@ node_modules
 dist
 .cache
 yarn-error.log
+pkg
+.parcel-cache

@@ -12,8 +12,8 @@ use content::Content;
 use navbar::NavBar;
 use router::{Request, Router};
 use utils::Page;
-use yew::*;
 use wasm_bindgen::prelude::*;
+use yew::*;
 
 pub enum Change {
     Click(Page),

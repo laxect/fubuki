@@ -1,11 +1,11 @@
 [package]
 name = "blog"
 version = "0.5.7"
-authors = ["Gyara <me@gyara.moe>"]
+authors = [ "Gyara <me@gyara.moe>" ]
 edition = "2018"
 
 [lib]
-crate-type = ["dylib", "rlib"]
+crate-type = [ "rlib", "cdylib" ]
 
 [dependencies]
 failure = "0.1.6"
@@ -16,18 +16,26 @@ log = "0.4.8"
 web_logger = "0.2.0"
 wasm-bindgen = "0.2.58"
 
-[dependencies.web-sys]
-version = "0.3.35"
-features = ["Location", "Window", "History", "EventTarget", "PopStateEvent", "Document", "Storage"]
+  [dependencies.web-sys]
+  version = "0.3.35"
+  features = [
+  "Location",
+  "Window",
+  "History",
+  "EventTarget",
+  "PopStateEvent",
+  "Document",
+  "Storage"
+]
 
-[dependencies.serde]
-version = "1.0.104"
-features = ["derive"]
+  [dependencies.serde]
+  version = "1.0.104"
+  features = [ "derive" ]
 
-[dependencies.pulldown-cmark]
-version = "0.6.1"
-default-features = false
+  [dependencies.pulldown-cmark]
+  version = "0.6.1"
+  default-features = false
 
-[dependencies.getrandom]
-version = "0.1.14"
-features = ["stdweb"]
+  [dependencies.getrandom]
+  version = "0.1.14"
+  features = [ "wasm-bindgen" ]
