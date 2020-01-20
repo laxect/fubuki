@@ -1,50 +1,55 @@
 use crate::Page;
 use serde_derive::{Deserialize, Serialize};
-use stdweb::{
-    unstable::TryFrom,
-    web::{
-        document, event::PopStateEvent, window, EventListenerHandle, History, IEventTarget,
-        Location,
-    },
-    Value,
-};
+use std::convert::TryFrom;
+use wasm_bindgen::{prelude::*, JsCast};
+use web_sys::{window, History, Location, PopStateEvent};
 use yew::worker::*;
 
 #[derive(PartialEq, Clone, Serialize, Deserialize)]
 pub enum Request {
     Where,
     Goto(Page),
+    Reload(bool),
+}
+
+fn set_title(title: &str) {
+    window().unwrap().document().unwrap().set_title(title);
 }
 
 pub struct Router {
     history: History,
     location: Location,
     link: AgentLink<Router>,
-    event_listener: Option<EventListenerHandle>,
     who: Option<HandlerId>,
 }
 
 impl Router {
     pub fn register_callback(&mut self) {
         let cb = self.link.callback(|x| x);
-        self.event_listener = Some(window().add_event_listener(move |event: PopStateEvent| {
-            let state_value: Value = event.state();
-            if let Ok(state) = String::try_from(state_value) {
+        let handle = Closure::wrap(Box::new(move |event: PopStateEvent| {
+            let state_value: JsValue = event.state();
+            if let Some(state) = state_value.as_string() {
                 if let Ok(page) = Page::try_from(state) {
                     cb.emit(page);
                 }
             } else {
                 eprintln!("Nothing farther back in history, not calling routing callback.");
             }
-        }));
+        }) as Box<dyn FnMut(PopStateEvent)>);
+        let _ = window()
+            .unwrap()
+            .add_event_listener_with_callback("popstate", handle.as_ref().unchecked_ref());
     }
 
     fn set_route(&mut self, page: Page) {
         let mut route = page.value();
         route.insert_str(0, "/");
-        self.history
-            .push_state(page.value(), &page.title(), Some(route.as_str()));
-        document().set_title(&page.title());
+        let _ = self.history.push_state_with_url(
+            &(page.value().into()),
+            &page.title(),
+            Some(route.as_str()),
+        );
+        set_title(&page.title());
     }
 
     fn get_path(&self) -> Page {
@@ -61,10 +66,16 @@ impl Router {
     fn replace_path(&mut self, page: Page) {
         let mut route = page.value();
         route.insert_str(0, "/");
-        let _ = self
-            .history
-            .replace_state(page.value(), &page.title(), Some(route.as_str()));
-        document().set_title(&page.title());
+        let _ = self.history.replace_state_with_url(
+            &(page.value().into()),
+            &page.title(),
+            Some(route.as_str()),
+        );
+        set_title(&page.title());
+    }
+
+    fn reload(&self, forced_reload: bool) {
+        let _ = self.location.reload_with_forceget(forced_reload);
     }
 }
 
@@ -75,14 +86,12 @@ impl Agent for Router {
     type Output = Page;
 
     fn create(link: AgentLink<Self>) -> Router {
-        let location = window()
-            .location()
-            .expect("browser does not support location API");
+        let window = window().unwrap();
+        let location = window.location();
         let mut router = Router {
             link,
-            history: window().history(),
+            history: window.history().unwrap(),
             location,
-            event_listener: None,
             who: None,
         };
         router.replace_path(router.get_path());
@@ -104,6 +113,9 @@ impl Agent for Router {
             }
             Request::Goto(page) => {
                 self.set_route(page);
+            }
+            Request::Reload(forced_reload) => {
+                self.reload(forced_reload);
             }
         }
     }

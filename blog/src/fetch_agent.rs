@@ -90,7 +90,7 @@ impl Agent for FetchAgent {
     fn update(&mut self, msg: Self::Message) {
         self.cache.set(&self.current_target.take().unwrap(), &msg);
         if let Some(who) = self.who {
-            self.link.respond(who, msg.clone());
+            self.link.respond(who, msg);
         }
         self.task = None;
     }

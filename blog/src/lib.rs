@@ -6,11 +6,13 @@ mod navbar;
 mod posts;
 mod router;
 mod utils;
+mod version_check;
 
 use content::Content;
 use navbar::NavBar;
 use router::{Request, Router};
 use utils::Page;
+use wasm_bindgen::prelude::*;
 use yew::*;
 
 pub enum Change {
@@ -72,4 +74,12 @@ impl Component for Blog {
             </>
         }
     }
+}
+
+#[wasm_bindgen]
+pub fn run_app() {
+    web_logger::custom_init(web_logger::Config {
+        level: log::Level::Error,
+    });
+    yew::start_app::<Blog>();
 }

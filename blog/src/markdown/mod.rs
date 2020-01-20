@@ -127,11 +127,7 @@ fn make_tag(t: Tag) -> VTag {
     match t {
         Tag::Paragraph => VTag::new("p"),
         Tag::Heading(n) => VTag::new(format!("h{}", n)),
-        Tag::BlockQuote => {
-            let mut el = VTag::new("blockquote");
-            el.add_class("blockquote");
-            el
-        }
+        Tag::BlockQuote => VTag::new("blockquote"),
         Tag::CodeBlock(lang) => {
             let mut el = VTag::new("code");
             el.add_class(lang.as_ref());
@@ -145,11 +141,7 @@ fn make_tag(t: Tag) -> VTag {
             el
         }
         Tag::Item => VTag::new("li"),
-        Tag::Table(_) => {
-            let mut el = VTag::new("table");
-            el.add_class("table");
-            el
-        }
+        Tag::Table(_) => VTag::new("table"),
         Tag::TableHead => VTag::new("th"),
         Tag::TableRow => VTag::new("tr"),
         Tag::TableCell => VTag::new("td"),
