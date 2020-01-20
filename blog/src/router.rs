@@ -21,6 +21,7 @@ pub struct Router {
     location: Location,
     link: AgentLink<Router>,
     who: Option<HandlerId>,
+    pop_state_handle: Option<Closure<dyn FnMut(PopStateEvent)>>,
 }
 
 impl Router {
@@ -39,6 +40,7 @@ impl Router {
         let _ = window()
             .unwrap()
             .add_event_listener_with_callback("popstate", handle.as_ref().unchecked_ref());
+        self.pop_state_handle = Some(handle);
     }
 
     fn set_route(&mut self, page: Page) {
@@ -93,6 +95,7 @@ impl Agent for Router {
             history: window.history().unwrap(),
             location,
             who: None,
+            pop_state_handle: None,
         };
         router.replace_path(router.get_path());
         router.register_callback();
