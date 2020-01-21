@@ -37,7 +37,9 @@ impl FetchRequest {
                 FetchResult::Cacheable(Load::Posts(list), Page::Posts, update_id)
             }
             FetchRequest::Uncacheable(_uri) => FetchResult::Uncacheable(res),
-            FetchRequest::Cacheable(page) => FetchResult::Cacheable(Load::Page(res), page, update_id),
+            FetchRequest::Cacheable(page) => {
+                FetchResult::Cacheable(Load::Page(res), page, update_id)
+            }
         }
     }
 }
