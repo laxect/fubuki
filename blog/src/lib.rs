@@ -6,7 +6,7 @@ mod navbar;
 mod posts;
 mod router;
 mod utils;
-mod version_check;
+mod update_note;
 
 use content::Content;
 use navbar::NavBar;

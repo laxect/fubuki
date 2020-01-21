@@ -67,6 +67,9 @@ impl FetchAgent {
 
     fn get_uri(&self, target: &FetchRequest) -> String {
         let mut uri = target.uri();
+        if uri.starts_with("http") {
+            return uri;
+        }
         uri.insert_str(0, &self.base);
         Self::random_link(&mut uri);
         uri
