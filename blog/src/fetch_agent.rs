@@ -1,8 +1,6 @@
 pub use crate::cache::{Cache, Load};
 use crate::{posts::PostList, utils::Page};
 use serde::{Deserialize, Serialize};
-use wasm_bindgen::JsValue;
-use web_sys::Response;
 use yew::worker::*;
 
 pub enum FetchResult {
@@ -54,16 +52,21 @@ pub struct FetchAgent {
     update_id: u32,
 }
 
-async fn fetch_get(uri: &str) -> Result<Option<String>, JsValue> {
-    let window = web_sys::window().unwrap();
-    let js_promise = window.fetch_with_str(&uri);
-    let response: Response = wasm_bindgen_futures::JsFuture::from(js_promise)
-        .await?
-        .into();
-    let res = wasm_bindgen_futures::JsFuture::from(response.text().unwrap())
-        .await?
-        .as_string();
-    Ok(res)
+mod fetch {
+    use wasm_bindgen::JsValue;
+    use web_sys::{window, Response};
+
+    pub async fn get(uri: &str) -> Result<Option<String>, JsValue> {
+        let window = window().unwrap();
+        let js_promise = window.fetch_with_str(&uri);
+        let response: Response = wasm_bindgen_futures::JsFuture::from(js_promise)
+            .await?
+            .into();
+        let res = wasm_bindgen_futures::JsFuture::from(response.text().unwrap())
+            .await?
+            .as_string();
+        Ok(res)
+    }
 }
 
 impl FetchAgent {
@@ -94,7 +97,7 @@ impl FetchAgent {
         let cb = self.link.callback(|x| x);
         let update_id = self.get_id();
         let future = async move {
-            if let Ok(Some(res)) = fetch_get(&uri).await {
+            if let Ok(Some(res)) = fetch::get(&uri).await {
                 let fetch_result = target.fill(res, update_id);
                 cb.emit(fetch_result);
             }
