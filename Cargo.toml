@@ -4,3 +4,7 @@ members = [
     "blog",
     "posts_gen"
 ]
+
+[profile.release]
+lto = true
+opt-level = 's'
