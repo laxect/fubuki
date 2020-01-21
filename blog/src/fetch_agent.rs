@@ -1,108 +1,130 @@
 pub use crate::cache::{Cache, Load};
 use crate::{posts::PostList, utils::Page};
-use failure::Error;
-use yew::{
-    format::Nothing,
-    services::fetch::{FetchService, FetchTask, Request, Response},
-    worker::*,
-    Callback,
-};
+use serde::{Deserialize, Serialize};
+use yew::worker::*;
+
+pub enum FetchResult {
+    Cacheable(Load, Page, u32),
+    Uncacheable(String),
+}
+
+#[derive(Clone, Deserialize, Serialize)]
+pub enum FetchRequest {
+    Cacheable(Page),
+    Uncacheable(String),
+}
+
+impl From<Page> for FetchRequest {
+    fn from(page: Page) -> FetchRequest {
+        FetchRequest::Cacheable(page)
+    }
+}
+
+impl FetchRequest {
+    fn uri(&self) -> String {
+        match self {
+            Self::Cacheable(page) => page.url(),
+            Self::Uncacheable(uri) => uri.clone(),
+        }
+    }
+}
+
+impl FetchRequest {
+    pub fn fill(self, res: String, update_id: u32) -> FetchResult {
+        match self {
+            FetchRequest::Cacheable(Page::Posts) => {
+                let list: PostList = serde_json::from_str(&res).unwrap();
+                FetchResult::Cacheable(Load::Posts(list), Page::Posts, update_id)
+            }
+            FetchRequest::Uncacheable(_uri) => FetchResult::Uncacheable(res),
+            FetchRequest::Cacheable(page) => FetchResult::Cacheable(Load::Page(res), page, update_id),
+        }
+    }
+}
 
 pub struct FetchAgent {
     cache: Cache,
-    current_target: Option<Page>,
     link: AgentLink<FetchAgent>,
-    task: Option<FetchTask>,
-    web: FetchService,
     who: Option<HandlerId>,
+    base: String,
+    update_id: u32,
 }
 
 impl FetchAgent {
-    pub fn post_list_handle(&self, cb: Callback<Load>) -> impl Fn(Response<Result<String, Error>>) {
-        move |res: Response<Result<String, Error>>| {
-            let (meta, body) = res.into_parts();
-            if meta.status.is_success() {
-                if let Ok(payload) = body {
-                    let list: PostList = serde_json::from_str(payload.as_str()).unwrap();
-                    cb.emit(Load::Posts(list));
-                }
-            }
-        }
+    fn get_id(&mut self) -> u32 {
+        self.update_id += 1;
+        self.update_id
     }
 
-    pub fn page_handle(&self, cb: Callback<Load>) -> impl Fn(Response<Result<String, Error>>) {
-        move |res: Response<Result<String, Error>>| {
-            let (meta, body) = res.into_parts();
-            if meta.status.is_success() {
-                if let Ok(payload) = body {
-                    cb.emit(Load::Page(payload));
-                }
-            }
-        }
-    }
-
-    pub fn random_link(url: &mut String) {
+    fn random_link(url: &mut String) {
         let mut end = [0u8; 1];
         getrandom::getrandom(&mut end).unwrap();
         let append = format!("?{}", end[0]);
         url.push_str(&append);
     }
 
-    pub fn load(&mut self, target: Page) {
-        let mut url = if target == Page::Posts {
-            "/posts.json".into()
-        } else {
-            target.url()
-        };
-        // avoid cache
-        Self::random_link(&mut url);
+    fn get_uri(&self, target: &FetchRequest) -> String {
+        let mut uri = target.uri();
+        uri.insert_str(0, &self.base);
+        Self::random_link(&mut uri);
+        uri
+    }
+
+    fn fetch(&mut self, target: FetchRequest) {
+        let uri = self.get_uri(&target);
         let cb = self.link.callback(|x| x);
-        let req = Request::get(url)
-            .header("Cache-Control", "max-age=120")
-            .body(Nothing)
-            .unwrap();
-        let task = match &target {
-            Page::Posts => self.web.fetch(req, self.post_list_handle(cb).into()),
-            _ => self.web.fetch(req, self.page_handle(cb).into()),
+        let update_id = self.get_id();
+        let future = async move {
+            let res = surf::get(uri).recv_string().await.unwrap();
+            let fetch_result = target.fill(res, update_id);
+            cb.emit(fetch_result);
         };
-        self.current_target = Some(target);
-        self.task = Some(task);
+        wasm_bindgen_futures::spawn_local(future);
     }
 }
 
 impl Agent for FetchAgent {
     type Reach = Context;
-    type Message = Load;
-    type Input = Page;
+    type Message = FetchResult;
+    type Input = FetchRequest;
     type Output = Load;
 
     fn create(link: AgentLink<Self>) -> Self {
+        let base = web_sys::window().unwrap().location().origin().unwrap();
         FetchAgent {
             link,
-            web: FetchService::new(),
-            task: None,
             who: None,
             cache: Cache::new(),
-            current_target: None,
+            base,
+            update_id: 0,
         }
     }
 
     fn update(&mut self, msg: Self::Message) {
-        self.cache.set(&self.current_target.take().unwrap(), &msg);
-        if let Some(who) = self.who {
-            self.link.respond(who, msg);
+        if let FetchResult::Cacheable(msg, page, update_id) = msg {
+            self.cache.set(&page, &msg);
+            if self.update_id > update_id {
+                // over date
+                return;
+            }
+            if let Some(who) = self.who {
+                self.link.respond(who, msg);
+            }
         }
-        self.task = None;
     }
 
     fn handle_input(&mut self, input: Self::Input, who: HandlerId) {
         self.who = Some(who);
-        if let Some(cc) = self.cache.get(&input) {
-            // cache response
-            self.link.respond(who, cc);
+        if let FetchRequest::Cacheable(ref page) = input {
+            if let Some(cc) = self.cache.get(&page) {
+                // cache response
+                self.link.respond(who, cc);
+            } else {
+                // only load when no cache
+                self.fetch(input);
+            }
         } else {
-            // only load when no cache
-            self.load(input);
+            self.fetch(input);
         }
     }
 }

@@ -39,9 +39,12 @@ impl Page {
     }
 
     pub fn url(&self) -> String {
+        if let Page::Posts = self {
+            return "/posts.json".to_owned();
+        }
         let mut file = match self {
             Page::Article(ref article) => format!("/post/{}", article.clone()),
-            Page::Index => "/index".into(),
+            Page::Index => "/index".to_owned(),
             _ => format!("/{}", self.value()),
         };
         file.push_str(".md");

@@ -59,7 +59,7 @@ impl Component for Content {
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         let callback = link.callback(Msg::from);
         let mut fetch_agent = FetchAgent::bridge(callback);
-        fetch_agent.send(props.page.clone());
+        fetch_agent.send(props.page.clone().into());
         Content {
             page: props.page,
             inner: None,
@@ -77,7 +77,7 @@ impl Component for Content {
         if props.page != self.page {
             self.inner = None;
             self.page = props.page.clone();
-            self.fetch.send(props.page);
+            self.fetch.send(props.page.into());
         }
         false
     }
