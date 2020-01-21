@@ -52,13 +52,16 @@ pub struct FetchAgent {
     update_id: u32,
 }
 
-mod fetch {
+pub mod fetch {
     use wasm_bindgen::JsValue;
-    use web_sys::{window, Response};
+    use web_sys::{window, Response, RequestInit, RequestMode, RequestCache};
 
     pub async fn get(uri: &str) -> Result<Option<String>, JsValue> {
+        let mut fetch_set = RequestInit::new();
+        fetch_set.mode(RequestMode::Cors);
+        fetch_set.cache(RequestCache::Reload);
         let window = window().unwrap();
-        let js_promise = window.fetch_with_str(&uri);
+        let js_promise = window.fetch_with_str_and_init(&uri, &fetch_set);
         let response: Response = wasm_bindgen_futures::JsFuture::from(js_promise)
             .await?
             .into();
