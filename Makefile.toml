@@ -19,7 +19,7 @@ script = [
 '''
 cp ./source/* dist -r
 cp ./post dist/post -r
-cargo run --bin posts_gen
+cargo run --bin posts_gen --release
 '''
 ]
 
