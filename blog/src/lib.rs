@@ -5,8 +5,8 @@ mod markdown;
 mod navbar;
 mod posts;
 mod router;
-mod utils;
 mod update_note;
+mod utils;
 
 use content::Content;
 use navbar::NavBar;
