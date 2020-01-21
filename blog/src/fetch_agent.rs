@@ -54,7 +54,7 @@ pub struct FetchAgent {
 
 pub mod fetch {
     use wasm_bindgen::JsValue;
-    use web_sys::{window, Response, RequestInit, RequestMode, RequestCache};
+    use web_sys::{window, RequestCache, RequestInit, RequestMode, Response};
 
     pub async fn get(uri: &str) -> Result<Option<String>, JsValue> {
         let mut fetch_set = RequestInit::new();
