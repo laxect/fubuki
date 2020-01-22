@@ -11,10 +11,7 @@ const RIGHTS: &str = "© 2016 - 2020 gyara";
 
 impl Post {
     fn id(&self) -> String {
-        format!(
-            "https://blog.gyara.moe/post/{}/",
-            self.front_matter.get_url()
-        )
+        format!("https://blog.gyara.moe/post/{}/", self.front_matter.get_url())
     }
 
     pub fn updated(&self) -> String {

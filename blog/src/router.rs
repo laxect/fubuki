@@ -12,8 +12,13 @@ pub enum Request {
     Reload(bool),
 }
 
-fn set_title(title: &str) {
-    window().unwrap().document().unwrap().set_title(title);
+fn set_title(title: &str) -> Result<(), &'static str> {
+    window()
+        .ok_or("open window failed")?
+        .document()
+        .ok_or("document open failed")?
+        .set_title(title);
+    Ok(())
 }
 
 pub struct Router {
@@ -28,34 +33,30 @@ impl Router {
     pub fn register_callback(&mut self) {
         let cb = self.link.callback(|x| x);
         let handle = Closure::wrap(Box::new(move |event: PopStateEvent| {
-            let state_value: JsValue = event.state();
-            if let Some(state) = state_value.as_string() {
-                if let Ok(page) = Page::try_from(state) {
-                    cb.emit(page);
-                }
-            } else {
-                eprintln!("Nothing farther back in history, not calling routing callback.");
+            let state_value = event
+                .state()
+                .as_string()
+                .unwrap_or_else(|| String::from("this is not a event"));
+            if let Ok(page) = Page::try_from(state_value) {
+                cb.emit(page);
             }
         }) as Box<dyn FnMut(PopStateEvent)>);
         let _ = window()
-            .unwrap()
+            .expect("open window and failed")
             .add_event_listener_with_callback("popstate", handle.as_ref().unchecked_ref());
         self.pop_state_handle = Some(handle);
     }
 
     fn set_route(&mut self, page: Page) {
-        let mut route = page.value();
-        route.insert_str(0, "/");
-        let _ = self.history.push_state_with_url(
-            &(page.value().into()),
-            &page.title(),
-            Some(route.as_str()),
-        );
-        set_title(&page.title());
+        let route = format!("/{}", page.value());
+        let _ = self
+            .history
+            .push_state_with_url(&(page.value().into()), &page.title(), Some(route.as_str()));
+        let _ = set_title(&page.title());
     }
 
     fn get_path(&self) -> Page {
-        let mut path = self.location.pathname().unwrap();
+        let mut path = self.location.pathname().unwrap_or("gs".to_owned());
         if path.starts_with('/') {
             path = path.replacen("/", "", 1);
         }
@@ -68,12 +69,10 @@ impl Router {
     fn replace_path(&mut self, page: Page) {
         let mut route = page.value();
         route.insert_str(0, "/");
-        let _ = self.history.replace_state_with_url(
-            &(page.value().into()),
-            &page.title(),
-            Some(route.as_str()),
-        );
-        set_title(&page.title());
+        let _ = self
+            .history
+            .replace_state_with_url(&(page.value().into()), &page.title(), Some(route.as_str()));
+        let _ = set_title(&page.title());
     }
 
     fn reload(&self, forced_reload: bool) {
