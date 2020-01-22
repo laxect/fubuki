@@ -1,7 +1,7 @@
 use crate::{content::Msg, posts::PostList, Page};
 use serde_derive::{Deserialize, Serialize};
-use web_sys::window;
-use yew::{format::Json, services::StorageService};
+use wasm_bindgen::JsValue;
+use web_sys::{window, Storage};
 
 #[derive(Clone, Serialize, Deserialize)]
 pub enum Load {
@@ -30,44 +30,61 @@ impl From<Msg> for Load {
     }
 }
 
+fn get_local_storage() -> Result<Storage, JsValue> {
+    let window = window().ok_or_else(|| JsValue::from_str("window open filed"))?;
+    let store = window
+        .local_storage()?
+        .ok_or_else(|| JsValue::from_str("local_storage not support"))?;
+    Ok(store)
+}
+
 pub struct Cache {
-    inner: StorageService,
+    inner: Storage,
 }
 
 impl Cache {
-    pub fn check_cache_version() {
-        let store = window().unwrap().local_storage().unwrap().unwrap();
+    fn check_cache_version(&self) {
         let key = "build_version";
-        let version = std::env!("CARGO_PKG_VERSION").to_string();
-        if let Ok(Some(cache_version)) = store.get(key) {
-            if cache_version != version {
-                let _ = store.clear();
-                store.set(key, &version).unwrap();
+        let version = std::env!("CARGO_PKG_VERSION").to_owned();
+        if let Ok(Some(cache_version)) = self.inner.get(key) {
+            if cache_version == version {
+                // no more action
+                return;
             }
-        } else {
-            let _ = store.clear();
-            store.set(key, &version).unwrap();
         }
+        self.clear();
     }
 
     pub fn new() -> Cache {
-        Cache::check_cache_version();
-        Cache {
-            inner: StorageService::new(yew::services::storage::Area::Local),
-        }
+        let cache = Cache {
+            inner: get_local_storage().expect("cache open failed"),
+        };
+        cache.check_cache_version();
+        cache
     }
 
-    pub fn get(&mut self, page: &Page) -> Option<Load> {
+    fn clear(&self) {
+        let key = "build_version";
+        let version = std::env!("CARGO_PKG_VERSION").to_owned();
+        let _ = self.inner.clear();
+        let _ = self.inner.set(key, &version);
+    }
+
+    pub fn get(&self, page: &Page) -> Option<Load> {
         let key = page.value();
-        if let Json(Ok(cc)) = self.inner.restore(&key) {
-            Some(cc)
-        } else {
-            None
+        if let Ok(Some(cc)) = self.inner.get(&key) {
+            if let Ok(load) = serde_json::from_str(&cc) {
+                return Some(load);
+            } else {
+                self.clear(); // remove cache
+            }
         }
+        None
     }
 
     pub fn set(&mut self, page: &Page, content: &Load) {
         let key = page.value();
-        self.inner.store(&key, Json(content));
+        let val = serde_json::to_string(content).unwrap_or_else(|_| "never or".to_owned());
+        self.inner.set(&key, &val).ok();
     }
 }

@@ -27,7 +27,6 @@ impl UpdateNotification {
         let cb = self.link.callback(Message::VersionGet);
         let future = async move {
             if let Ok(Some(version)) = fetch::get(VERSION_CHECK_URI).await {
-                log::error!("get - {}", version);
                 cb.emit(version);
             }
         };
@@ -73,14 +72,14 @@ impl Component for UpdateNotification {
     }
 
     fn view(&self) -> Html {
-        if !self.outdate {
-            html! {
-                <></>
-            }
-        } else {
+        if self.outdate {
             let on_click = self.link.callback(|_| Message::Click);
             html! {
                 <button onclick=on_click class="update-notification">{ "更新ある" }</button>
+            }
+        } else {
+            html! {
+                <></>
             }
         }
     }

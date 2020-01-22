@@ -12,7 +12,7 @@ pub enum Page {
 
 impl Page {
     pub fn title(&self) -> String {
-        let mut title: String = "Gyara studio - ".into();
+        let mut title: String = "Gyara studio - ".to_owned();
         match self {
             Page::Article(ref article) => {
                 title.push_str(article);
@@ -27,9 +27,9 @@ impl Page {
     pub fn value(&self) -> String {
         match self {
             Page::Article(ref article) => {
-                let mut post = article.clone();
-                post.insert_str(0, "post/");
-                post
+                let mut val = String::from("post/");
+                val.push_str(article);
+                val
             }
             Page::About => "about".into(),
             Page::Index => "gs".into(),
