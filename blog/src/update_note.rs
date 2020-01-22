@@ -26,7 +26,7 @@ impl UpdateNotification {
     fn fetch_version(&self) {
         let cb = self.link.callback(Message::VersionGet);
         let future = async move {
-            if let Ok(Some(version)) = fetch::get(VERSION_CHECK_URI).await {
+            if let Ok(version) = fetch::get(VERSION_CHECK_URI).await {
                 cb.emit(version);
             }
         };

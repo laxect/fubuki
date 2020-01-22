@@ -7,19 +7,20 @@ pub mod fetch {
     use wasm_bindgen::JsValue;
     use web_sys::{window, RequestCache, RequestInit, RequestMode, Response};
 
-    pub async fn get(uri: &str) -> Result<Option<String>, JsValue> {
+    pub async fn get(uri: &str) -> Result<String, JsValue> {
         let mut fetch_set = RequestInit::new();
         fetch_set.mode(RequestMode::Cors);
         fetch_set.cache(RequestCache::Reload);
         // get windows object
-        let window = window().unwrap();
+        let window = window().ok_or_else(|| JsValue::from_str("open window failed"))?;
         let js_promise = window.fetch_with_str_and_init(&uri, &fetch_set);
         let response: Response = wasm_bindgen_futures::JsFuture::from(js_promise)
             .await?
             .into();
         let res = wasm_bindgen_futures::JsFuture::from(response.text().unwrap())
             .await?
-            .as_string();
+            .as_string()
+            .ok_or_else(|| JsValue::from_str("no body"))?;
         Ok(res)
     }
 }
@@ -41,14 +42,15 @@ impl FetchRequest {
         self.0.url()
     }
 
-    pub fn fill(self, res: String, update_id: u32) -> FetchResult {
-        match self {
+    pub fn fill(self, res: String, update_id: u32) -> serde_json::Result<FetchResult> {
+        let fetch_result = match self {
             FetchRequest(Page::Posts) => {
-                let list: PostList = serde_json::from_str(&res).unwrap();
+                let list: PostList = serde_json::from_str(&res)?;
                 FetchResult(Load::Posts(list), Page::Posts, update_id)
             }
             FetchRequest(page) => FetchResult(Load::Page(res), page, update_id),
-        }
+        };
+        Ok(fetch_result)
     }
 }
 
@@ -88,9 +90,10 @@ impl FetchAgent {
         let cb = self.link.callback(|x| x);
         let update_id = self.get_id();
         let future = async move {
-            if let Ok(Some(res)) = fetch::get(&uri).await {
-                let fetch_result = target.fill(res, update_id);
-                cb.emit(fetch_result);
+            if let Ok(res) = fetch::get(&uri).await {
+                let _ = target
+                    .fill(res, update_id)
+                    .map(|fetch_result| cb.emit(fetch_result));
             }
         };
         wasm_bindgen_futures::spawn_local(future);
