@@ -32,10 +32,7 @@ fn file_handle(entry: &fs::DirEntry) -> io::Result<Post> {
     file.read_to_string(&mut contents)?;
     if let Some((mut front_matter, content)) = front_matter::parse_front_matter(contents) {
         front_matter.fill_url(entry.file_name().into_string().unwrap().replace(".md", ""));
-        Ok(Post {
-            front_matter,
-            content,
-        })
+        Ok(Post { front_matter, content })
     } else {
         Err(io::Error::from(io::ErrorKind::InvalidData))
     }
