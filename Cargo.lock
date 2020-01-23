@@ -55,12 +55,11 @@ dependencies = [
 
 [[package]]
 name = "atom_syndication"
-version = "0.7.0"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "chrono 0.4.10 (registry+https://github.com/rust-lang/crates.io-index)",
  "derive_builder 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "failure 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "quick-xml 0.17.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -794,7 +793,7 @@ name = "posts_gen"
 version = "0.3.2"
 dependencies = [
  "async-std 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "atom_syndication 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "atom_syndication 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "htmlescape 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "pulldown-cmark 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.104 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1382,7 +1381,7 @@ dependencies = [
 "checksum async-attributes 1.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "efd3d156917d94862e779f356c5acae312b08fd3121e792c857d7928c8088423"
 "checksum async-std 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "0bf6039b315300e057d198b9d3ab92ee029e31c759b7f1afae538145e6f18a3e"
 "checksum async-task 1.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "a9f534e76ca33eaa82bc8da5adb1b9e94a16f6fa217b78e9b400094dbbf844f9"
-"checksum atom_syndication 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "10ac906ce74c638baec3ac69526e68cff20fe735bab6ce8f4aedbb17451afe8f"
+"checksum atom_syndication 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)" = "687684b9df388f7770003d6181c28acda358e4d8e0d258cff727d1f002cfa7c7"
 "checksum autocfg 0.1.7 (registry+https://github.com/rust-lang/crates.io-index)" = "1d49d90015b3c36167a20fe2810c5cd875ad504b39cff3d4eae7977e6b7c1cb2"
 "checksum backtrace 0.3.40 (registry+https://github.com/rust-lang/crates.io-index)" = "924c76597f0d9ca25d762c25a4d369d51267536465dc5064bdf0eb073ed477ea"
 "checksum backtrace-sys 0.1.32 (registry+https://github.com/rust-lang/crates.io-index)" = "5d6575f128516de27e3ce99689419835fce9643a9b215a14d2b5b685be018491"
