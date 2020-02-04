@@ -17,7 +17,7 @@ version = "1.0.104"
 features = ["derive"]
 
 [dependencies.async-std]
-version = "1.4.0"
+version = "1.5.0"
 features = ["attributes"]
 
 [dependencies.pulldown-cmark]
