@@ -6,7 +6,7 @@ edition = "2018"
 
 [dependencies]
 serde_derive = "1.0.104"
-serde_json = "1.0.46"
+serde_json = "1.0.47"
 serde_yaml = "0.8.11"
 atom_syndication = "0.8.0"
 htmlescape = "0.3.1"
