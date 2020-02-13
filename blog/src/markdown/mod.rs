@@ -1,7 +1,7 @@
 mod custom_tag;
 
 use custom_tag::HTag;
-use pulldown_cmark::{Event, Options, Parser, Tag};
+use pulldown_cmark::{CodeBlockKind, Event, Options, Parser, Tag};
 use yew::{
     html,
     virtual_dom::{VNode, VTag, VText},
@@ -126,7 +126,11 @@ fn make_tag(t: Tag) -> VTag {
         Tag::BlockQuote => VTag::new("blockquote"),
         Tag::CodeBlock(lang) => {
             let mut el = VTag::new("code");
-            el.add_class(lang.as_ref());
+            let class = match lang {
+                CodeBlockKind::Indented => "".to_owned(),
+                CodeBlockKind::Fenced(l) => l.to_string(),
+            };
+            el.add_class(&class);
             el
         }
         Tag::List(None) => VTag::new("ul"),
