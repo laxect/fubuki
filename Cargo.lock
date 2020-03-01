@@ -150,6 +150,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4785bdd1c96b2a846b2bd7cc02e86b6b3dbf14e7e53446c4f54c92a361040822"
 
 [[package]]
+name = "cfg-match"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8100e46ff92eb85bf6dc2930c73f2a4f7176393c84a9446b3d501e1b354e7b34"
+
+[[package]]
 name = "chrono"
 version = "0.4.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1471,13 +1477,15 @@ dependencies = [
 
 [[package]]
 name = "yew"
-version = "0.12.0"
+version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2239082684387504f93f2569ea3b22489f83c67bc8b2d0615cc852e00426fa67"
+checksum = "019e0ef6afd022af51a1bec827db357b953ca12b64e158224c614288e3345266"
 dependencies = [
  "anyhow",
  "anymap",
  "bincode",
+ "cfg-if",
+ "cfg-match",
  "http 0.2.0",
  "indexmap",
  "log",
@@ -1487,7 +1495,6 @@ dependencies = [
  "serde",
  "serde_json",
  "slab",
- "stdweb",
  "thiserror",
  "wasm-bindgen",
  "yew-macro",
@@ -1495,9 +1502,9 @@ dependencies = [
 
 [[package]]
 name = "yew-macro"
-version = "0.12.0"
+version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "44057d3fb6c5720633c51f5b442285119fcc9166d759f63b7518fc6e98ca9fd2"
+checksum = "7799777bca19f96d9eb0c865e53c489565ffb890b9d48b58c9c50ef5c8df3532"
 dependencies = [
  "boolinator",
  "lazy_static",
