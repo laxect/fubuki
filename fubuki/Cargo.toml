@@ -1,5 +1,5 @@
 [package]
-name = "blog"
+name = "fubuki"
 version = "0.6.0"
 authors = [ "Gyara <me@gyara.moe>" ]
 edition = "2018"

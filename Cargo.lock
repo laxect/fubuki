@@ -104,24 +104,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
 
 [[package]]
-name = "blog"
-version = "0.6.0"
-dependencies = [
- "getrandom",
- "log",
- "pulldown-cmark 0.7.0",
- "semver",
- "serde",
- "serde_derive",
- "serde_json",
- "wasm-bindgen",
- "wasm-bindgen-futures 0.4.8",
- "web-sys",
- "web_logger",
- "yew",
-]
-
-[[package]]
 name = "boolinator"
 version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -360,6 +342,24 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2fad85553e09a6f881f739c29f0b00b0f01357c743266d478b68951ce23285f3"
 
 [[package]]
+name = "fubuki"
+version = "0.6.0"
+dependencies = [
+ "getrandom",
+ "log",
+ "pulldown-cmark 0.7.0",
+ "semver",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "wasm-bindgen",
+ "wasm-bindgen-futures 0.4.8",
+ "web-sys",
+ "web_logger",
+ "yew",
+]
+
+[[package]]
 name = "fuchsia-zircon"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -542,6 +542,21 @@ dependencies = [
  "matches",
  "unicode-bidi",
  "unicode-normalization",
+]
+
+[[package]]
+name = "index_gen"
+version = "0.3.2"
+dependencies = [
+ "async-std",
+ "atom_syndication",
+ "htmlescape",
+ "pulldown-cmark 0.6.1",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "serde_yaml",
+ "surf",
 ]
 
 [[package]]
@@ -842,21 +857,6 @@ name = "pkg-config"
 version = "0.3.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "05da548ad6865900e60eaba7f589cc0783590a92e940c26953ff81ddbab2d677"
-
-[[package]]
-name = "posts_gen"
-version = "0.3.2"
-dependencies = [
- "async-std",
- "atom_syndication",
- "htmlescape",
- "pulldown-cmark 0.6.1",
- "serde",
- "serde_derive",
- "serde_json",
- "serde_yaml",
- "surf",
-]
 
 [[package]]
 name = "proc-macro-hack"

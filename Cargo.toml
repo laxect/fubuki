@@ -1,8 +1,8 @@
 [workspace]
 
 members = [
-    "blog",
-    "posts_gen"
+    "fubuki",
+    "index_gen"
 ]
 
 [profile.release]

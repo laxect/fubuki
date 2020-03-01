@@ -1,5 +1,5 @@
 [package]
-name = "posts_gen"
+name = "index_gen"
 version = "0.3.2"
 authors = ["Gyara <me@gyara.moe>"]
 edition = "2018"
