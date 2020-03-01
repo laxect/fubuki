@@ -6,6 +6,7 @@ use yew::worker::*;
 pub mod fetch {
     use wasm_bindgen::JsValue;
     use web_sys::{window, RequestCache, RequestInit, RequestMode, Response};
+    use wasm_bindgen_futures::JsFuture;
 
     pub async fn get(uri: &str) -> Result<String, JsValue> {
         let mut fetch_set = RequestInit::new();
@@ -14,8 +15,8 @@ pub mod fetch {
         // get windows object
         let window = window().ok_or_else(|| JsValue::from_str("open window failed"))?;
         let js_promise = window.fetch_with_str_and_init(&uri, &fetch_set);
-        let response: Response = wasm_bindgen_futures::JsFuture::from(js_promise).await?.into();
-        let res = wasm_bindgen_futures::JsFuture::from(response.text().unwrap())
+        let response: Response = JsFuture::from(js_promise).await?.into();
+        let res = JsFuture::from(response.text().unwrap())
             .await?
             .as_string()
             .ok_or_else(|| JsValue::from_str("no body"))?;

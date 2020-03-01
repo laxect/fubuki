@@ -11,6 +11,7 @@ pub struct Post {
     pub summary: String,
     pub category: String,
     tags: Vec<String>,
+    toc: Option<bool>,
 }
 
 pub type PostList = Vec<Post>;
@@ -24,6 +25,7 @@ impl Default for Post {
             summary: String::from(""),
             category: String::from(""),
             tags: Vec::new(),
+            toc: None,
         }
     }
 }

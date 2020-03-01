@@ -9,6 +9,7 @@ pub struct FrontMatter {
     pub summary: String,
     pub tags: Vec<String>,
     pub category: String,
+    pub toc: Option<bool>,
 }
 
 impl FrontMatter {
