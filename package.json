@@ -15,7 +15,7 @@
     "parcel-plugin-wasm.rs": "^1.2.15"
   },
   "scripts": {
-    "build": "parcel build index.html --release",
+    "build": "parcel build index.html --no-source-maps",
     "start": "parcel index.html"
   }
 }
