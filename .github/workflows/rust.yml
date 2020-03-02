@@ -1,28 +1,34 @@
-name: Test Rust project
+name: Test
+
 on: [push, pull_request]
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macOS-latest]
-        rust: [nightly]
-
+  index_gen:
+    runs-on: ubuntu-latest
     steps:
     - uses: hecrj/setup-rust-action@master
       with:
-        rust-version: ${{ matrix.rust }}
+        rust-version: nightly
     - uses: actions/checkout@master
     - name: Run tests
-      run: cargo test --verbose
+      run: cargo test --verbose -p index_gen
+  fubuki:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: nightly
+        targets: wasm-unknown-unknown, x86_64-unknown-linux-gnu
+    - name: install wasm pack
+      run: cargo install wasm-pack -f
+    - name: run wasm test
+      run: wasm-pack test --node fubuki
   fmt:
     runs-on: ubuntu-latest
     steps:
     - uses: hecrj/setup-rust-action@master
       with:
         rust-version: nightly
-    - name: install rustfmt
-      run: rustup component add rustfmt
+        components: rustfmt
     - uses: actions/checkout@master
     - name: fmt check
       run: cargo fmt --all -- --check --verbose

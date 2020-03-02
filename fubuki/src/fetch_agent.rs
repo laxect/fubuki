@@ -138,17 +138,3 @@ impl Agent for FetchAgent {
         }
     }
 }
-
-#[cfg(test)]
-mod fetch_agent_tests {
-    use super::*;
-    #[test]
-    fn random_link_test() {
-        let mut url = "/index.md".to_string();
-        let mid = url.len() + 1;
-        FetchAgent::random_link(&mut url);
-        let (front, end) = url.split_at(mid);
-        assert_eq!(front, "/index.md?");
-        let _end_num: u8 = end.parse().unwrap();
-    }
-}

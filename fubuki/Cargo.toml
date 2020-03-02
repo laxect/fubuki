@@ -47,3 +47,7 @@ features = ["web_sys"]
   [dependencies.getrandom]
   version = "0.1.14"
   features = [ "wasm-bindgen" ]
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.8"
+
