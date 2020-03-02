@@ -3,9 +3,7 @@ use yew::{html, Callback, Component, ComponentLink, Html, Properties, ShouldRend
 
 #[derive(PartialEq, Clone, Properties)]
 pub struct NavStatus {
-    #[props(required)]
     pub page: Page,
-    #[props(required)]
     pub on_change: Callback<Page>,
 }
 

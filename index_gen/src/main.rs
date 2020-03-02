@@ -3,7 +3,7 @@ use async_std::task;
 #[async_std::main]
 pub async fn main() -> Result<(), ()> {
     let task_pub = task::spawn(async {
-        let pub_result = posts_gen::update_pubsubhubbub().await;
+        let pub_result = index_gen::update_pubsubhubbub().await;
         println!("pub task finish.");
         match pub_result {
             Ok(resp) => {
@@ -15,7 +15,7 @@ pub async fn main() -> Result<(), ()> {
         };
     });
     let task_files = task::spawn(async move {
-        posts_gen::read_files().expect("error!");
+        index_gen::read_files().expect("error!");
     });
     task_pub.await;
     task_files.await;

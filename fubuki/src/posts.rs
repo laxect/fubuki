@@ -60,8 +60,8 @@ fn page_count(post_num: usize) -> u32 {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct PostsStatus {
-    #[props(required)]
     pub on_click: Callback<Page>,
+    #[prop_or_default]
     pub post_list: Vec<Post>,
 }
 

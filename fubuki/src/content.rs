@@ -8,9 +8,7 @@ use yew::*;
 
 #[derive(PartialEq, Clone, Properties)]
 pub struct ContentStatus {
-    #[props(required)]
     pub page: Page,
-    #[props(required)]
     pub on_change: Callback<Page>,
 }
 

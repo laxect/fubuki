@@ -56,7 +56,7 @@ impl Router {
     }
 
     fn get_path(&self) -> Page {
-        let mut path = self.location.pathname().unwrap_or("gs".to_owned());
+        let mut path = self.location.pathname().unwrap_or_else(|_| "gs".to_owned());
         if path.starts_with('/') {
             path = path.replacen("/", "", 1);
         }
