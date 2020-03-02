@@ -12,6 +12,8 @@ jobs:
       with:
         rust-version: nightly
     - uses:  actions/setup-node@v1
+    - name: Install Wasm-pack
+      run: cargo install wasm-pack -f
     - name: build script
       run: ./build.sh
     - name: pack
