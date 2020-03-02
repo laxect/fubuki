@@ -19,6 +19,7 @@ jobs:
         rust-version: nightly
     - name: install wasm pack
       run: cargo install wasm-pack -f
+    - uses: actions/checkout@master
     - name: run wasm test
       run: wasm-pack test --node fubuki
   fmt:
