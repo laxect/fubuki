@@ -38,3 +38,5 @@ jobs:
         asset_path: ./dist.tar.gz
         asset_name: dist.tar.gz
         asset_content_type: application/gzip
+    - name: Update tenzan
+      run: curl https://tenzan.gyara.moe/key -X POST -H "Content-Type: application/json" -d '{"key":"blog_version", "val":"${{ github.ref }}"}'
