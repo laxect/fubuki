@@ -1,3 +1,4 @@
+rm dist -r
 yarn install
 yarn run build
 cp public/* dist/ -r
