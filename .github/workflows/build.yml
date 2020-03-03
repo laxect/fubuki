@@ -15,7 +15,7 @@ jobs:
     - name: Install Wasm-pack
       run: cargo install wasm-pack -f
     - name: build script
-      run: ./build.sh
+      run: ./scripts/build.sh
     - name: pack
       run: tar -zcvf dist.tar.gz dist
     - name: Create release
@@ -39,9 +39,11 @@ jobs:
         asset_name: dist.tar.gz
         asset_content_type: application/gzip
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          service_account_email: ${{ secrets.GCP_SA_EMAIL  }}
-          service_account_key: ${{ secrets.GCP_SA_KEY  }}
-          export_default_credentials: true
+      with:
+        service_account_email: ${{ secrets.SA_EMAIL  }}
+        service_account_key: ${{ secrets.SA_KEY  }}
+        export_default_credentials: true
     - name: Publish to GAE
+      env:
+        CLOUDSDK_CORE_PROJECT: ${{ secrets.CLOUDSDK_CORE_PROJECT }}
       run: gcloud app deploy dist
