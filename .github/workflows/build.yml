@@ -38,5 +38,10 @@ jobs:
         asset_path: ./dist.tar.gz
         asset_name: dist.tar.gz
         asset_content_type: application/gzip
-    - name: Update tenzan
-      run: curl https://tenzan.gyara.moe/key -X POST -H "Content-Type: application/json" -d '{"key":"blog_version", "val":"${{ github.ref }}"}'
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          service_account_email: ${{ secrets.GCP_SA_EMAIL  }}
+          service_account_key: ${{ secrets.GCP_SA_KEY  }}
+          export_default_credentials: true
+    - name: Publish to GAE
+      run: gcloud app deploy dist
