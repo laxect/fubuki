@@ -5,13 +5,11 @@ mod markdown;
 mod navbar;
 mod posts;
 mod router;
-mod update_note;
 mod utils;
 
 use content::Content;
 use navbar::NavBar;
 use router::{Request, Router};
-use update_note::UpdateNotification;
 use utils::Page;
 use wasm_bindgen::prelude::*;
 use yew::*;
@@ -68,7 +66,6 @@ impl Component for Blog {
                     on_change=on_change.clone()/>
                 <Content: page=self.page.clone()
                     on_change=on_change/>
-                <UpdateNotification/>
                 <footer>
                     <p>{ "このブログ記事は" }<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja">{ "クリエイティブ・コモンズ 表示-継承ライセンス" }</a>{ "の下で利用可能です" }</p>
                     <p>{ ["ビルドバージョン：", std::env!("CARGO_PKG_VERSION")].concat() }</p>
