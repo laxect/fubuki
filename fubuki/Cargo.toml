@@ -49,5 +49,5 @@ features = ["web_sys"]
   features = [ "wasm-bindgen" ]
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3.8"
+wasm-bindgen-test = "0.3.9"
 
