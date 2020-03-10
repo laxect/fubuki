@@ -3,5 +3,5 @@
 
 ---
 
-+ 令和元年结束了。<time>1/7</time>
++ <ruby>令和<rt>れいわ</rt>元年</ruby>结束了。<time>1/7</time>
 + 完成了实验性的 html 支持。<time>5/20</time>

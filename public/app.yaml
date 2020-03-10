@@ -4,16 +4,16 @@ threadsafe: true
 
 handlers:
 - url: /
-  secrue: always
+  secure: always
   static_files: index.html
   upload: index.html
 
 - url: /(.*\..+)
-  secrue: always
+  secure: always
   static_files: \1
   upload: (.*)
 
 - url: /.*
-  secrue: always
+  secure: always
   static_files: index.html
   upload: index.html

@@ -10,7 +10,7 @@
 ---
 
 + 我永远喜欢初音ミク ~~.jpg~~
-+ 我永远喜欢 ~~焔~~
++ 我永远喜欢 **<ruby>焔<rt>ほむら</rt></ruby>**
 + 初级程序员进修中
 + 疑似游戏宅
 + [Iosevka](https://github.com/be5invis/Iosevka) 超赞
