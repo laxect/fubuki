@@ -11,9 +11,9 @@ jobs:
     - uses: hecrj/setup-rust-action@master
       with:
         rust-version: nightly
-    - uses:  actions/setup-node@v1
+    - uses: actions/setup-node@v1
     - name: Install Wasm-pack
-      run: cargo install wasm-pack -f
+      run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
     - name: build script
       run: ./scripts/build.sh
     - name: pack

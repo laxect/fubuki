@@ -49,7 +49,7 @@ jobs:
       with:
         rust-version: nightly
     - name: install wasm pack
-      run: cargo install wasm-pack -f
+      run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
     - name: run wasm test
       run: wasm-pack test --node fubuki
   fmt:
