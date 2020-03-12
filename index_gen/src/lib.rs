@@ -46,19 +46,6 @@ struct PubSubForm {
     pub url: &'static str,
 }
 
-/// update pubsubhubbub
-pub async fn update_pubsubhubbub() -> Result<String, surf::Exception> {
-    let body = PubSubForm {
-        mode: "publish",
-        url: "https://blog.gyara.moe/atom.xml",
-    };
-    let publish_result = surf::post("https://pubsubhubbub.appspot.com/")
-        .body_form(&body)?
-        .recv_string()
-        .await?;
-    Ok(publish_result)
-}
-
 /// entry
 pub fn read_files() -> io::Result<()> {
     let (dist, orig) = read_option();

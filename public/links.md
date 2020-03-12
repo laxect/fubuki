@@ -6,6 +6,7 @@
 + [max](https://mmmmmax.cn/)
 + [xixing](https://xixing.dev/)
 + [柑橘](https://ioover.net)
++ [<ruby>有理<rt>Asterism</rt></ruby>](https://monsoon.cl/)
 
 ### 这个<ruby>博客<rt>しま</rt></ruby>使用了以下这些资源
 
