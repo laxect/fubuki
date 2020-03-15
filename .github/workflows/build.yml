@@ -38,12 +38,10 @@ jobs:
         asset_path: ./dist.tar.gz
         asset_name: dist.tar.gz
         asset_content_type: application/gzip
-    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+    - name: Firebase hosting
+      uses: w9jds/firebase-action@master
       with:
-        service_account_email: ${{ secrets.SA_EMAIL  }}
-        service_account_key: ${{ secrets.SA_KEY  }}
-        export_default_credentials: true
-    - name: Publish to GAE
+        args: deploy
       env:
-        CLOUDSDK_CORE_PROJECT: ${{ secrets.CLOUDSDK_CORE_PROJECT }}
-      run: gcloud app deploy dist
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN  }}
+        PROJECT_ID: ${{ secrets.PROJECT_ID }}

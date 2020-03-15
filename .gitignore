@@ -6,3 +6,4 @@ dist
 yarn-error.log
 pkg
 .parcel-cache
+.firebase/
