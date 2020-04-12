@@ -12,3 +12,7 @@
 
 + [Iosevka](https://github.com/be5invis/Iosevka)
 + Icons made by [Cole Bemis](https://www.flaticon.com/authors/cole-bemis) from [Flation](https://www.flaticon.com)
+
+### 一些其他的<ruby>链接<rt>ゼルダ</rt></ruby>
+
++ 最近在读的[书](https://bit.ly/34wGmCs)（基本上以轻小说为主嗼）

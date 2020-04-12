@@ -1,6 +1,6 @@
 name: Test
 
-on: [push, pull_request]
+on: push
 jobs:
   index_gen:
     runs-on: ubuntu-latest
