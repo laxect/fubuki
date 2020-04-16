@@ -8,7 +8,7 @@ edition = "2018"
 crate-type = [ "rlib", "cdylib" ]
 
 [dependencies]
-serde_derive = "1.0.104"
+serde_derive = "1.0.106"
 serde_json = "1.0.51"
 log = "0.4.8"
 web_logger = "0.2.0"
@@ -17,11 +17,11 @@ wasm-bindgen-futures = "0.4.10"
 semver = "0.9.0"
 
 [dependencies.yew]
-version = "0.14.1"
+version = "0.14.3"
 features = ["web_sys"]
 
   [dependencies.web-sys]
-  version = "0.3.36"
+  version = "0.3.37"
   features = [
   "Location",
   "Window",
@@ -37,7 +37,7 @@ features = ["web_sys"]
 ]
 
   [dependencies.serde]
-  version = "1.0.104"
+  version = "1.0.106"
   features = [ "derive" ]
 
   [dependencies.pulldown-cmark]
