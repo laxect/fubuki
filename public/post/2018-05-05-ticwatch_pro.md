@@ -7,7 +7,7 @@ date: 令和1/5/11
 ---
 # TicWatch Pro 上手体验
 
-![TicWatch Pro](https://live.staticflickr.com/65535/46859164225_c88845c1d8_k_d.jpg)
+![TicWatch Pro](https://storage.googleapis.com/blog_gyara/img/posts/179577a0857d515edc12.webp)
 
 ## 外观
 
