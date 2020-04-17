@@ -73,7 +73,7 @@ impl Cache {
     pub fn get(&self, page: &Page) -> Option<Load> {
         let key = page.value();
         if let Ok(Some(cc)) = self.inner.get(&key) {
-            if let Ok(load) = serde_json::from_str(&cc) {
+            if let Ok(load) = serde_yaml::from_str(&cc) {
                 return Some(load);
             } else {
                 self.clear(); // remove cache
@@ -84,7 +84,7 @@ impl Cache {
 
     pub fn set(&mut self, page: &Page, content: &Load) {
         let key = page.value();
-        let val = serde_json::to_string(content).unwrap_or_else(|_| "never or".to_owned());
+        let val = serde_yaml::to_string(content).unwrap_or_else(|_| "never or".to_owned());
         self.inner.set(&key, &val).ok();
     }
 }

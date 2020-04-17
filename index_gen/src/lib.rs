@@ -68,8 +68,8 @@ pub fn read_files() -> io::Result<()> {
     let atom_feed = atom::gather_posts(posts.clone());
     atom_output.write_all(atom_feed.to_string().as_bytes())?;
     // get json
-    let json = [dist, "/posts.json".into()].concat();
-    println!("## write post json result to {}", json);
+    let json = [dist, "/posts.yml".into()].concat();
+    println!("## write post yaml result to {}", json);
     let mut json_output = fs::File::create(json)?;
     // this place will always success, so just unwrap
     let fms: Vec<FrontMatter> = posts
@@ -80,5 +80,5 @@ pub fn read_files() -> io::Result<()> {
             fm
         })
         .collect();
-    json_output.write_all(serde_json::to_string(&fms).unwrap().as_bytes())
+    json_output.write_all(serde_yaml::to_string(&fms).unwrap().as_bytes())
 }

@@ -41,10 +41,10 @@ impl FetchRequest {
         self.0.url()
     }
 
-    pub fn fill(self, res: String, update_id: u32) -> serde_json::Result<FetchResult> {
+    pub fn fill(self, res: String, update_id: u32) -> serde_yaml::Result<FetchResult> {
         let fetch_result = match self {
             FetchRequest(Page::Posts) => {
-                let list: PostList = serde_json::from_str(&res)?;
+                let list: PostList = serde_yaml::from_str(&res)?;
                 FetchResult(Load::Posts(list), Page::Posts, update_id)
             }
             FetchRequest(page) => FetchResult(Load::Page(res), page, update_id),
