@@ -4,6 +4,7 @@ use crate::{
     posts::PostList,
     utils::Page,
 };
+use serde::Deserialize;
 use yew::*;
 
 #[derive(PartialEq, Clone, Properties)]
@@ -27,9 +28,21 @@ impl From<Load> for Msg {
     }
 }
 
+#[derive(Debug, Deserialize)]
+struct FrontMatter {
+    title: String,
+    category: String,
+    tags: Vec<String>,
+    summary: String,
+    date: String,
+    #[serde(default)]
+    spoiler: bool,
+}
+
 pub struct Content {
     page: Page,
     inner: Option<Load>,
+    front_matter: Option<FrontMatter>,
     fetch: Box<dyn Bridge<FetchAgent>>,
     on_change: Callback<Page>,
 }
@@ -61,6 +74,7 @@ impl Component for Content {
         Content {
             page: props.page,
             inner: None,
+            front_matter: None,
             fetch: fetch_agent,
             on_change: props.on_change,
         }
@@ -68,12 +82,25 @@ impl Component for Content {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         self.inner = Some(msg.into());
+        if let Some(Load::Page(ref article)) = self.inner {
+            if article.starts_with("---\n") {
+                if let Some(fm_end) = article[4..].find("---\n") {
+                    let fm = &article[4..fm_end];
+                    if let Ok(fm) = serde_yaml::from_str(fm) {
+                        log::info!("get front_matter\n{:?}", &fm);
+                        self.front_matter = Some(fm);
+                    }
+                }
+            }
+        }
+        // parser front_matter
         true
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if props.page != self.page {
             self.inner = None;
+            self.front_matter = None;
             self.page = props.page.clone();
             self.fetch.send(props.page.into());
         }

@@ -23,7 +23,6 @@ pub fn render_markdown(src: &str) -> Html {
     }
 
     for ev in Parser::new_ext(src, Options::all()) {
-        log::info!("e - {:?}", &ev);
         match ev {
             Event::Start(tag) => {
                 depth += 1;
@@ -119,7 +118,6 @@ pub fn render_markdown(src: &str) -> Html {
 }
 
 fn make_tag(t: Tag) -> VTag {
-    log::info!("t - {:?}", &t);
     match t {
         Tag::Paragraph => VTag::new("p"),
         Tag::Heading(n) => VTag::new(format!("h{}", n)),

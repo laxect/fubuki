@@ -3,7 +3,7 @@ use crate::utils::Page;
 use serde_derive::{Deserialize, Serialize};
 use yew::{html, Callback, Component, ComponentLink, Html, Properties, ShouldRender};
 
-#[derive(PartialEq, Clone, Deserialize, Serialize)]
+#[derive(PartialEq, Clone, Deserialize, Serialize, Debug)]
 pub struct Post {
     pub url: String,
     pub date: String,
