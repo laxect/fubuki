@@ -45,16 +45,15 @@ body
     color: $black
     overflow-y: scroll
     padding:
-        left: 1em
-        right: 1em
-    @media (min-width: 600px) and (max-width: 1036px)
+        left: 4px
+        right: 4px
+    --max-width: 592px
+    @media (min-width: 600px)
+        max-width: var(--max-width)
+        --left: calc((100% - var(--max-width)) / 2)
         padding:
-            left: 2em
-            right: 2em
-    @media (min-width: 1036px)
-        padding:
-            left: 20em
-            right: 20em
+            left: var(--left)
+            right: var(--left)
 
 // base style
 // reset default button style
@@ -106,9 +105,8 @@ nav
                 template-columns: repeat(3, var(--nav-item-width))
                 gap: var(--nav-gap)
             width: calc(var(--nav-item-width) * 3 + var(--nav-gap) * 2)
-            @media (min-width: 1036px)
-                right: 0
-                float: right
+            right: 0
+            float: right
     button
         text-align: center
         padding: 0.4em 0
@@ -278,22 +276,6 @@ del.html
         color: red
         content: "-"
         padding-right: 0.4em
-
-// update notification
-.update-notification
-    font-size: 1rem
-    font-family: 'Kosugi Maru', sans-serif
-    position: fixed
-    left: 7em
-    top: 90%
-    padding:
-        top: 0.2em
-        bottom: 0.2em
-    border-left: black solid 0.5em
-    transition: all 1s
-    &:hover
-        background: black
-        color: white
 
 // load animation
 .bubblingG
