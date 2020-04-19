@@ -8,6 +8,7 @@ use yew::{
     Html,
 };
 
+#[allow(clippy::cognitive_complexity)]
 pub fn render_markdown(src: &str) -> Html {
     let mut depth: u32 = 0; // virtal stack
     let mut spine = Vec::new();
