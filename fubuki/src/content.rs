@@ -36,7 +36,38 @@ struct FrontMatter {
     summary: String,
     date: String,
     #[serde(default)]
-    spoiler: bool,
+    spoiler: Spoiler,
+}
+
+#[derive(Debug, Deserialize)]
+enum Spoiler {
+    None,
+    Some { target: String, level: u32 },
+}
+
+impl Default for Spoiler {
+    fn default() -> Self {
+        Self::None
+    }
+}
+
+impl Spoiler {
+    pub fn render(&self) -> Html {
+        match self {
+            Self::None => html! {
+                <></>
+            },
+            Self::Some { target, level } => {
+                html! {
+                    <p class="spoiler-alert">
+                    { format!("请注意，本文可能含有对{}的 ", target) }
+                    <span class="spoiler-level">{ level }</span>
+                    { " 等级剧透。" }
+                    </p>
+                }
+            }
+        }
+    }
 }
 
 pub struct Content {
@@ -59,6 +90,13 @@ impl Content {
             Some(c.clone())
         } else {
             None
+        }
+    }
+
+    fn render_spoiler(&self) -> Html {
+        match self.front_matter {
+            Some(FrontMatter { ref spoiler, .. }) => spoiler.render(),
+            _ => html! { <></> },
         }
     }
 }
@@ -128,13 +166,18 @@ impl Component for Content {
             }
             _ => {
                 let c = self.inner().unwrap();
+                let title_end = c.find('\n').unwrap_or_default();
+                let title = &c[..title_end].replace("# ", "");
+                let c = &c[title_end..];
                 let class = match self.page {
                     Page::Article(_) => "post",
                     _ => "",
                 };
                 html! {
                     <main class=class>
-                        <article>{ render_markdown(&c) }</article>
+                        <h1>{ title }</h1>
+                        { self.render_spoiler() }
+                        <article>{ render_markdown(c) }</article>
                     </main>
                 }
             }
