@@ -3,10 +3,10 @@
 + [igaryhe](https://blog.igaryhe.io/)
 + [ddddxxx](https://ddddxxx.github.io/)
 + [yunyang088](https://blog.y01.me/)
-+ [max](https://mmmmmax.cn/)
++ [max](https://maxxxxx.life/)
 + [xixing](https://xixing.dev/)
-+ [柑橘](https://ioover.net)
-+ [<ruby>有理<rt>Asterism</rt></ruby>](https://monsoon.cl/)
++ [读写终子](https://ioover.net)
++ [<ruby>有理<rt>monsoon</rt></ruby>](https://monsoon.cl/)
 
 ### 这个<ruby>博客<rt>しま</rt></ruby>使用了以下这些资源
 
