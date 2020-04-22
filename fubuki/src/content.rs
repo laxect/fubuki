@@ -19,6 +19,15 @@ pub enum Msg {
     Posts(PostList),
 }
 
+impl Msg {
+    pub fn into_pong(self) -> Option<String> {
+        match self {
+            Self::Pong(c) => Some(c),
+            _ => None,
+        }
+    }
+}
+
 impl From<Load> for Msg {
     fn from(load: Load) -> Msg {
         match load {
@@ -73,6 +82,7 @@ impl Spoiler {
 pub struct Content {
     page: Page,
     inner: Option<Load>,
+    title: Option<String>,
     front_matter: Option<FrontMatter>,
     fetch: Box<dyn Bridge<FetchAgent>>,
     on_change: Callback<Page>,
@@ -80,23 +90,28 @@ pub struct Content {
 
 impl Content {
     fn inner(&self) -> Option<String> {
-        if let Some(Load::Page(ref c)) = self.inner {
-            if c.starts_with("---\n") {
-                let after = &c[4..];
-                if let Some(ind) = after.find("---\n") {
-                    return Some(c[ind + 4 * 2..].into());
-                }
-            }
-            Some(c.clone())
-        } else {
-            None
-        }
+        self.inner
+            .as_ref()
+            .map(|load| match load {
+                Load::Page(c) => Some(c.clone()),
+                _ => None,
+            })
+            .flatten()
     }
 
     fn render_spoiler(&self) -> Html {
         match self.front_matter {
             Some(FrontMatter { ref spoiler, .. }) => spoiler.render(),
             _ => html! { <></> },
+        }
+    }
+
+    fn render_title(&self) -> Html {
+        match self.title {
+            Some(ref title) => html! {
+                <h1>{ title.clone() }</h1>
+            },
+            None => html! { <></> },
         }
     }
 }
@@ -112,6 +127,7 @@ impl Component for Content {
         Content {
             page: props.page,
             inner: None,
+            title: None,
             front_matter: None,
             fetch: fetch_agent,
             on_change: props.on_change,
@@ -119,18 +135,40 @@ impl Component for Content {
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        self.inner = Some(msg.into());
-        if let Some(Load::Page(ref article)) = self.inner {
+        if let Msg::Pong(ref article) = msg {
+            let main: String;
             if article.starts_with("---\n") {
                 if let Some(fm_end) = article[4..].find("---\n") {
-                    let fm = &article[4..fm_end];
-                    if let Ok(fm) = serde_yaml::from_str(fm) {
-                        log::info!("get front_matter\n{:?}", &fm);
-                        self.front_matter = Some(fm);
+                    let fm = &article[4..fm_end + 4];
+                    match serde_yaml::from_str(fm) {
+                        Ok(fm) => {
+                            log::info!("get front_matter\n{:?}", &fm);
+                            self.front_matter = Some(fm);
+                        }
+                        Err(e) => {
+                            log::error!("fm parser failed: {}", e);
+                        }
                     }
+                    main = article[fm_end + 8..].to_string();
+                } else {
+                    unreachable!();
                 }
+            } else {
+                main = msg.into_pong().unwrap();
             }
+            if main.starts_with("# ") {
+                let title_end = main.find('\n').unwrap_or_default();
+                let title = &main[..title_end].replace("# ", "");
+                let main = &main[title_end..];
+                self.title = Some(title.to_owned());
+                self.inner = Some(Load::Page(main.to_owned()));
+            } else {
+                self.inner = Some(Load::Page(main));
+            }
+        } else {
+            self.inner = Some(msg.into());
         }
+
         // parser front_matter
         true
     }
@@ -138,6 +176,7 @@ impl Component for Content {
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if props.page != self.page {
             self.inner = None;
+            self.title = None;
             self.front_matter = None;
             self.page = props.page.clone();
             self.fetch.send(props.page.into());
@@ -165,19 +204,16 @@ impl Component for Content {
                 }
             }
             _ => {
-                let c = self.inner().unwrap();
-                let title_end = c.find('\n').unwrap_or_default();
-                let title = &c[..title_end].replace("# ", "");
-                let c = &c[title_end..];
                 let class = match self.page {
                     Page::Article(_) => "post",
                     _ => "",
                 };
+                let c = self.inner().unwrap_or_default();
                 html! {
                     <main class=class>
-                        <h1>{ title }</h1>
+                        { self.render_title() }
                         { self.render_spoiler() }
-                        <article>{ render_markdown(c) }</article>
+                        <article>{ render_markdown(&c) }</article>
                     </main>
                 }
             }
