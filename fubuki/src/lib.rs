@@ -40,6 +40,10 @@ impl Component for Blog {
         }
     }
 
+    fn change(&mut self, _: Self::Properties) -> ShouldRender {
+        false
+    }
+
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         let inner = match msg {
             Change::Click(page) => {
