@@ -1,5 +1,3 @@
-rm dist -r
 yarn install
+yarn run index
 yarn run build
-cp public/* dist/ -r
-cargo run --bin index_gen --release -- public/post dist

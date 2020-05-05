@@ -79,7 +79,7 @@ impl Component for Blog {
     }
 }
 
-#[wasm_bindgen]
+#[wasm_bindgen(start)]
 pub fn run_app() {
     web_logger::custom_init(web_logger::Config {
         level: log::Level::Error,

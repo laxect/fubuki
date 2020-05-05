@@ -1,0 +1,62 @@
+---
+- url: 2018-05-05-ticwatch_pro
+  title: TicWatch Pro 上手体验
+  date: 令和1/5/11
+  summary: 还行。
+  tags:
+    - TicWatch Pro
+  category: Life
+  toc: ~
+- url: 2018-04-17-saikinn-leetcode-no-repoto
+  title: 平成最后的 leetcode 解题报告
+  date: 平成31/4/17
+  summary: 令和最初？
+  tags:
+    - leetcode
+    - rust
+  category: Coding
+  toc: ~
+- url: 2018-04-01-ika-ins
+  title: ika ins
+  date: 平成30/3/29
+  summary: 匿名版
+  tags:
+    - python
+    - Gyara studio
+  category: Coding
+  toc: ~
+- url: 2018-04-01-hello-world
+  title: hello world
+  date: 平成30/4/1
+  summary: こにちわ
+  tags:
+    - dev
+  category: Coding
+  toc: ~
+- url: 2018-03-01-kimi-no-namae
+  title: 君の名は
+  date: 平成30/3/1
+  summary: 你的名字
+  tags:
+    - movie
+    - anime
+  category: After reading
+  toc: ~
+- url: 2017-07-02-exec-python
+  title: python 里的 exec
+  date: 平成29/7/2
+  summary: あれれ、おかしいよ
+  tags:
+    - python
+    - traps
+  category: Coding
+  toc: ~
+- url: 2016-03-03-Goodbye_demon
+  title: Goodbye Demon
+  date: 平成28/3/3
+  summary: 再见，妖精
+  tags:
+    - 米澤 穂信
+    - light-novel
+  category: After reading
+  toc: ~

@@ -1,0 +1,170 @@
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Gyara Studio</title><id>https://blog.gyara.moe/</id><updated>2019-05-11T00:00:00+00:00</updated><author><name>gyara</name><email>me@gyara.moe</email><uri>https://blog.gyara.moe/</uri></author><generator uri="https://github.com/laxect/fubuki/tree/dev/posts_gen" version="0.3.3">fubuki::posts_gen</generator><link href="https://blog.gyara.moe/atom.xml" rel="self"/><link href="https://pubsubhubbub.appspot.com/" rel="hub"/><rights>© 2016 - 2020 gyara</rights><subtitle>gyara's studio</subtitle><entry><title>TicWatch Pro 上手体验</title><id>https://blog.gyara.moe/post/2018-05-05-ticwatch_pro/</id><updated>2019-05-11T00:00:00+00:00</updated><author><name>gyara</name><email>me@gyara.moe</email><uri>https://blog.gyara.moe/</uri></author><link href="https://blog.gyara.moe/post/2018-05-05-ticwatch_pro/" rel="alternate"/><published>2019-05-11T00:00:00+00:00</published><rights>© 2016 - 2020 gyara</rights><summary>还行。</summary><content type="html">&lt;h1&gt;TicWatch Pro 上手体验&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&quot;https://storage.googleapis.com/blog_gyara/img/posts/179577a0857d515edc12.webp&quot; alt=&quot;TicWatch Pro&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;外观&lt;/h2&gt;
+&lt;p&gt;看起来还不错？很符合我的心理预期，足够好看。&lt;/p&gt;
+&lt;h2&gt;应用&lt;/h2&gt;
+&lt;p&gt;由于我买的是国际版（日版），因此默认搭载的是 Android Wear OS。这个版本的系统不能使用支付宝在手表上的支付功能，但是反正我也不用（&lt;/p&gt;
+&lt;p&gt;但是选择国际版的话，机器本身就会自带 Google Play Framework，像是 Play Store 这些功能就可以直接用了。大多数常见应用都有 Wear OS 版本，用起来也都还体验不错。&lt;/p&gt;
+&lt;h2&gt;交互&lt;/h2&gt;
+&lt;p&gt;交互上也还可以？不过我没用过别的智能手表也没什么可以拿来对比的。大部分时候要使用触摸屏，但也有很多操作可以用手臂的摆动实现。（主要是看通知的操作）。&lt;/p&gt;
+&lt;p&gt;随便一提，TicWatch 的手表侧面的按键是可以旋转的，但是并没有对应的效果。emmmm...这一点上有点失望？&lt;/p&gt;
+&lt;h2&gt;续航&lt;/h2&gt;
+&lt;p&gt;还行。&lt;/p&gt;
+&lt;p&gt;也就是还行吧。以我的使用程度（计步、每天晚上睡眠检测、看通知），大概能用两天（但我实际上还是一天一充的）。和官方的说法相差不大。如果开启省电模式（只有计步、看时间的功能...连个手环都不如），按照官方的说法能用一个月。&lt;/p&gt;
+&lt;p&gt;但是这手表有自己的充电底座，外出的时候还要带上，有一点麻烦。&lt;/p&gt;
+&lt;h2&gt;尾巴（&lt;/h2&gt;
+&lt;p&gt;以下是一些手表的细节，仅供参考。&lt;/p&gt;
+&lt;h3&gt;网络&lt;/h3&gt;
+&lt;p&gt;TicWatch Pro 有两种工作模式（似乎和其他 Wear OS 不太相同）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;蓝牙状态。这个模式下可以和手机通讯，如果应用做了适配的话也可以访问网络。Play Store 在这个模式下不可用。&lt;/li&gt;
+&lt;li&gt;WiFi 状态。这个模式下是全功能的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;手表本身并&lt;em&gt;不&lt;/em&gt;能设置代理，需要家里有翻墙的热点才能功能全开。&lt;/p&gt;
+&lt;h3&gt;自带应用&lt;/h3&gt;
+&lt;p&gt;自带应用并不多...而且都没什么用。Google 全家桶就完事了。&lt;/p&gt;
+&lt;h3&gt;重量&lt;/h3&gt;
+&lt;p&gt;我没查到这表多重...但是刚带的时候感觉是有点重的。戴久了倒是没什么感觉了。&lt;/p&gt;
+&lt;h3&gt;充电速度&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;与苹果齐平&lt;/strong&gt;（振声）！5V1A 的输入，说实话充电有点慢...不过反正手持设备的电池不大，充电时间还是能接受的。&lt;/p&gt;
+</content></entry><entry><title>平成最后的 leetcode 解题报告</title><id>https://blog.gyara.moe/post/2018-04-17-saikinn-leetcode-no-repoto/</id><updated>2019-04-17T00:00:00+00:00</updated><author><name>gyara</name><email>me@gyara.moe</email><uri>https://blog.gyara.moe/</uri></author><link href="https://blog.gyara.moe/post/2018-04-17-saikinn-leetcode-no-repoto/" rel="alternate"/><published>2019-04-17T00:00:00+00:00</published><rights>© 2016 - 2020 gyara</rights><summary>令和最初？</summary><content type="html">&lt;h1&gt;平成最后的 leetcode 解题报告&lt;/h1&gt;
+&lt;p&gt;最近一段时间积攒的 leetcode 解题报告（虽然都是水题啦）。&lt;/p&gt;
+&lt;h2&gt;146 lru cache&lt;/h2&gt;
+&lt;p&gt;模拟一个 LRU 缓存。一般的做法应该是用 hashmap 存索引，用 queue 存实际内容（和去除过期内容）。但是由于 rust 这里的指针问题我不想存索引（咦）。于是用了个取巧的做法，用版本来避免对 queue 的更新。过这道题是足够了。插入新元素和取出元素的效率都是均摊 O(1)。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/laxect/leetcode/blob/master/src/h146_lru_cache.rs&quot;&gt;代码&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;204 计算质数&lt;/h2&gt;
+&lt;p&gt;欧拉筛就完事了。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;bool flag[MAXN] = {1};    //将标识初始化为true
+void erat(int maxn)
+{
+	flag[0]=0;            //0不是質数
+	flag[1]=0;            //1不是質数
+	for(int i=2;i&amp;lt;=maxn;++i)
+	{
+         /*当i为質数时，i的所有倍数都不是質数*/
+		if(flag[i])
+		{
+			for(int j=i*i;j&amp;lt;=maxn;j+=i)
+			{
+				flag[j]=0;
+			}
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这个是 wiki 的版本。（比我写的干净）&lt;/p&gt;
+&lt;h2&gt;268 missing number&lt;/h2&gt;
+&lt;p&gt;还算挺有趣的题吧（还是水）。简单来说思路就是把 i 放到数组的第 i 个，那么全放完后 n 的位置就是丢失的数（本该在的位置）。特殊情况就是消失的是 n。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/laxect/leetcode/blob/master/src/e268_missing_number.rs&quot;&gt;代码&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;matrix67 上一个类似的&lt;a href=&quot;http://www.matrix67.com/blog/archives/6584&quot;&gt;实例&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;326 power of three&lt;/h2&gt;
+&lt;p&gt;真正的水题...只需要一次 log...可能会有精度问题，提前判一下是不是 3 的倍数（注意&lt;em&gt;1&lt;/em&gt;）就好了。&lt;/p&gt;
+&lt;h2&gt;704 binary search&lt;/h2&gt;
+&lt;p&gt;翻...翻翻书？&lt;/p&gt;
+&lt;h2&gt;155 min stack&lt;/h2&gt;
+&lt;p&gt;最小栈。用两个栈就好了，一个维护元素，一个维护最小值。最小队列同理可解。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/laxect/leetcode/blob/master/src/e155_min_stack.rs&quot;&gt;代码&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;032 longest valid parenthess&lt;/h2&gt;
+&lt;p&gt;基本就是基于栈的括号匹配...稍微扩展下就好了。在栈里一起存下括号序列长度就可以了。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/laxect/leetcode/blob/master/src/h032_longest_valid_parentheses.rs&quot;&gt;代码&lt;/a&gt;&lt;/p&gt;
+</content></entry><entry><title>ika ins</title><id>https://blog.gyara.moe/post/2018-04-01-ika-ins/</id><updated>2018-03-29T00:00:00+00:00</updated><author><name>gyara</name><email>me@gyara.moe</email><uri>https://blog.gyara.moe/</uri></author><link href="https://blog.gyara.moe/post/2018-04-01-ika-ins/" rel="alternate"/><published>2018-03-29T00:00:00+00:00</published><rights>© 2016 - 2020 gyara</rights><summary>匿名版</summary><content type="html">&lt;h1&gt;Ika Ins&lt;/h1&gt;
+&lt;h3&gt;这是什么?&lt;/h3&gt;
+&lt;p&gt;一个基于 &lt;em&gt;Flask&lt;/em&gt; 与 &lt;em&gt;Bootstrap&lt;/em&gt; 的&lt;strong&gt;匿名版&lt;/strong&gt;。已经实现了以下功能: (截止至 V1.1.0)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;匿名发布帖子&lt;/li&gt;
+&lt;li&gt;基于 ip 地址的 ID 生成及校验 (可校验，不可追溯)&lt;/li&gt;
+&lt;li&gt;贴图功能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;TO-DO List&lt;/h3&gt;
+&lt;p&gt;以下功能正在开发中&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;锁帖&lt;/li&gt;
+&lt;li&gt;后台 API 配置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;地址&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://ikains.tk&quot;&gt;Ika Ins&lt;/a&gt;
+&lt;a href=&quot;https://github.com/two-doges/ika&quot;&gt;Github Link&lt;/a&gt;&lt;/p&gt;
+</content></entry><entry><title>hello world</title><id>https://blog.gyara.moe/post/2018-04-01-hello-world/</id><updated>2018-04-01T00:00:00+00:00</updated><author><name>gyara</name><email>me@gyara.moe</email><uri>https://blog.gyara.moe/</uri></author><link href="https://blog.gyara.moe/post/2018-04-01-hello-world/" rel="alternate"/><published>2018-04-01T00:00:00+00:00</published><rights>© 2016 - 2020 gyara</rights><summary>こにちわ</summary><content type="html">&lt;h1&gt;Hello World&lt;/h1&gt;
+&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or y&lt;em&gt;ou&lt;/em&gt; can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Quick Start&lt;/h2&gt;
+&lt;h3&gt;Create a new post&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ hexo new &amp;quot;My New Post&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/writing.html&quot;&gt;Writing&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Run server&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ hexo server
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/server.html&quot;&gt;Server&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Generate static files&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ hexo generate
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/generating.html&quot;&gt;Generating&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Deploy to remote sites&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ hexo deploy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/deployment.html&quot;&gt;Deployment&lt;/a&gt;&lt;/p&gt;
+</content></entry><entry><title>君の名は</title><id>https://blog.gyara.moe/post/2018-03-01-kimi-no-namae/</id><updated>2018-03-01T00:00:00+00:00</updated><author><name>gyara</name><email>me@gyara.moe</email><uri>https://blog.gyara.moe/</uri></author><link href="https://blog.gyara.moe/post/2018-03-01-kimi-no-namae/" rel="alternate"/><published>2018-03-01T00:00:00+00:00</published><rights>© 2016 - 2020 gyara</rights><summary>你的名字</summary><content type="html">&lt;h1&gt;君の名は&lt;/h1&gt;
+&lt;p&gt;穿越时空这种设定，在各种意义上讲都不算罕见。《你的名字》在这一方面做的并不算出色。时空错位的设定揭开的时候，我并没有收到想象中的冲击感。说到底还是剧情铺垫不够啊。以另一部有这种设定的作品&lt;em&gt;蜘蛛子&lt;/em&gt;为例，她设定暴露时的冲击感几乎全都来自于前面大量的铺垫。剧情中无数细节上令人“不舒服”的特异点，在补充了设定之后全都转化为令人惊叹的伏笔，这才是叙述性诡计的醍醐味啊！而受制于剧情长度，君の名は显然缺少这种细节，也只能通过回忆来粗暴的添加“伏笔”，这就使得设定缺乏冲击性。至于改变过去逆转因果，纯粹是都和主义强行推进剧情发展了。&lt;/p&gt;
+&lt;p&gt;除此以外, 君の名は里失忆的设定显得就更奇怪了。抛开“すき”这种狗粮不谈，泷(三叶)失忆在剧情上的目的究竟是什么？有点没什么道理。失忆对泷/三叶造成困扰了吗？几乎没有。失忆推进剧情了吗？大概也没有吧. 在我看来，失忆对剧情唯一的贡献就是引出了“すき”。除此以外，失忆的影响都隐藏在消失的数年里了。既然新海诚不打算再来一个彼此错过的路线，失忆梗就显得有些多余了。&lt;/p&gt;
+&lt;p&gt;画面与音乐的优秀当然是没的说，可剧情如何就有待考量了。对我个人的评分而言，&lt;em&gt;君の名は&lt;/em&gt;大概只能拿到 7～8 分吧。&lt;/p&gt;
+</content></entry><entry><title>python 里的 exec</title><id>https://blog.gyara.moe/post/2017-07-02-exec-python/</id><updated>2017-07-02T00:00:00+00:00</updated><author><name>gyara</name><email>me@gyara.moe</email><uri>https://blog.gyara.moe/</uri></author><link href="https://blog.gyara.moe/post/2017-07-02-exec-python/" rel="alternate"/><published>2017-07-02T00:00:00+00:00</published><rights>© 2016 - 2020 gyara</rights><summary>あれれ、おかしいよ</summary><content type="html">&lt;h1&gt;python 里的 exec&lt;/h1&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;a = 1
+exec(&#x27;a += 1&#x27;)
+print(a)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果要在 python 中动态执行代码，&lt;em&gt;exec&lt;/em&gt; 是一个可行的选择。对于上面这段代码，可以预想到，输出结果为 2 。但是如果看过 python 的文档的话，会注意到 &lt;em&gt;exec&lt;/em&gt; 的说明中有&lt;a href=&quot;https://docs.python.org/3/library/functions.html?highlight=exec#exec&quot;&gt;这样一段&lt;/a&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Be aware that the return and yield statements may not be used outside of function definitions even within the context of code passed to the exec() function.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;什么状况？不是出来结果了吗？再试试下面这段代码&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def func_test():
+    a = 1
+    exec(&#x27;a += 1&#x27;)
+    print(a)
+
+
+func_test()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行之后结果竟然还是 1 ? &lt;em&gt;exec&lt;/em&gt; 没有执行吗？那之前的结果是怎么来的？仔细再看看文档，会注意到其中有这样一段 (然而就是第二段 = =)。
+&amp;gt;In all cases, if the optional parts are omitted, the code is executed in the current scope. If only globals is provided, it must be a dictionary, which will be used for both the global and the local variables. If globals and locals are given, they are used for the global and local variables, respectively. If provided, locals can be any mapping object. Remember that at module level, globals and locals are the same dictionary. If exec gets two separate objects as globals and locals, the code will be executed as if it were embedded in a class definition.&lt;/p&gt;
+&lt;p&gt;换句话说，当 &lt;em&gt;exec&lt;/em&gt; (exec(object[, globals[, locals]])) 没有给予可选参数时，它的结果只会在当前作用域有效。当 &lt;em&gt;exec&lt;/em&gt; 在模块级运行时， &lt;em&gt;locals&lt;/em&gt; 和 &lt;em&gt;global&lt;/em&gt; 是相同的字典，这也就是第一段代码生效的原因。但在第二段代码中， &lt;em&gt;print&lt;/em&gt; 打印的是 &lt;em&gt;global&lt;/em&gt; 中的 &lt;em&gt;a&lt;/em&gt; ，&lt;em&gt;exec&lt;/em&gt; 的结果却在 &lt;em&gt;locals&lt;/em&gt; 中， 这也就是第二段代码不生效的原因。&lt;/p&gt;
+&lt;p&gt;那怎么解决这个问题呢？
+&lt;a href=&quot;http://python3-cookbook.readthedocs.io/zh_CN/latest/c09/p23_executing_code_with_local_side_effects.html&quot;&gt;python3 cookbook&lt;/a&gt;
+给出了这样一个解决方案：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;def test():
+    a = 13
+    loc = locals()
+    exec(&#x27;b = a + 1&#x27;)
+    b = loc[&#x27;b&#x27;]
+    print(b)
+
+
+test()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;即手动把 &lt;em&gt;locals&lt;/em&gt; 里更改过的变量的值传给 &lt;em&gt;global&lt;/em&gt; 。&lt;/p&gt;
+&lt;p&gt;真是个大坑。&lt;/p&gt;
+</content></entry><entry><title>Goodbye Demon</title><id>https://blog.gyara.moe/post/2016-03-03-Goodbye_demon/</id><updated>2016-03-03T00:00:00+00:00</updated><author><name>gyara</name><email>me@gyara.moe</email><uri>https://blog.gyara.moe/</uri></author><link href="https://blog.gyara.moe/post/2016-03-03-Goodbye_demon/" rel="alternate"/><published>2016-03-03T00:00:00+00:00</published><rights>© 2016 - 2020 gyara</rights><summary>再见，妖精</summary><content type="html">&lt;h1&gt;再见妖精&lt;/h1&gt;
+&lt;p&gt;&lt;em&gt;再见，妖精&lt;/em&gt;。正如这本书的题目所言，这是一本关于告别的书。告别的对象则是玛娅。更准确的说，是我们所&lt;em&gt;想看见&lt;/em&gt;的那个玛娅。玛娅是怎样的一个人呢？来自遥远的异国，从出现开始就带着浓厚的神秘色彩。性格讨人喜欢，又有着近乎完美的外表。如果简要的概括一下玛娅的特点的话，就是&lt;em&gt;梦中人&lt;/em&gt;。在这里，玛娅几乎是个隐喻——在现实中不存在的&lt;em&gt;完美的&lt;/em&gt;人。玛娅不是一个充满现实感的角色。在我们身边守屋这样的人并不少见，但几乎不可能存在一个人，像玛娅一样具有&lt;em&gt;传奇色彩&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;玛娅是个只存在于书中世界的传奇幻象。正因如此，作为一个传奇而存在的玛娅，不会也不能在守屋这些&lt;em&gt;凡人&lt;/em&gt;的世界里久留。否则她就不是玛娅了。也正因如此，从一开始玛娅的结局就注定了。她不是一个现实的角色，也因此不可能留在现实中。南斯拉夫到日本的距离，从一开始就是无限远。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这些故事归根结底可以总结为&lt;em&gt;想让世界变得更加有趣&lt;/em&gt;这一愿望的具现化。然而，&lt;em&gt;这一愿望不会实现&lt;/em&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;米泽穗信想要展现的，大概就是这样一个事实。就算是在小说的世界里，主角能办得到的事也是有限的。守屋只是个&lt;em&gt;普通高中生&lt;/em&gt;，不是能改变历史的超人气英雄，作为&lt;em&gt;普通高中生&lt;/em&gt;的守屋也当然去不了南斯拉夫。对于守屋而言，能做的事只有一件，就是看着玛娅消失。这对于我们而言就更残酷了。我们，作为&lt;em&gt;读者&lt;/em&gt;，连参与事件的资格都没有。守屋对发生在地球另一侧的玛娅身上的事无能为力，而我们与守屋之间隔着的，可不仅仅是地球,而是无论怎样努力也绝对无法跨越的次元之壁。从这层意义上看，我们比守屋更加无能为力。《再见，妖精》中，充满了类似这样的无力感。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;遥远的不是距离，而是次元啊！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在如今的平成年代，能传奇般地以一人之力解决困扰整个国家的问题的游侠，早就没有了生存空间。人们有的是比拯救国家更重要的事要做。去南斯拉夫寻找玛娅？别开玩笑了，平成的人们没这么爱做梦。要做的事情可是有一大堆，又有谁会在乎几万公里以外发生的事情？相比之下，还是&lt;em&gt;脚踏实地&lt;/em&gt;比较好。正如同文原所言：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;已经高三了，比起南斯拉夫，还是高考教辅书更重要吧。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;脚踏实地。我从未如此反感这个词。人们是自知能力不足才选择着眼当下，还是因为一直注目脚下而失去了远行的勇气？也许守屋想做的事确实不具有可行性，可让人愤怒的，却是认定这件事“不可能办到”的世界。难道就不会有奇迹发生吗？难道我们就只能认命的沿着已有的轨迹前行，连十字路口都不会遇到一个吗？难道这世界就没有哪怕一点变得有趣的可能吗？&lt;/p&gt;
+&lt;p&gt;可能性是有的。但是这样的，&lt;em&gt;有趣&lt;/em&gt;的世界，只存在于人们的脑海里。米泽穗信极尽全力想告诉我们这样的世界不存在，只是幻象，像《冰菓》里那样有趣的事件，永远不可能在我们的世界里出现。但是&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我们每天所经历的日常，或许就是连续不断发生的奇迹&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;再见，妖精。&lt;em&gt;妖精&lt;/em&gt;指的究竟是什么？只是玛娅吗？谁没有过幻想的冲动呢？也就是所谓的“想让世界更有趣一点的”这种愿望。 然而 &lt;strong&gt;“这个愿望不会实现”&lt;/strong&gt; 世界是不会随着人们的幻想而发生哪怕一点变化的。对于我们来说，我们幻想中的玛娅，从一开始就不会出现。在我们的世界中出现的，是“只要出现四发全中的奇迹就能晋级，然而最终不过是平常的水平”这样的再正常不过的&lt;em&gt;日常&lt;/em&gt; 。对于我们而言，没有奇迹。就算玛娅来到了日本，最终她也要回到南斯拉夫。于是一切不过是场幻梦。&lt;/p&gt;
+&lt;p&gt;再见，妖精。再见，《妖精》。小说里的再见，往往有着永别的含义。但是在我们的世界里，再见却仅仅意味着&lt;strong&gt;明天见&lt;/strong&gt;。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;题图太刀洗万智&lt;/p&gt;
+&lt;p&gt;p站id &lt;em&gt;&lt;a href=&quot;http://www.pixiv.net/member_illust.php?mode=medium&amp;amp;illust_id=54442220&quot;&gt;54442220&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+</content></entry></feed>
