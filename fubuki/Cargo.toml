@@ -15,12 +15,10 @@ web_logger = {git = "https://github.com/Gyara-studio/web_logger.git"}
 wasm-bindgen-futures = "0.4.12"
 semver = "0.9.0"
 serde_yaml = "0.8.11"
-
-[dependencies.yew]
-version = "0.15.0"
+yew = "0.15.0"
 
   [dependencies.web-sys]
-  version = "0.3.37"
+  version = "0.3.39"
   features = [
   "Location",
   "Window",
@@ -40,7 +38,7 @@ version = "0.15.0"
   features = [ "derive" ]
 
   [dependencies.pulldown-cmark]
-  version = "0.7.0"
+  version = "0.7.1"
   default-features = false
 
   [dependencies.getrandom]
@@ -48,5 +46,5 @@ version = "0.15.0"
   features = [ "wasm-bindgen" ]
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3.11"
+wasm-bindgen-test = "0.3.12"
 

@@ -1,4 +1,4 @@
-import { run_app } from './fubuki/Cargo.toml'
+import { run_app } from './fubuki/src/lib.rs'
 import han_css from './node_modules/han-css/dist/han.css'
 import main from './main.sass'
 

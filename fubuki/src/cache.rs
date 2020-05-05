@@ -1,4 +1,4 @@
-use crate::{content::Msg, posts::PostList, Page};
+use crate::{posts::PostList, Page};
 use serde_derive::{Deserialize, Serialize};
 use wasm_bindgen::JsValue;
 use web_sys::{window, Storage};
@@ -7,6 +7,15 @@ use web_sys::{window, Storage};
 pub enum Load {
     Page(String),
     Posts(PostList),
+}
+
+impl Load {
+    pub fn into_page(self) -> Option<String> {
+        match self {
+            Self::Page(page) => Some(page),
+            _ => None,
+        }
+    }
 }
 
 impl From<String> for Load {
@@ -18,15 +27,6 @@ impl From<String> for Load {
 impl From<PostList> for Load {
     fn from(pl: PostList) -> Load {
         Load::Posts(pl)
-    }
-}
-
-impl From<Msg> for Load {
-    fn from(m: Msg) -> Load {
-        match m {
-            Msg::Pong(s) => s.into(),
-            Msg::Posts(pl) => pl.into(),
-        }
     }
 }
 

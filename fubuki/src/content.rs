@@ -1,7 +1,6 @@
 use crate::{
     fetch_agent::{FetchAgent, Load},
     markdown::render_markdown,
-    posts::PostList,
     utils::Page,
 };
 use serde::Deserialize;
@@ -11,30 +10,6 @@ use yew::*;
 pub struct ContentStatus {
     pub page: Page,
     pub on_change: Callback<Page>,
-}
-
-#[derive(PartialEq, Clone)]
-pub enum Msg {
-    Pong(String),
-    Posts(PostList),
-}
-
-impl Msg {
-    pub fn into_pong(self) -> Option<String> {
-        match self {
-            Self::Pong(c) => Some(c),
-            _ => None,
-        }
-    }
-}
-
-impl From<Load> for Msg {
-    fn from(load: Load) -> Msg {
-        match load {
-            Load::Page(payload) => Msg::Pong(payload),
-            Load::Posts(postlist) => Msg::Posts(postlist),
-        }
-    }
 }
 
 #[derive(Debug, Deserialize)]
@@ -117,11 +92,11 @@ impl Content {
 }
 
 impl Component for Content {
-    type Message = Msg;
+    type Message = Load;
     type Properties = ContentStatus;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let callback = link.callback(Msg::from);
+        let callback = link.callback(|x| x);
         let mut fetch_agent = FetchAgent::bridge(callback);
         fetch_agent.send(props.page.clone().into());
         Content {
@@ -135,7 +110,7 @@ impl Component for Content {
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        if let Msg::Pong(ref article) = msg {
+        if let Load::Page(ref article) = msg {
             let main: String;
             if article.starts_with("---\n") {
                 if let Some(fm_end) = article[4..].find("---\n") {
@@ -154,7 +129,7 @@ impl Component for Content {
                     unreachable!();
                 }
             } else {
-                main = msg.into_pong().unwrap();
+                main = msg.into_page().unwrap();
             }
             if main.starts_with("# ") {
                 let title_end = main.find('\n').unwrap_or_default();
