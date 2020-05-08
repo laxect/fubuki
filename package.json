@@ -17,7 +17,7 @@
         "style-loader": "^1.2.1",
         "webpack": "^4.43.0",
         "webpack-cli": "^3.3.11",
-        "webpack-dev-server": "^3.10.3"
+        "webpack-dev-server": "^3.11.0"
     },
     "scripts": {
         "index": "cargo run --bin index_gen --release -- public/post public",
