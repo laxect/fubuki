@@ -5,13 +5,13 @@ authors = ["Gyara <me@gyara.moe>"]
 edition = "2018"
 
 [dependencies]
-serde_derive = "1.0.106"
+serde_derive = "1.0.110"
 serde_yaml = "0.8.11"
 atom_syndication = "0.8.0"
 htmlescape = "0.3.1"
 
 [dependencies.serde]
-version = "1.0.106"
+version = "1.0.110"
 features = ["derive"]
 
 [dependencies.pulldown-cmark]
