@@ -13,7 +13,7 @@ log = "0.4.8"
 wasm-bindgen = "0.2.62"
 web_logger = {git = "https://github.com/Gyara-studio/web_logger.git"}
 wasm-bindgen-futures = "0.4.12"
-serde_yaml = "0.8.11"
+serde_yaml = "0.8.12"
 yew = "0.16.0"
 
   [dependencies.web-sys]
