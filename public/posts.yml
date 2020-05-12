@@ -1,5 +1,13 @@
 ---
-- url: 2018-05-05-ticwatch_pro
+- url: 2020-5-12-my-twitter-account-was-banned
+  title: 我的 Twitter 被封禁了
+  date: 令和2/5/12
+  summary: 是时候去中心化了。
+  tags:
+    - Mastodon
+  category: Life
+  toc: ~
+- url: 2019-05-05-ticwatch_pro
   title: TicWatch Pro 上手体验
   date: 令和1/5/11
   summary: 还行。
