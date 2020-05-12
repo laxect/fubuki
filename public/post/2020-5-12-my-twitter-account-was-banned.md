@@ -8,8 +8,10 @@ date: 令和2/5/12
 我的 Twitter 被封禁了。根据 Twitter 的支持页面，我的帐号可能是违反了以下规则之一：
 
 > Spam: Most of the accounts we suspend are suspended because they are spammy, or just plain fake, and they introduce security risks for Twitter and all of our users. These types of accounts are against our Twitter Rules. Unfortunately, sometimes a real person’s account gets suspended by mistake, and in those cases we’ll work with the person to make sure the account is unsuspended.
-Account security at risk: If we suspect an account has been hacked or compromised, we may suspend it until it can be secured and restored to the account owner in order to reduce potentially malicious activity caused by the compromise.
-Abusive Tweets or behavior: We may suspend an account if it has been reported to us as violating our Rules surrounding abuse. When an account engages in abusive behavior, like sending threats to others or impersonating other accounts, we may suspend it temporarily or, in some cases, permanently.
+>
+> Account security at risk: If we suspect an account has been hacked or compromised, we may suspend it until it can be secured and restored to the account owner in order to reduce potentially malicious activity caused by the compromise.
+>
+> Abusive Tweets or behavior: We may suspend an account if it has been reported to us as violating our Rules surrounding abuse. When an account engages in abusive behavior, like sending threats to others or impersonating other accounts, we may suspend it temporarily or, in some cases, permanently.
 
 一个更详细的列表可以在[这里](https://help.twitter.com/en/rules-and-policies/twitter-rules)找到。
 
