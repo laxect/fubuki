@@ -14,12 +14,13 @@ checksum = "33954243bd79057c2de7338850b85983a44588021f8a5fee574a8888c6de4344"
 
 [[package]]
 name = "atom_syndication"
-version = "0.8.0"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "687684b9df388f7770003d6181c28acda358e4d8e0d258cff727d1f002cfa7c7"
+checksum = "7d0b2fa7aedc48c4fbe1d38b25c1462a6e7b962397f27a3a8d7cbb1c08f0008b"
 dependencies = [
  "chrono",
  "derive_builder",
+ "diligent-date-parser",
  "quick-xml",
 ]
 
@@ -160,6 +161,15 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "diligent-date-parser"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d9842bdac146cd03b14b3c6056cd9856124b226cfe97c92159a00e122bd1a694"
+dependencies = [
+ "chrono",
 ]
 
 [[package]]
@@ -539,9 +549,9 @@ dependencies = [
 
 [[package]]
 name = "quick-xml"
-version = "0.17.2"
+version = "0.18.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fe1e430bdcf30c9fdc25053b9c459bb1a4672af4617b6c783d7d91dc17c6bbb0"
+checksum = "3cc440ee4802a86e357165021e3e255a9143724da31db1e2ea540214c96a0f82"
 dependencies = [
  "encoding_rs",
  "memchr",
