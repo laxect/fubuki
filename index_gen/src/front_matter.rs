@@ -1,33 +1,27 @@
-use serde_derive::{Deserialize, Serialize};
+pub use fubuki_types::{FrontMatter, Post};
 
-/// instead of a front matter
-#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
-pub struct FrontMatter {
-    pub url: Option<String>,
-    pub title: String,
-    pub date: String,
-    pub summary: String,
-    pub tags: Vec<String>,
-    pub category: String,
-    pub toc: Option<bool>,
+pub fn front_matter_to_post(fm: FrontMatter, uri: String) -> Post {
+    let FrontMatter {
+        title,
+        category,
+        tags,
+        summary,
+        date,
+        spoiler: _,
+    } = fm;
+    Post {
+        url: uri,
+        title,
+        date,
+        summary,
+        category,
+        tags,
+    }
 }
 
-impl FrontMatter {
-    pub fn fill_url(&mut self, url: String) {
-        self.url = Some(url);
-    }
-
-    pub fn get_url(&self) -> &str {
-        match self.url {
-            Some(ref u) => u,
-            None => "",
-        }
-    }
-
-    pub fn remove_time(&mut self) {
-        let ds: Vec<&str> = self.date.split(' ').collect();
-        self.date = ds[0].to_string();
-    }
+pub fn front_matter_time_remove(fm: &mut Post) {
+    let ds: Vec<&str> = fm.date.split(' ').collect();
+    fm.date = ds[0].to_string();
 }
 
 /// find front matter from content
@@ -90,8 +84,9 @@ mod test {
             tags : [ 米澤 穂信, light-novel ]
             summary: 再见，妖精"#
             .into();
-        let mut fm = front_matter_transfer(input).unwrap();
-        fm.remove_time();
-        assert_eq!(fm.date, "令和1/5/11".to_string());
+        let fm = front_matter_transfer(input).unwrap();
+        let mut post = front_matter_to_post(fm, "test".to_owned());
+        front_matter_time_remove(&mut post);
+        assert_eq!(post.date, "令和1/5/11".to_string());
     }
 }

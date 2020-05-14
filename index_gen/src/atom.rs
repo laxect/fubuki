@@ -1,9 +1,9 @@
-use crate::{date, front_matter::FrontMatter};
+use crate::date;
 use atom_syndication::*;
 
 #[derive(Clone)]
 pub struct Post {
-    pub front_matter: FrontMatter,
+    pub front_matter: fubuki_types::Post,
     pub content: String,
 }
 
@@ -11,7 +11,7 @@ const RIGHTS: &str = "© 2016 - 2020 gyara";
 
 impl Post {
     fn id(&self) -> String {
-        format!("https://blog.gyara.moe/post/{}/", self.front_matter.get_url())
+        format!("https://blog.gyara.moe/post/{}/", self.front_matter.url)
     }
 
     pub fn updated(&self) -> String {
@@ -46,12 +46,6 @@ impl From<Post> for Entry {
         content.set_content_type("html".to_string());
         entry.set_content(content);
         entry
-    }
-}
-
-impl From<Post> for FrontMatter {
-    fn from(post: Post) -> FrontMatter {
-        post.front_matter
     }
 }
 

@@ -1,70 +1,62 @@
 ---
 - url: 2020-5-12-my-twitter-account-was-banned
-  title: 我的 Twitter 被封禁了
   date: 令和2/5/12
+  title: 我的 Twitter 被封禁了
   summary: 是时候去中心化了。
+  category: Life
   tags:
     - Mastodon
-  category: Life
-  toc: ~
 - url: 2019-05-05-ticwatch_pro
-  title: TicWatch Pro 上手体验
   date: 令和1/5/11
+  title: TicWatch Pro 上手体验
   summary: 还行。
+  category: Life
   tags:
     - TicWatch Pro
-  category: Life
-  toc: ~
 - url: 2018-04-17-saikinn-leetcode-no-repoto
-  title: 平成最后的 leetcode 解题报告
   date: 平成31/4/17
+  title: 平成最后的 leetcode 解题报告
   summary: 令和最初？
+  category: Coding
   tags:
     - leetcode
     - rust
-  category: Coding
-  toc: ~
 - url: 2018-04-01-ika-ins
-  title: ika ins
   date: 平成30/3/29
+  title: ika ins
   summary: 匿名版
+  category: Coding
   tags:
     - python
     - Gyara studio
-  category: Coding
-  toc: ~
 - url: 2018-04-01-hello-world
-  title: hello world
   date: 平成30/4/1
+  title: hello world
   summary: こにちわ
+  category: Coding
   tags:
     - dev
-  category: Coding
-  toc: ~
 - url: 2018-03-01-kimi-no-namae
-  title: 君の名は
   date: 平成30/3/1
+  title: 君の名は
   summary: 你的名字
+  category: After reading
   tags:
     - movie
     - anime
-  category: After reading
-  toc: ~
 - url: 2017-07-02-exec-python
-  title: python 里的 exec
   date: 平成29/7/2
+  title: python 里的 exec
   summary: あれれ、おかしいよ
+  category: Coding
   tags:
     - python
     - traps
-  category: Coding
-  toc: ~
 - url: 2016-03-03-Goodbye_demon
-  title: Goodbye Demon
   date: 平成28/3/3
+  title: Goodbye Demon
   summary: 再见，妖精
+  category: After reading
   tags:
     - 米澤 穂信
     - light-novel
-  category: After reading
-  toc: ~

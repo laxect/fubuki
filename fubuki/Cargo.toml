@@ -15,6 +15,7 @@ web_logger = {git = "https://github.com/Gyara-studio/web_logger.git"}
 wasm-bindgen-futures = "0.4.12"
 serde_yaml = "0.8.12"
 yew = "0.16.2"
+fubuki_types = {path = "../fubuki_types"}
 
   [dependencies.web-sys]
   version = "0.3.39"

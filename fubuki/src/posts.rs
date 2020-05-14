@@ -1,34 +1,7 @@
 // article list component
 use crate::utils::Page;
-use serde_derive::{Deserialize, Serialize};
+pub use fubuki_types::{Post, PostList};
 use yew::{html, Callback, Component, ComponentLink, Html, Properties, ShouldRender};
-
-#[derive(PartialEq, Clone, Deserialize, Serialize, Debug)]
-pub struct Post {
-    pub url: String,
-    pub date: String,
-    pub title: String,
-    pub summary: String,
-    pub category: String,
-    tags: Vec<String>,
-    toc: Option<bool>,
-}
-
-pub type PostList = Vec<Post>;
-
-impl Default for Post {
-    fn default() -> Post {
-        Post {
-            url: String::from(""),
-            date: String::from(""),
-            title: String::from(""),
-            summary: String::from(""),
-            category: String::from(""),
-            tags: Vec::new(),
-            toc: None,
-        }
-    }
-}
 
 impl From<Post> for Page {
     fn from(item: Post) -> Page {

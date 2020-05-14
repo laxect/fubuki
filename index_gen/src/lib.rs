@@ -2,7 +2,10 @@ mod atom;
 mod date;
 mod front_matter;
 
-use crate::{atom::Post, front_matter::FrontMatter};
+use crate::{
+    atom::Post,
+    front_matter::{front_matter_time_remove, front_matter_to_post},
+};
 use serde::{Deserialize, Serialize};
 
 use std::{
@@ -30,9 +33,15 @@ fn file_handle(entry: &fs::DirEntry) -> io::Result<Post> {
     let mut file = fs::File::open(entry.path())?;
     let mut contents = String::new();
     file.read_to_string(&mut contents)?;
-    if let Some((mut front_matter, content)) = front_matter::parse_front_matter(contents) {
-        front_matter.fill_url(entry.file_name().into_string().unwrap().replace(".md", ""));
-        Ok(Post { front_matter, content })
+    if let Some((front_matter, content)) = front_matter::parse_front_matter(contents) {
+        let post = front_matter_to_post(
+            front_matter,
+            entry.file_name().into_string().unwrap().replace(".md", ""),
+        );
+        Ok(Post {
+            front_matter: post,
+            content,
+        })
     } else {
         Err(io::Error::from(io::ErrorKind::InvalidData))
     }
@@ -60,7 +69,7 @@ pub fn read_files() -> io::Result<()> {
         }
     }
     // fms sort
-    posts.sort_by(|a, b| b.front_matter.get_url().cmp(a.front_matter.get_url()));
+    posts.sort_by(|a, b| b.front_matter.url.cmp(&a.front_matter.url));
     // get atom xml
     let feed = [dist.clone(), "/atom.xml".into()].concat();
     println!("## write atom xml result to {}", feed);
@@ -72,11 +81,11 @@ pub fn read_files() -> io::Result<()> {
     println!("## write post yaml result to {}", json);
     let mut json_output = fs::File::create(json)?;
     // this place will always success, so just unwrap
-    let fms: Vec<FrontMatter> = posts
+    let fms: Vec<fubuki_types::Post> = posts
         .into_iter()
         .map(|x| x.front_matter)
         .map(|mut fm| {
-            fm.remove_time();
+            front_matter_time_remove(&mut fm);
             fm
         })
         .collect();

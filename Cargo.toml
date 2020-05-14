@@ -2,6 +2,7 @@
 
 members = [
     "fubuki",
+    "fubuki_types",
     "index_gen"
 ]
 

@@ -3,7 +3,7 @@ use crate::{
     markdown::render_markdown,
     utils::Page,
 };
-use serde::Deserialize;
+use fubuki_types::{FrontMatter, Spoiler};
 use yew::*;
 
 #[derive(PartialEq, Clone, Properties)]
@@ -12,43 +12,18 @@ pub struct ContentStatus {
     pub on_change: Callback<Page>,
 }
 
-#[derive(Debug, Deserialize)]
-struct FrontMatter {
-    title: String,
-    category: String,
-    tags: Vec<String>,
-    summary: String,
-    date: String,
-    #[serde(default)]
-    spoiler: Spoiler,
-}
-
-#[derive(Debug, Deserialize)]
-enum Spoiler {
-    None,
-    Some { target: String, level: u32 },
-}
-
-impl Default for Spoiler {
-    fn default() -> Self {
-        Self::None
-    }
-}
-
-impl Spoiler {
-    pub fn render(&self) -> Html {
-        match self {
-            Self::None => html! {
-                <></>
-            },
-            Self::Some { target, level } => {
-                html! {
-                    <p class="spoiler-alert">
-                    { format!("请注意，本文可能含有对{}的 ", target) }
-                    <span class="spoiler-level">{ level }</span>
-                    { " 等级剧透。" }
-                    </p>
-                }
+fn render_spoiler(spoiler: &Spoiler) -> Html {
+    match spoiler {
+        Spoiler::None => html! {
+            <></>
+        },
+        Spoiler::Some { target, level } => {
+            html! {
+                <p class="spoiler-alert">
+                { format!("请注意，本文可能含有对{}的 ", target) }
+                <span class="spoiler-level">{ level }</span>
+                { " 等级剧透。" }
+                </p>
             }
         }
     }
@@ -76,7 +51,7 @@ impl Content {
 
     fn render_spoiler(&self) -> Html {
         match self.front_matter {
-            Some(FrontMatter { ref spoiler, .. }) => spoiler.render(),
+            Some(FrontMatter { ref spoiler, .. }) => render_spoiler(spoiler),
             _ => html! { <></> },
         }
     }
