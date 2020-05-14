@@ -844,9 +844,9 @@ dependencies = [
 
 [[package]]
 name = "yew"
-version = "0.16.0"
+version = "0.16.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a67dd95164d53482f732099e9fb8a4df73e0a5d159eea8a4fc0ef99b294fda02"
+checksum = "7b7980e35d787a5d1edda9327a455831a37e93e4e8a8ebe2295f73feffb50de6"
 dependencies = [
  "anyhow",
  "anymap",
@@ -875,9 +875,9 @@ dependencies = [
 
 [[package]]
 name = "yew-macro"
-version = "0.16.0"
+version = "0.16.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dcda1e0b2c8ebfb4d8bd52e146803db0fbdbccfb4226348fea4bfce97db9d302"
+checksum = "f1d2fe46d7922ecd99af4e5b4eddcab58c70ec741e31de6e1b910d5873a3095f"
 dependencies = [
  "boolinator",
  "lazy_static",
