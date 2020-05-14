@@ -15,6 +15,6 @@ date: 令和2/5/12
 
 一个更详细的列表可以在[这里](https://help.twitter.com/en/rules-and-policies/twitter-rules)找到。
 
-那么，我是违反了那一条呢？Twitter 没有告诉我。它向我展示的唯一信息就是**Your account is suspended and is not permitted to perform this action.**。我可以申诉吗？似乎是可以的。但是在等待了数日之后，我发现 Twitter 也没有回复申诉的意向，尽管它宣称会回复`in a few days`。被封禁了之后，我无法查看自己的时间线，没办法更改账户的设置（似乎也没什么必要更改），甚至没办法导出自己的数据。看起来我已经被 Twitter 抛弃了。
+那么，我是违反了哪一条呢？Twitter 没有告诉我。它向我展示的唯一信息就是**Your account is suspended and is not permitted to perform this action.**。我可以申诉吗？似乎是可以的。但是在等待了数日之后，我发现 Twitter 也没有回复申诉的意向，尽管它宣称会回复`in a few days`。被封禁了之后，我无法查看自己的时间线，没办法更改账户的设置（似乎也没什么必要更改），甚至没办法导出自己的数据。看起来我已经被 Twitter 抛弃了。
 
 我被 Twitter 封禁了。不知道封禁的理由（甚至还要我自己去猜），不知道能否解封（甚至解封时还问我为什么我觉得自己是无辜的）。互联网不该是这样的。[为什么我们需要非中心化的社交媒体？](https://fiveyellowmice.com/posts/2017/06/why-we-need-decentralized-social-media-1.html)。
