@@ -101,4 +101,19 @@ mod tests {
         post.remove_time();
         assert_eq!(post.date, "昭和11/2/26");
     }
+
+    #[test]
+    fn time_remove_2() {
+        let fm = FrontMatter {
+            title: "title".to_owned(),
+            date: String::new(),
+            summary: "summary".to_owned(),
+            tags: vec!["tags".to_owned()],
+            category: "category".to_owned(),
+            spoiler: Spoiler::None,
+        };
+        let mut post = fm.to_post("https://example.com".to_owned());
+        post.remove_time();
+        assert_eq!(post.date, "");
+    }
 }
