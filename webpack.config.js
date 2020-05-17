@@ -35,9 +35,11 @@ module.exports = {
         contentBase: dist,
     },
     plugins: [
-        new CopyPlugin([
-            path.resolve(__dirname, "public")
-        ]),
+        new CopyPlugin({
+            patterns: [
+                {from: "public"}
+            ]
+        }),
 
         new WasmPackPlugin({
             crateDirectory: "fubuki",
