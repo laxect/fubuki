@@ -1,29 +1,5 @@
 pub use fubuki_types::{FrontMatter, Post};
 
-pub fn front_matter_to_post(fm: FrontMatter, uri: String) -> Post {
-    let FrontMatter {
-        title,
-        category,
-        tags,
-        summary,
-        date,
-        spoiler: _,
-    } = fm;
-    Post {
-        url: uri,
-        title,
-        date,
-        summary,
-        category,
-        tags,
-    }
-}
-
-pub fn front_matter_time_remove(fm: &mut Post) {
-    let ds: Vec<&str> = fm.date.split(' ').collect();
-    fm.date = ds[0].to_string();
-}
-
 /// find front matter from content
 fn find_front_matter(content: String) -> Option<(String, String)> {
     if content.starts_with("---\n") {
@@ -85,8 +61,8 @@ mod test {
             summary: 再见，妖精"#
             .into();
         let fm = front_matter_transfer(input).unwrap();
-        let mut post = front_matter_to_post(fm, "test".to_owned());
-        front_matter_time_remove(&mut post);
+        let mut post = fm.to_post("test".to_owned());
+        post.remove_time();
         assert_eq!(post.date, "令和1/5/11".to_string());
     }
 }

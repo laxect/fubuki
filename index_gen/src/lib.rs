@@ -2,10 +2,7 @@ mod atom;
 mod date;
 mod front_matter;
 
-use crate::{
-    atom::Post,
-    front_matter::{front_matter_time_remove, front_matter_to_post},
-};
+use crate::atom::Post;
 use serde::{Deserialize, Serialize};
 
 use std::{
@@ -34,8 +31,7 @@ fn file_handle(entry: &fs::DirEntry) -> io::Result<Post> {
     let mut contents = String::new();
     file.read_to_string(&mut contents)?;
     if let Some((front_matter, content)) = front_matter::parse_front_matter(contents) {
-        let post = front_matter_to_post(
-            front_matter,
+        let post = front_matter.to_post(
             entry.file_name().into_string().unwrap().replace(".md", ""),
         );
         Ok(Post {
@@ -85,7 +81,7 @@ pub fn read_files() -> io::Result<()> {
         .into_iter()
         .map(|x| x.front_matter)
         .map(|mut fm| {
-            front_matter_time_remove(&mut fm);
+            fm.remove_time();
             fm
         })
         .collect();

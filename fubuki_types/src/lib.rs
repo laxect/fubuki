@@ -12,6 +12,20 @@ pub struct FrontMatter {
     pub spoiler: Spoiler,
 }
 
+impl FrontMatter {
+    // will discard spoiler cause post not contain it
+    pub fn to_post(self, url: String) -> Post {
+        Post {
+            url,
+            title: self.title,
+            date: self.date,
+            summary: self.summary,
+            category: self.category,
+            tags: self.tags,
+        }
+    }
+}
+
 #[derive(Debug, Deserialize, Serialize, PartialEq)]
 #[serde(untagged)]
 pub enum Spoiler {
@@ -33,6 +47,12 @@ pub struct Post {
     pub summary: String,
     pub category: String,
     pub tags: Vec<String>,
+}
+
+impl Post {
+    pub fn remove_time(&mut self) {
+        self.date = self.date.split(' ').next().unwrap().to_string();
+    }
 }
 
 pub type PostList = Vec<Post>;
@@ -65,5 +85,20 @@ mod tests {
                 level: 10
             }
         );
+    }
+
+    #[test]
+    fn time_remove() {
+        let fm = FrontMatter {
+            title: "title".to_owned(),
+            date: "昭和11/2/26 05:00".to_owned(),
+            summary: "summary".to_owned(),
+            tags: vec!["tags".to_owned()],
+            category: "category".to_owned(),
+            spoiler: Spoiler::None,
+        };
+        let mut post = fm.to_post("https://example.com".to_owned());
+        post.remove_time();
+        assert_eq!(post.date, "昭和11/2/26");
     }
 }
