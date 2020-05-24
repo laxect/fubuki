@@ -45,15 +45,15 @@ body
     color: $black
     overflow-y: scroll
     padding:
-        left: 4px
-        right: 4px
-    --max-width: 592px
-    @media (min-width: 600px)
+        left: 40px
+        right: 40px
+    @media (min-width: 800px)
+        --max-width: 592px
+        --space: calc((100% - var(--max-width)) / 2)
         max-width: var(--max-width)
-        --left: calc((100% - var(--max-width)) / 2)
         padding:
-            left: var(--left)
-            right: var(--left)
+            left: var(--space)
+            right: var(--space)
 
 // base style
 // reset default button style
