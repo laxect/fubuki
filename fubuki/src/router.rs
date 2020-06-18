@@ -47,7 +47,7 @@ impl Router {
         self.pop_state_handle = Some(handle);
     }
 
-    fn set_route(&mut self, page: Page) {
+    fn set_path(&mut self, page: Page) {
         let route = format!("/{}", page.value());
         let _ = self
             .history
@@ -114,7 +114,7 @@ impl Agent for Router {
                 self.link.respond(who, self.get_path());
             }
             Request::Goto(page) => {
-                self.set_route(page);
+                self.set_path(page);
             }
             Request::Reload(forced_reload) => {
                 self.reload(forced_reload);
