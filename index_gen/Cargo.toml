@@ -5,14 +5,14 @@ authors = ["Gyara <me@gyara.moe>"]
 edition = "2018"
 
 [dependencies]
-serde_derive = "1.0.110"
+serde_derive = "1.0.112"
 serde_yaml = "0.8.13"
 atom_syndication = "0.9.0"
 htmlescape = "0.3.1"
 fubuki_types = {path = "../fubuki_types"}
 
 [dependencies.serde]
-version = "1.0.110"
+version = "1.0.112"
 features = ["derive"]
 
 [dependencies.pulldown-cmark]

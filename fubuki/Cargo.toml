@@ -8,7 +8,7 @@ edition = "2018"
 crate-type = [ "rlib", "cdylib" ]
 
 [dependencies]
-serde_derive = "1.0.110"
+serde_derive = "1.0.112"
 log = "0.4.8"
 wasm-bindgen = "0.2.63"
 web_logger = {git = "https://github.com/Gyara-studio/web_logger.git"}
@@ -18,7 +18,7 @@ yew = "0.16.2"
 fubuki_types = {path = "../fubuki_types"}
 
   [dependencies.web-sys]
-  version = "0.3.39"
+  version = "0.3.40"
   features = [
   "Location",
   "Window",
@@ -34,7 +34,7 @@ fubuki_types = {path = "../fubuki_types"}
 ]
 
   [dependencies.serde]
-  version = "1.0.110"
+  version = "1.0.112"
   features = [ "derive" ]
 
   [dependencies.pulldown-cmark]
