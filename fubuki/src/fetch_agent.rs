@@ -98,7 +98,7 @@ impl FetchAgent {
 }
 
 impl Agent for FetchAgent {
-    type Reach = Context;
+    type Reach = Context<Self>;
     type Message = FetchResult;
     type Input = FetchRequest;
     type Output = Load;

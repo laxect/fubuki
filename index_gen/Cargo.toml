@@ -5,17 +5,17 @@ authors = ["Gyara <me@gyara.moe>"]
 edition = "2018"
 
 [dependencies]
-serde_derive = "1.0.112"
+serde_derive = "1.0.114"
 serde_yaml = "0.8.13"
 atom_syndication = "0.9.0"
 htmlescape = "0.3.1"
 fubuki_types = {path = "../fubuki_types"}
 
 [dependencies.serde]
-version = "1.0.112"
+version = "1.0.114"
 features = ["derive"]
 
 [dependencies.pulldown-cmark]
-version = "0.7.1"
+version = "0.7.2"
 default-features = false
 features = ["simd"]

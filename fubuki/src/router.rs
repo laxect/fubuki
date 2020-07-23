@@ -81,7 +81,7 @@ impl Router {
 }
 
 impl Agent for Router {
-    type Reach = Context;
+    type Reach = Context<Self>;
     type Message = Page;
     type Input = Request;
     type Output = Page;
