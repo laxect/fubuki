@@ -18,7 +18,7 @@ yew = "0.17.2"
 fubuki_types = {path = "../fubuki_types"}
 
   [dependencies.web-sys]
-  version = "0.3.42"
+  version = "0.3.44"
   features = [
   "Location",
   "Window",
