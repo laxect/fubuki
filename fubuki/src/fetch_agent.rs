@@ -9,13 +9,13 @@ pub mod fetch {
     use web_sys::{window, RequestCache, RequestInit, RequestMode, Response};
 
     pub async fn get(uri: &str) -> Result<String, JsValue> {
-        let mut fetch_set = RequestInit::new();
-        fetch_set.mode(RequestMode::Cors);
-        fetch_set.cache(RequestCache::Reload);
+        let mut fetch_config = RequestInit::new();
+        fetch_config.mode(RequestMode::Cors);
+        fetch_config.cache(RequestCache::Reload);
         // get windows object
         let window = window().ok_or_else(|| JsValue::from_str("open window failed"))?;
-        let js_promise = window.fetch_with_str_and_init(&uri, &fetch_set);
-        let response: Response = JsFuture::from(js_promise).await?.into();
+        let response = window.fetch_with_str_and_init(&uri, &fetch_config);
+        let response: Response = JsFuture::from(response).await?.into();
         let res = JsFuture::from(response.text().unwrap())
             .await?
             .as_string()

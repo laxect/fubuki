@@ -12,23 +12,6 @@ pub struct ContentStatus {
     pub on_change: Callback<Page>,
 }
 
-fn render_spoiler(spoiler: &Spoiler) -> Html {
-    match spoiler {
-        Spoiler::None => html! {
-            <></>
-        },
-        Spoiler::Some { target, level } => {
-            html! {
-                <p class="spoiler-alert">
-                { format!("请注意，本文可能含有对{}的 ", target) }
-                <span class="spoiler-level">{ level }</span>
-                { " 等级剧透。" }
-                </p>
-            }
-        }
-    }
-}
-
 pub struct Content {
     page: Page,
     inner: Option<Load>,
@@ -51,7 +34,20 @@ impl Content {
 
     fn render_spoiler(&self) -> Html {
         match self.front_matter {
-            Some(FrontMatter { ref spoiler, .. }) => render_spoiler(spoiler),
+            Some(FrontMatter { ref spoiler, .. }) => match spoiler {
+                Spoiler::None => html! {
+                    <></>
+                },
+                Spoiler::Some { target, level } => {
+                    html! {
+                        <p class="spoiler-alert">
+                        { format!("请注意，本文可能含有对{}的 ", target) }
+                        <span class="spoiler-level">{ level }</span>
+                        { " 等级剧透。" }
+                        </p>
+                    }
+                }
+            },
             _ => html! { <></> },
         }
     }
@@ -87,8 +83,10 @@ impl Component for Content {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         if let Load::Page(ref article) = msg {
             let main: String;
+            // remove front matter
             if article.starts_with("---\n") {
                 if let Some(fm_end) = article[4..].find("---\n") {
+                    // ---\n..---\n
                     let fm = &article[4..fm_end + 4];
                     match serde_yaml::from_str(fm) {
                         Ok(fm) => {
@@ -106,6 +104,7 @@ impl Component for Content {
             } else {
                 main = msg.into_page().unwrap();
             }
+            // checkout title
             if main.starts_with("# ") {
                 let title_end = main.find('\n').unwrap_or_default();
                 let title = &main[..title_end].replace("# ", "");
