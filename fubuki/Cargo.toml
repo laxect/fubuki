@@ -12,7 +12,7 @@ serde_derive = "1.0.114"
 log = "0.4.11"
 wasm-bindgen = "0.2.68"
 web_logger = {git = "https://github.com/Gyara-studio/web_logger.git"}
-wasm-bindgen-futures = "0.4.17"
+wasm-bindgen-futures = "0.4.18"
 serde_yaml = "0.8.13"
 yew = "0.17.3"
 fubuki_types = {path = "../fubuki_types"}
