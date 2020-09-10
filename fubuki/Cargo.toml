@@ -42,7 +42,7 @@ fubuki_types = {path = "../fubuki_types"}
   default-features = false
 
   [dependencies.getrandom]
-  version = "0.1.14"
+  version = "0.2.0"
   features = [ "wasm-bindgen" ]
 
 [dev-dependencies]
