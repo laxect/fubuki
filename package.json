@@ -22,7 +22,7 @@
     "scripts": {
         "index": "cargo run --bin index_gen --release -- public/post public",
         "build": "rimraf dist fubuki/pkg pkg && webpack",
-        "start": "rimraf dist fubuki/pkg pkg && webpack-dev-server --open -d",
+        "start": "rimraf dist fubuki/pkg pkg && webpack serve",
         "test": "cargo test && wasm-pack test --headless"
     }
 }

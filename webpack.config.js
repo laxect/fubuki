@@ -44,5 +44,8 @@ module.exports = {
         new WasmPackPlugin({
             crateDirectory: "fubuki",
         }),
-    ]
+    ],
+    experiments: {
+        asyncWebAssembly: true
+    }
 };
