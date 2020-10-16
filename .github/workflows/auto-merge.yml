@@ -12,4 +12,4 @@ jobs:
         with:
           target: minor
           github-token: ${{ secrets.GH_TOKEN }}
-					command: "squash and merge"
+          command: "squash and merge"
