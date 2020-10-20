@@ -142,7 +142,7 @@ impl Component for Posts {
         html! {
             <>
                 { self.article_list_html() }
-                <nav class="post-nav">
+                <nav class="post-nav" style="float: right">
                     { link(Msg::Prev) }
                     { link(Msg::Next) }
                 </nav>
