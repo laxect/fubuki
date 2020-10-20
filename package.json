@@ -6,7 +6,6 @@
     "author": "Gyara <me@gyara.moe>",
     "license": "MIT",
     "private": true,
-    "dependencies": {},
     "devDependencies": {
         "@wasm-tool/wasm-pack-plugin": "^1.3.1",
         "copy-webpack-plugin": "^6.2.1",

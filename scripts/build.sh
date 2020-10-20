@@ -1,3 +1,3 @@
-yarn install
-yarn run index
-yarn run build
+pnpm install
+pnpm run index
+pnpm run build
