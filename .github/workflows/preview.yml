@@ -1,0 +1,50 @@
+name: build
+on:
+  push:
+    tags:
+    - '*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: nightly
+    - uses: actions/setup-node@v1
+    - name: Install Wasm-pack
+      run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+    - uses: pnpm/action-setup@v1.2.1
+      with:
+        version: 5.8.0
+    - name: build script
+      run: ./scripts/build.sh
+    - name: pack
+      run: tar -zcvf dist.tar.gz dist
+    - name: Create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: Upload Asset
+      id: upload_asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist.tar.gz
+        asset_name: dist.tar.gz
+        asset_content_type: application/gzip
+    - name: Firebase hosting
+      uses: w9jds/firebase-action@master
+      with:
+        args: deploy
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN  }}
+        PROJECT_ID: ${{ secrets.PROJECT_ID }}
