@@ -7,3 +7,4 @@ yarn-error.log
 pkg
 .parcel-cache
 .firebase/
+.firebaserc
