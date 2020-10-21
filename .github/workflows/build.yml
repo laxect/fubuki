@@ -21,10 +21,12 @@ jobs:
       run: ./scripts/build.sh
     - uses: FirebaseExtended/action-hosting-deploy@v0
       with:
-        repoToken: "${{ secrets.TOKEN }}"
+        repoToken: "${{ secrets.GITHUB_TOKEN }}"
         firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_MOE_WORLD }}"
         expires: 30d
         projectId: ${{ secrets.PROJECT_ID }}
         channelId: live
       env:
         FIREBASE_CLI_PREVIEWS: hostingchannels
+    - name: publish change
+      run: ./scripts/publish.sh
