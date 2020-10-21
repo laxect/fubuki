@@ -26,5 +26,5 @@ jobs:
         expires: 30d
         projectId: ${{ secrets.PROJECT_ID }}
         channelId: live
-        env:
-          FIREBASE_CLI_PREVIEWS: hostingchannels
+      env:
+        FIREBASE_CLI_PREVIEWS: hostingchannels
