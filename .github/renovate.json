@@ -3,5 +3,6 @@
     "config:base"
   ],
   "automerge": true,
-  "baseBranches": ["dev"]
+  "baseBranches": ["dev"],
+  "pinVersions": false
 }
