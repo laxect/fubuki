@@ -3,5 +3,5 @@
     "config:base"
   ],
   "automerge": true,
-  "pinVersions": false,
+  "pinVersions": false
 }
