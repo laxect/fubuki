@@ -87,7 +87,7 @@ pub fn gather_posts(posts: Vec<Post>) -> Feed {
     let mut feed = gen_atom_feed();
     let entrys: Vec<Entry> = posts.into_iter().map(std::convert::Into::into).collect();
     if let Some(entry) = entrys.first() {
-        feed.set_updated(entry.updated().clone());
+        feed.set_updated(*entry.updated());
     }
     feed.set_entries(entrys);
     feed

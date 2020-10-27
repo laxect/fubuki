@@ -31,7 +31,7 @@ fn file_handle(entry: &fs::DirEntry) -> io::Result<Post> {
     let mut contents = String::new();
     file.read_to_string(&mut contents)?;
     if let Some((front_matter, content)) = front_matter::parse_front_matter(contents) {
-        let post = front_matter.to_post(entry.file_name().into_string().unwrap().replace(".md", ""));
+        let post = front_matter.into_post(entry.file_name().into_string().unwrap().replace(".md", ""));
         Ok(Post {
             front_matter: post,
             content,

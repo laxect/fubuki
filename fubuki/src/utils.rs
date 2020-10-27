@@ -56,17 +56,11 @@ impl Page {
     }
 
     pub fn is_posts(&self) -> bool {
-        match self {
-            Page::Posts => true,
-            _ => false,
-        }
+        matches!(self, Page::Posts)
     }
 
     pub fn is_article(&self) -> bool {
-        match self {
-            Page::Article(_) => true,
-            _ => false,
-        }
+        matches!(self, Page::Article(_))
     }
 }
 

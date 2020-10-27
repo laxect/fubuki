@@ -53,7 +53,9 @@ impl Content {
     }
 
     fn render_title(&self) -> Html {
-        match self.title {
+        let fm_title = self.front_matter.as_ref().map(|f| &f.title);
+        let title = self.title.as_ref().or(fm_title);
+        match title {
             Some(ref title) => html! {
                 <h1>{ title.clone() }</h1>
             },
@@ -85,9 +87,8 @@ impl Component for Content {
             let main: String;
             // remove front matter
             if article.starts_with("---\n") {
-                if let Some(fm_end) = article[4..].find("---\n") {
+                if let Some(fm) = article.split("---\n").nth(1) {
                     // ---\n..---\n
-                    let fm = &article[4..fm_end + 4];
                     match serde_yaml::from_str(fm) {
                         Ok(fm) => {
                             log::info!("get front_matter\n{:?}", &fm);
@@ -97,7 +98,7 @@ impl Component for Content {
                             log::error!("fm parser failed: {}", e);
                         }
                     }
-                    main = article[fm_end + 8..].to_string();
+                    main = article[fm.len() + 8..].to_string();
                 } else {
                     unreachable!();
                 }
@@ -115,7 +116,7 @@ impl Component for Content {
                 self.inner = Some(Load::Page(main));
             }
         } else {
-            self.inner = Some(msg.into());
+            self.inner = Some(msg);
         }
 
         // parser front_matter

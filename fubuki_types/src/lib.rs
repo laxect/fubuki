@@ -14,7 +14,7 @@ pub struct FrontMatter {
 
 impl FrontMatter {
     // will discard spoiler cause post not contain it
-    pub fn to_post(self, url: String) -> Post {
+    pub fn into_post(self, url: String) -> Post {
         Post {
             url,
             title: self.title,
@@ -97,7 +97,7 @@ mod tests {
             category: "category".to_owned(),
             spoiler: Spoiler::None,
         };
-        let mut post = fm.to_post("https://example.com".to_owned());
+        let mut post = fm.into_post("https://example.com".to_owned());
         post.remove_time();
         assert_eq!(post.date, "昭和11/2/26");
     }
@@ -112,7 +112,7 @@ mod tests {
             category: "category".to_owned(),
             spoiler: Spoiler::None,
         };
-        let mut post = fm.to_post("https://example.com".to_owned());
+        let mut post = fm.into_post("https://example.com".to_owned());
         post.remove_time();
         assert_eq!(post.date, "");
     }
