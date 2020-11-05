@@ -3,5 +3,6 @@
     "config:base"
   ],
   "automerge": true,
-  "pinVersions": false
+  "pinVersions": false,
+  "schedule": ["before 2am"]
 }
