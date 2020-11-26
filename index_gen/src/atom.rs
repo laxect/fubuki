@@ -62,7 +62,7 @@ fn gen_atom_feed() -> Feed {
     // generator
     let mut generator = Generator::default();
     generator.set_value("fubuki::posts_gen");
-    generator.set_uri("https://github.com/laxect/fubuki/tree/dev/posts_gen".to_string());
+    generator.set_uri("https://github.com/laxect/fubuki/tree/roze/index_gen".to_string());
     generator.set_version(env!("CARGO_PKG_VERSION").to_string());
     // website link
     let mut link = Link::default();
