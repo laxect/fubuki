@@ -8,3 +8,5 @@ pkg
 .parcel-cache
 .firebase/
 .firebaserc
+public/atom.xml
+public/posts.yml
