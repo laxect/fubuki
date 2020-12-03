@@ -71,6 +71,11 @@ impl Cache {
     }
 
     pub fn get(&self, page: &Page) -> Option<Load> {
+        // not cache on index
+        if let Page::Index = page {
+            log::info!("not cache index");
+            return None;
+        }
         let key = page.value();
         if let Ok(Some(cc)) = self.inner.get(&key) {
             if let Ok(load) = serde_yaml::from_str(&cc) {
@@ -82,9 +87,25 @@ impl Cache {
         None
     }
 
+    /// store index only for check update
     pub fn set(&mut self, page: &Page, content: &Load) {
+        if let Page::Index = page {
+            log::info!("check if index id up to date");
+            let key = page.value();
+            let mut should_clear = true;
+            if let Ok(Some(cc)) = self.inner.get(&key) {
+                let content = serde_yaml::to_string(&content).unwrap();
+                if content == cc {
+                    should_clear = false;
+                }
+            }
+            if should_clear {
+                log::info!("clear outdated data");
+                self.clear();
+            }
+        }
         let key = page.value();
-        let val = serde_yaml::to_string(content).unwrap_or_else(|_| "never or".to_owned());
+        let val = serde_yaml::to_string(content).expect("never failed");
         self.inner.set(&key, &val).ok();
     }
 }

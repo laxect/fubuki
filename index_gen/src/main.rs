@@ -1,4 +1,3 @@
-fn main() -> Result<(), ()> {
+fn main() {
     index_gen::read_files().expect("error!");
-    Ok(())
 }
