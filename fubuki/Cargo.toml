@@ -8,7 +8,7 @@ edition = "2018"
 crate-type = [ "rlib", "cdylib" ]
 
 [dependencies]
-serde_derive = "1.0.117"
+serde_derive = "1.0.118"
 log = "0.4.11"
 wasm-bindgen = "0.2.69"
 web_logger = {git = "https://github.com/Gyara-studio/web_logger.git"}
