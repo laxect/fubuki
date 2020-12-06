@@ -12,7 +12,7 @@ htmlescape = "0.3.1"
 fubuki_types = {path = "../fubuki_types"}
 
 [dependencies.serde]
-version = "1.0.117"
+version = "1.0.118"
 features = ["derive"]
 
 [dependencies.pulldown-cmark]
