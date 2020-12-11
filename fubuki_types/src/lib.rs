@@ -14,9 +14,10 @@ pub struct FrontMatter {
 
 impl FrontMatter {
     // will discard spoiler cause post not contain it
-    pub fn into_post(self, url: String) -> Post {
+    pub fn into_post(self, url: String, hash: String) -> Post {
         Post {
             url,
+            hash,
             title: self.title,
             date: self.date,
             summary: self.summary,
@@ -43,6 +44,7 @@ impl Default for Spoiler {
 pub struct Post {
     pub url: String,
     pub date: String,
+    pub hash: String,
     pub title: String,
     pub summary: String,
     pub category: String,
@@ -62,6 +64,7 @@ impl Default for Post {
         Post {
             url: String::from(""),
             date: String::from(""),
+            hash: String::from(""),
             title: String::from(""),
             summary: String::from(""),
             category: String::from(""),
@@ -97,7 +100,7 @@ mod tests {
             category: "category".to_owned(),
             spoiler: Spoiler::None,
         };
-        let mut post = fm.into_post("https://example.com".to_owned());
+        let mut post = fm.into_post("https://example.com".to_owned(), "".to_owned());
         post.remove_time();
         assert_eq!(post.date, "昭和11/2/26");
     }
@@ -112,7 +115,7 @@ mod tests {
             category: "category".to_owned(),
             spoiler: Spoiler::None,
         };
-        let mut post = fm.into_post("https://example.com".to_owned());
+        let mut post = fm.into_post("https://example.com".to_owned(), "".to_owned());
         post.remove_time();
         assert_eq!(post.date, "");
     }

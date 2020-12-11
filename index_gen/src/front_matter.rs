@@ -60,7 +60,7 @@ mod test {
             summary: 再见，妖精"#
             .into();
         let fm = front_matter_transfer(input).unwrap();
-        let mut post = fm.into_post("test".to_owned());
+        let mut post = fm.into_post("test".to_owned(), "".to_owned());
         post.remove_time();
         assert_eq!(post.date, "令和1/5/11".to_string());
     }

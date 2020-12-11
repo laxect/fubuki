@@ -3,8 +3,7 @@ mod date;
 mod front_matter;
 
 use crate::atom::Post;
-use serde::{Deserialize, Serialize};
-
+use blake2::Digest;
 use std::{
     env, fs,
     io::{self, prelude::*},
@@ -29,9 +28,13 @@ fn file_handle(entry: &fs::DirEntry) -> io::Result<Post> {
     println!("::  {}", entry.path().to_str().unwrap());
     let mut file = fs::File::open(entry.path())?;
     let mut contents = String::new();
+    let mut hasher = blake2::Blake2b::new();
+    hasher.update(contents.as_bytes());
+    let res = hasher.finalize();
+    let hash = base64::encode(res);
     file.read_to_string(&mut contents)?;
     if let Some((front_matter, content)) = front_matter::parse_front_matter(contents) {
-        let post = front_matter.into_post(entry.file_name().into_string().unwrap().replace(".md", ""));
+        let post = front_matter.into_post(entry.file_name().into_string().unwrap().replace(".md", ""), hash);
         Ok(Post {
             front_matter: post,
             content,
@@ -39,14 +42,6 @@ fn file_handle(entry: &fs::DirEntry) -> io::Result<Post> {
     } else {
         Err(io::Error::from(io::ErrorKind::InvalidData))
     }
-}
-
-#[derive(Deserialize, Serialize)]
-struct PubSubForm {
-    #[serde(rename = "hub.mode")]
-    pub mode: &'static str,
-    #[serde(rename = "hub.url")]
-    pub url: &'static str,
 }
 
 /// entry
