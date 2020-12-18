@@ -1,6 +1,5 @@
 pub use crate::cache::{Cache, Load};
 use crate::{posts::PostList, utils::Page};
-use serde::{Deserialize, Serialize};
 use yew::worker::*;
 
 pub mod fetch {
@@ -24,10 +23,10 @@ pub mod fetch {
     }
 }
 
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Clone)]
 pub struct FetchResult(Load, Page, u32);
 
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Clone)]
 pub struct FetchRequest(Page);
 
 impl From<Page> for FetchRequest {

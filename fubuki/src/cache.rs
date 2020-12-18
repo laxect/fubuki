@@ -40,6 +40,7 @@ fn get_local_storage() -> Result<Storage, JsValue> {
 
 pub struct Cache {
     inner: Storage,
+    is_updated: bool,
 }
 
 impl Cache {
@@ -58,6 +59,7 @@ impl Cache {
     pub fn new() -> Cache {
         let cache = Cache {
             inner: get_local_storage().expect("cache open failed"),
+            is_updated: false,
         };
         cache.check_cache_version();
         cache
@@ -72,8 +74,10 @@ impl Cache {
 
     pub fn get(&self, page: &Page) -> Option<Load> {
         // not cache on index
-        if let Page::Posts = page {
-            return None;
+        if !self.is_updated {
+            if let Page::Posts = page {
+                return None;
+            }
         }
         let key = page.value();
         if let Ok(Some(cc)) = self.inner.get(&key) {
@@ -91,6 +95,7 @@ impl Cache {
         let key = page.value();
         let val = serde_yaml::to_string(content).expect("never failed");
         if let Page::Posts = page {
+            self.is_updated = true;
             let mut should_clear = true;
             if let Ok(Some(cc)) = self.inner.get(&key) {
                 if val == cc {
