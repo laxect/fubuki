@@ -7,7 +7,7 @@ edition = "2018"
 [dependencies]
 serde_derive = "1.0.118"
 serde_yaml = "0.8.15"
-atom_syndication = "0.9.0"
+atom_syndication = "0.9.1"
 htmlescape = "0.3.1"
 fubuki_types = {path = "../fubuki_types"}
 blake2 = "0.9.1"
