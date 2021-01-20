@@ -34,7 +34,7 @@ fubuki_types = {path = "../fubuki_types"}
 ]
 
   [dependencies.serde]
-  version = "1.0.119"
+  version = "1.0.120"
   features = [ "derive" ]
 
   [dependencies.pulldown-cmark]
