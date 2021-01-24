@@ -14,7 +14,7 @@ blake2 = "0.9.1"
 base64 = "0.13.0"
 
 [dependencies.serde]
-version = "1.0.120"
+version = "1.0.121"
 features = ["derive"]
 
 [dependencies.pulldown-cmark]
