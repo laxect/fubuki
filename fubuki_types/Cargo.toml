@@ -9,7 +9,7 @@ edition = "2018"
 [dependencies]
 
 [dependencies.serde]
-version = "1.0.122"
+version = "1.0.123"
 features = ["derive"]
 
 [dev-dependencies]
