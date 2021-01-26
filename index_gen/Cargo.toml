@@ -5,7 +5,7 @@ authors = ["Gyara <me@gyara.moe>"]
 edition = "2018"
 
 [dependencies]
-serde_derive = "1.0.122"
+serde_derive = "1.0.123"
 serde_yaml = "0.8.15"
 atom_syndication = "0.9.1"
 htmlescape = "0.3.1"
