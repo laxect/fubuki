@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 mod cache;
 mod content;
 mod fetch_agent;

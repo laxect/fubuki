@@ -72,7 +72,18 @@ impl Posts {
                         <button class="post-title" onclick=on_click>{ &post.title }</button>
                     </h2>
                     <p>{ &post.summary }</p>
-                    <small><time>{ &post.date }</time><span class="category">{ &post.category }</span></small>
+                    <small>
+                        <time>{ &post.date }</time><span class="category">{ &post.category }</span>
+                        {
+                            if post.has_spoiler() {
+                                html! {
+                                    <span class="spoiler">{ "ネタバレ注意" }</span>
+                                }
+                            } else {
+                                html! {}
+                            }
+                        }
+                    </small>
                 </article>
             }
         };

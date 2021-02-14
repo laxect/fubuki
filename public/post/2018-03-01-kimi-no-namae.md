@@ -6,6 +6,9 @@ tags:
   - anime
 date: 平成30/3/1
 summary: 你的名字
+spoiler:
+  target: 君の名は
+  level: 3
 ---
 # 君の名は
 

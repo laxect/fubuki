@@ -23,11 +23,12 @@ impl FrontMatter {
             summary: self.summary,
             category: self.category,
             tags: self.tags,
+            spoiler: self.spoiler,
         }
     }
 }
 
-#[derive(Debug, Deserialize, Serialize, PartialEq)]
+#[derive(Debug, Deserialize, Serialize, PartialEq, Clone)]
 #[serde(untagged)]
 pub enum Spoiler {
     None,
@@ -49,11 +50,22 @@ pub struct Post {
     pub summary: String,
     pub category: String,
     pub tags: Vec<String>,
+    pub spoiler: Spoiler,
 }
 
 impl Post {
     pub fn remove_time(&mut self) {
         self.date = self.date.split(' ').next().unwrap().to_string();
+    }
+
+    pub fn has_spoiler(&self) -> bool {
+        matches!(
+            &self.spoiler,
+            Spoiler::Some {
+                target: _target,
+                level: _level
+            }
+        )
     }
 }
 
@@ -69,6 +81,7 @@ impl Default for Post {
             summary: String::from(""),
             category: String::from(""),
             tags: Vec::new(),
+            spoiler: Spoiler::None,
         }
     }
 }
