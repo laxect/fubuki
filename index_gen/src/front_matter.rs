@@ -16,18 +16,13 @@ fn front_matter_transfer(fm_str: String) -> Result<FrontMatter, serde_yaml::Erro
 }
 
 /// parse content and return front matter json
-pub fn parse_front_matter(content: String) -> Option<(FrontMatter, String)> {
+pub fn parse_front_matter(content: String) -> anyhow::Result<(FrontMatter, String)> {
     if let Some((fm_yaml, content)) = find_front_matter(content) {
-        match front_matter_transfer(fm_yaml) {
-            Ok(fm) => {
-                println!("    O parser passed");
-                return Some((fm, content));
-            }
-            Err(e) => println!("    E {}", e),
+        if let Ok(fm) = front_matter_transfer(fm_yaml) {
+            return Ok((fm, content));
         }
     }
-    println!("    X parser failed");
-    None
+    Err(anyhow::Error::msg("Front matter parse failed"))
 }
 
 #[cfg(test)]

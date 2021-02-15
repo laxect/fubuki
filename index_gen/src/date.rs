@@ -25,18 +25,16 @@ pub struct Date {
 
 impl Date {
     /// from 平成31/4/29
-    pub fn from_japan_locale(locale: String) -> Option<Date> {
-        if locale.len() < 10 {
-            return None;
-        }
+    pub fn from_japan_locale(locale: String) -> anyhow::Result<Date> {
         if let Some(genngo) = locale.get(..6) {
-            let date = locale.get(6..).unwrap();
-            let mut spines: Vec<u32> = date
+            let date = locale.get(6..).ok_or_else(|| anyhow::Error::msg("parse failed"))?;
+            let spines: Result<Vec<u32>, _> = date
                 .split(' ')
                 .flat_map(|s| s.split('/'))
                 .flat_map(|s| s.split(':'))
-                .map(|s| u32::from_str_radix(s, 10).unwrap())
+                .map(|s| u32::from_str_radix(s, 10))
                 .collect();
+            let mut spines = spines?;
             let mut push = spines.len();
             if push < 6 {
                 push = 6 - push;
@@ -47,17 +45,16 @@ impl Date {
                 "令和" => Genngo::Reiwa(spines[0]),
                 _ => unreachable!(),
             };
-            Some(Date {
+            return Ok(Date {
                 year: genngo.get_ce_year(),
                 month: spines[1],
                 day: spines[2],
                 hour: spines[3],
                 minute: spines[4],
                 second: spines[5],
-            })
-        } else {
-            None
+            });
         }
+        Err(anyhow::Error::msg("parse failed"))
     }
 
     pub fn to_iso_string(&self) -> String {
@@ -68,7 +65,7 @@ impl Date {
     }
 }
 
-pub fn from_jp_to_iso(jp: String) -> Option<String> {
+pub fn from_jp_to_iso(jp: String) -> anyhow::Result<String> {
     Date::from_japan_locale(jp).map(|x| x.to_iso_string())
 }
 

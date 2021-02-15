@@ -1,6 +1,6 @@
 [package]
 name = "index_gen"
-version = "0.3.3"
+version = "1.0.0"
 authors = ["Gyara <me@gyara.moe>"]
 edition = "2018"
 
@@ -12,6 +12,7 @@ htmlescape = "0.3.1"
 fubuki_types = {path = "../fubuki_types"}
 blake2 = "0.9.1"
 base64 = "0.13.0"
+anyhow = "1.0.38"
 
 [dependencies.serde]
 version = "1.0.120"
