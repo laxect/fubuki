@@ -7,6 +7,7 @@
 + [xixing](https://xixing.dev/)
 + [读写终子](https://ioover.net)
 + [<ruby>有理<rt>monsoon</rt></ruby>](https://monsoon.cl/)
++ [芋頭屋](https://umit.moe)
 
 ### 这个<ruby>博客<rt>しま</rt></ruby>使用了以下这些资源
 
