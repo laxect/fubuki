@@ -26,25 +26,21 @@ pub struct Router {
     location: Location,
     link: AgentLink<Router>,
     who: Option<HandlerId>,
-    pop_state_handle: Option<Closure<dyn FnMut(PopStateEvent)>>,
+    _pop_state_handle: Option<Closure<dyn FnMut(PopStateEvent)>>,
 }
 
 impl Router {
     pub fn register_callback(&mut self) {
         let cb = self.link.callback(|x| x);
         let handle = Closure::wrap(Box::new(move |event: PopStateEvent| {
-            let state_value = event
-                .state()
-                .as_string()
-                .unwrap_or_else(|| String::from("this is not a event"));
-            if let Ok(page) = Page::try_from(state_value) {
+            if let Some(Ok(page)) = event.state().as_string().map(Page::try_from) {
                 cb.emit(page);
             }
         }) as Box<dyn FnMut(PopStateEvent)>);
         let _ = window()
             .expect("open window and failed")
             .add_event_listener_with_callback("popstate", handle.as_ref().unchecked_ref());
-        self.pop_state_handle = Some(handle);
+        self._pop_state_handle = Some(handle);
     }
 
     fn set_path(&mut self, page: Page) {
@@ -94,7 +90,7 @@ impl Agent for Router {
             history: window.history().unwrap(),
             location,
             who: None,
-            pop_state_handle: None,
+            _pop_state_handle: None,
         };
         router.replace_path(router.get_path());
         router.register_callback();
