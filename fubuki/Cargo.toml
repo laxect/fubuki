@@ -46,5 +46,5 @@ fubuki_types = {path = "../fubuki_types"}
   features = [ "js" ]
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3.20"
+wasm-bindgen-test = "0.3.21"
 
