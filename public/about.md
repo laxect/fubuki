@@ -1,4 +1,4 @@
-### Welcome to Tavinia.  
+島風造船所です。
 
 ---
 
@@ -35,6 +35,3 @@
 
 [`686F3411A9823621`](http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc26bce774cc866acde9b127c686f3411a9823621)
 
----
-
-Winter is coming and no one can escape.

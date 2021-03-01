@@ -7,7 +7,7 @@ pub struct Post {
     pub content: String,
 }
 
-const RIGHTS: &str = "© 2016 - 2020 gyara";
+const RIGHTS: &str = "© 2016 - 2021 gyara";
 
 impl Post {
     fn id(&self) -> String {
@@ -74,12 +74,12 @@ fn gen_atom_feed() -> Feed {
     pubsubhubbub.set_rel("hub".to_string());
     // feed
     feed.set_authors(vec![get_me()]);
-    feed.set_title("Gyara Studio");
+    feed.set_title("島風造船所");
     feed.set_id("https://blog.gyara.moe/");
     feed.set_generator(generator);
     feed.set_links(vec![link, pubsubhubbub]);
     feed.set_rights(RIGHTS.to_string());
-    feed.set_subtitle("gyara's studio".to_string());
+    feed.set_subtitle("島風造船所".to_string());
     feed
 }
 

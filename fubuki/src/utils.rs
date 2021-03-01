@@ -12,7 +12,7 @@ pub enum Page {
 
 impl Page {
     pub fn title(&self) -> String {
-        let mut title: String = "Gyara studio - ".to_owned();
+        let mut title: String = "島風造船所 - ".to_owned();
         match self {
             Page::Article(ref article) => {
                 title.push_str(article);
