@@ -9,7 +9,7 @@ pub struct NavStatus {
 
 fn get_item_mark(item: &Page) -> String {
     match item {
-        Page::Index => "g.s.".to_string(),
+        Page::Index => "🏗".to_string(),
         _ => item.value(),
     }
 }
@@ -93,6 +93,7 @@ impl Component for NavBar {
             <>
             <nav class="nav nav-bar">
                 { self.link_html(Page::Index) }
+                <span class="site-title">{ "島風造船所" }</span>
                 <div class="nav-bar-right">
                     { self.link_html(Page::Posts) }
                     { self.link_html(Page::Links) }
