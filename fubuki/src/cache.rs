@@ -40,13 +40,12 @@ fn get_local_storage() -> Result<Storage, JsValue> {
 
 pub struct Cache {
     inner: Storage,
-    is_updated: bool,
 }
 
 impl Cache {
     fn check_cache_version(&self) {
         let key = "build_version";
-        let version = std::env!("CARGO_PKG_VERSION").to_owned();
+        let version = git_version::git_version!();
         if let Ok(Some(cache_version)) = self.inner.get(key) {
             if cache_version == version {
                 // no more action
@@ -59,7 +58,6 @@ impl Cache {
     pub fn new() -> Cache {
         let cache = Cache {
             inner: get_local_storage().expect("cache open failed"),
-            is_updated: false,
         };
         cache.check_cache_version();
         cache
@@ -67,18 +65,13 @@ impl Cache {
 
     fn clear(&self) {
         let key = "build_version";
-        let version = std::env!("CARGO_PKG_VERSION").to_owned();
+        let version = git_version::git_version!();
         let _ = self.inner.clear();
         let _ = self.inner.set(key, &version);
     }
 
     pub fn get(&self, page: &Page) -> Option<Load> {
         // not cache on index
-        if !self.is_updated {
-            if let Page::Posts = page {
-                return None;
-            }
-        }
         let key = page.value();
         if let Ok(Some(cc)) = self.inner.get(&key) {
             if let Ok(load) = serde_yaml::from_str(&cc) {
@@ -94,19 +87,6 @@ impl Cache {
     pub fn set(&mut self, page: &Page, content: &Load) {
         let key = page.value();
         let val = serde_yaml::to_string(content).expect("never failed");
-        if let Page::Posts = page {
-            self.is_updated = true;
-            let mut should_clear = true;
-            if let Ok(Some(cc)) = self.inner.get(&key) {
-                if val == cc {
-                    should_clear = false;
-                }
-            }
-            if should_clear {
-                log::info!("clear outdated data");
-                self.clear();
-            }
-        }
         self.inner.set(&key, &val).ok();
     }
 }
