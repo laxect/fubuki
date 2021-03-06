@@ -1,9 +1,0 @@
-{
-  "extends": [
-    "config:base"
-  ],
-  "baseBranches": ["deps"],
-  "automerge": true,
-  "pinVersions": false,
-  "schedule": ["before 2am"]
-}
