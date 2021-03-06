@@ -241,7 +241,7 @@ checksum = "3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1"
 
 [[package]]
 name = "fubuki"
-version = "2.1.0"
+version = "3.0.0"
 dependencies = [
  "fubuki_types",
  "getrandom",
@@ -489,7 +489,7 @@ checksum = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
 
 [[package]]
 name = "index_gen"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "anyhow",
  "atom_syndication",

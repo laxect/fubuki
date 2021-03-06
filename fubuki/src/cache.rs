@@ -9,6 +9,8 @@ pub enum Load {
     Posts(PostList),
 }
 
+const BUILD_VERSION: &str = git_version::git_version!(args = ["--always"]);
+
 impl Load {
     pub fn into_page(self) -> Option<String> {
         match self {
@@ -45,9 +47,8 @@ pub struct Cache {
 impl Cache {
     fn check_cache_version(&self) {
         let key = "build_version";
-        let version = git_version::git_version!();
         if let Ok(Some(cache_version)) = self.inner.get(key) {
-            if cache_version == version {
+            if cache_version == BUILD_VERSION {
                 // no more action
                 return;
             }
@@ -65,9 +66,8 @@ impl Cache {
 
     fn clear(&self) {
         let key = "build_version";
-        let version = git_version::git_version!();
         let _ = self.inner.clear();
-        let _ = self.inner.set(key, &version);
+        let _ = self.inner.set(key, BUILD_VERSION);
     }
 
     pub fn get(&self, page: &Page) -> Option<Load> {
