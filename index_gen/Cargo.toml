@@ -1,6 +1,6 @@
 [package]
 name = "index_gen"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Gyara <me@gyara.moe>"]
 edition = "2018"
 

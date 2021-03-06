@@ -32,7 +32,7 @@ impl Date {
                 .split(' ')
                 .flat_map(|s| s.split('/'))
                 .flat_map(|s| s.split(':'))
-                .map(|s| u32::from_str_radix(s, 10))
+                .map(|s| s.parse::<u32>())
                 .collect();
             let mut spines = spines?;
             let mut push = spines.len();
