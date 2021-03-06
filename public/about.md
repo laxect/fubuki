@@ -5,7 +5,6 @@
 + [~~OSU!~~](https://osu.ppy.sh/users/6428299)
 + NS: SW-1499-2836-5875
 + PSN: [laxect](https://psnine.com/psnid/laxect)
-+ Twitter: [laxect](https://twitter.com/laxect)
 
 ---
 
