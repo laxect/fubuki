@@ -3,7 +3,7 @@ title: 各种奇怪的在线卡牌游戏推荐
 category: TCG
 tags: [ Game ]
 summary: 你的生命已如风中残烛了！
-date: 令和2/5/18
+date: 令和2年5月18日
 ---
 # 各种奇怪的在线卡牌游戏推荐
 

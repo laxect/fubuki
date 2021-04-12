@@ -4,7 +4,7 @@ category: After reading
 tags:
   - movie
   - anime
-date: 平成30/3/1
+date: 平成30年3月1日
 summary: 你的名字
 spoiler:
   target: 君の名は

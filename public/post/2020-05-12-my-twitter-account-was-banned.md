@@ -3,7 +3,7 @@ title: 我的 Twitter 被封禁了
 category: Life
 tags: [ Mastodon ]
 summary: 是时候去中心化了。
-date: 令和2/5/12
+date: 令和2年5月12日
 ---
 我的 Twitter 被封禁了。根据 Twitter 的支持页面，我的帐号可能是违反了以下规则之一：
 

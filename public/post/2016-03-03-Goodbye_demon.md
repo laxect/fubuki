@@ -1,6 +1,6 @@
 ---
 title : Goodbye Demon
-date : 平成28/3/3
+date : 平成28年3月3日
 category : After reading
 tags : [ 米澤 穂信, light-novel ]
 summary: 再见，妖精

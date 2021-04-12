@@ -2,7 +2,7 @@
 title: 平成最后的 leetcode 解题报告
 category: Coding
 tags: [ leetcode, rust ]
-date: 平成31/4/17
+date: 平成31年4月17日
 summary: 令和最初？
 ---
 # 平成最后的 leetcode 解题报告

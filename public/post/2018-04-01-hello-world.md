@@ -2,7 +2,7 @@
 title: hello world
 category: Coding
 tags: [ dev ]
-date: 平成30/4/1
+date: 平成30年4月1日
 summary: こにちわ
 ---
 # Hello World

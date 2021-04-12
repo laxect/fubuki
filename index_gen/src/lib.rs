@@ -70,14 +70,7 @@ pub fn read_files() -> anyhow::Result<()> {
     println!("## write post yaml result to {}", yaml);
     let mut yaml_output = fs::File::create(yaml)?;
     // this place will always success, so just unwrap
-    let fms: Vec<fubuki_types::Post> = posts
-        .into_iter()
-        .map(|x| x.front_matter)
-        .map(|mut fm| {
-            fm.remove_time();
-            fm
-        })
-        .collect();
+    let fms: Vec<fubuki_types::Post> = posts.into_iter().map(|x| x.front_matter).collect();
     yaml_output.write_all(serde_yaml::to_string(&fms).unwrap().as_bytes())?;
     Ok(())
 }

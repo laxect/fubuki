@@ -3,7 +3,7 @@ title: TicWatch Pro 上手体验
 category: Life
 tags: [ TicWatch Pro ]
 summary: 还行。
-date: 令和1/5/11
+date: 令和元年5月11日
 ---
 # TicWatch Pro 上手体验
 

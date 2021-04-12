@@ -4,7 +4,7 @@ category: Coding
 tags:
   - python
   - traps
-date: 平成29/7/2
+date: 平成29年7月2日
 summary: あれれ、おかしいよ
 ---
 # python 里的 exec
