@@ -21,4 +21,4 @@ date: 令和3年5月22日
 
 但是寇基雷释放时抓的四张牌，其中一张是[无尽轮回钨拉莫](https://scryfall.com/card/mm2/6/ulamog-the-infinite-gyre)。就这样，下一个回合， Noctiucent 释放了钨拉莫，消灭了达雷迪。但是ギャラ的解牌已经在手上了——依靠超载了的[遗弃之风](https://scryfall.com/card/mh1/37/winds-of-abandon)，ギャラ放逐了 Noctiucent 的所有生物。
 
-而在此时，ギャラ的场上还立着[卡拉卡斯](https://scryfall.com/card/ema/240/karakas)。Noctiucent 卡组里唯一能消灭卡拉卡斯的就是已经被放逐了的钨拉莫。即使再一次释放寇基雷也几乎没有胜算了。意识到这一点后，Noctiucent 投牌认负。
+而在此时，ギャラ的场上还立着[卡拉卡斯](https://scryfall.com/card/ema/240/karakas)。Noctiucent 卡组里唯一能消灭卡拉卡斯的就是已经被放逐了的钨拉莫。即使再一次施放寇基雷也几乎没有胜算了。意识到这一点后，Noctiucent 投牌认负。
