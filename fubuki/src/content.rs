@@ -149,7 +149,7 @@ impl Component for Content {
                 };
                 html! {
                     <main class="post-list">
-                        <crate::posts::Posts: on_click=self.on_change.clone() post_list=post_list/>
+                        <crate::posts::Posts on_click=self.on_change.clone() post_list=post_list/>
                     </main>
                 }
             }

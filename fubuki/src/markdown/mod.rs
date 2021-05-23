@@ -48,7 +48,7 @@ pub fn render_markdown(src: &str) -> Html {
             Event::Text(text) => add_child!(VText::new(text.to_string())),
             Event::Code(text) => {
                 let mut code = VTag::new("code");
-                code.add_attribute("class", &"inline-code");
+                code.add_attribute("class", "inline-code");
                 code.add_child(VText::new(text.to_string()).into());
                 add_child!(code);
             }
@@ -56,12 +56,12 @@ pub fn render_markdown(src: &str) -> Html {
             Event::HardBreak => add_child!(VTag::new("br")),
             Event::TaskListMarker(done) => {
                 if let Some(back) = spine.last_mut() {
-                    back.add_attribute("class", &"task-list");
+                    back.add_attribute("class", "task-list");
                 }
                 let mut task_marker = VTag::new("img");
-                task_marker.add_attribute("class", &"task-marker");
+                task_marker.add_attribute("class", "task-marker");
                 let marker = if done { "icon/check.svg" } else { "icon/square.svg" };
-                task_marker.add_attribute("src", &marker);
+                task_marker.add_attribute("src", marker);
                 add_child!(task_marker);
             }
             Event::Html(html) => {
@@ -70,7 +70,7 @@ pub fn render_markdown(src: &str) -> Html {
                     match tag {
                         HTag::Left(t_name) => {
                             let mut v_tag = VTag::new(t_name);
-                            v_tag.add_attribute("class", &"html");
+                            v_tag.add_attribute("class", "html");
                             spine.push(v_tag);
                         }
                         HTag::Right(_) => {
@@ -90,10 +90,10 @@ pub fn render_markdown(src: &str) -> Html {
                 let fd = format!("#r:fd:{}", fnn);
                 // link to defin
                 let mut v_tag = VTag::new("sup");
-                v_tag.add_attribute("class", &"fr");
-                v_tag.add_attribute("id", &fr);
+                v_tag.add_attribute("class", "fr");
+                v_tag.add_attribute("id", fr);
                 let mut inner = VTag::new("a");
-                inner.add_attribute("href", &fd);
+                inner.add_attribute("href", fd);
                 inner.add_child(VText::new(fnn.to_string()).into());
                 v_tag.add_child(inner.into());
                 add_child!(v_tag);
@@ -129,14 +129,14 @@ fn make_tag(t: Tag) -> VTag {
                 CodeBlockKind::Indented => "".to_owned(),
                 CodeBlockKind::Fenced(l) => l.to_string(),
             };
-            el.add_attribute("class", &class);
+            el.add_attribute("class", class);
             el
         }
         Tag::List(None) => VTag::new("ul"),
         Tag::List(Some(1)) => VTag::new("ol"),
         Tag::List(Some(ref start)) => {
             let mut el = VTag::new("ol");
-            el.add_attribute("start", start);
+            el.add_attribute("start", start.to_string());
             el
         }
         Tag::Item => VTag::new("li"),
@@ -147,22 +147,22 @@ fn make_tag(t: Tag) -> VTag {
         Tag::Emphasis => VTag::new("dfn"),
         Tag::Strong => {
             let mut el = VTag::new("em");
-            el.add_attribute("class", &"font-weight-bold");
+            el.add_attribute("class", "font-weight-bold");
             el
         }
-        Tag::Link(ref _type, ref href, ref title) => {
+        Tag::Link(ref _type, href, title) => {
             let mut el = VTag::new("a");
-            el.add_attribute("href", href);
+            el.add_attribute("href", href.to_string());
             if title.len() != 0 {
-                el.add_attribute("title", title);
+                el.add_attribute("title", title.to_string());
             }
             el
         }
         Tag::Image(ref _type, ref src, ref title) => {
             let mut el = VTag::new("img");
-            el.add_attribute("src", src);
+            el.add_attribute("src", src.to_string());
             if title.len() != 0 {
-                el.add_attribute("title", title);
+                el.add_attribute("title", title.to_string());
             }
             el
         }
@@ -171,11 +171,11 @@ fn make_tag(t: Tag) -> VTag {
             let fd = format!("r:fd:{}", fnn);
             // link to defin
             let mut el = VTag::new("div");
-            el.add_attribute("class", &"fd");
-            el.add_attribute("id", &fd);
+            el.add_attribute("class", "fd");
+            el.add_attribute("id", fd);
             // link back
             let mut inner = VTag::new("a");
-            inner.add_attribute("href", &fr);
+            inner.add_attribute("href", fr);
             inner.add_child(VText::new(fnn.to_string()).into());
             el.add_child(inner.into());
             el
