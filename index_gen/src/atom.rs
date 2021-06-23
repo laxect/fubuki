@@ -1,5 +1,5 @@
 use crate::date;
-use atom_syndication::*;
+use atom_syndication::{FixedDateTime, Link, Person, Entry, Feed, Text, Content, Generator};
 
 #[derive(Clone)]
 pub struct Post {
@@ -7,7 +7,10 @@ pub struct Post {
     pub content: String,
 }
 
-const RIGHTS: &str = "© 2016 - 2021 gyara";
+#[inline(always)]
+fn right() -> Text {
+    Text::plain("© 2016 - 2021 gyara")
+}
 
 impl Post {
     fn id(&self) -> String {
@@ -34,8 +37,8 @@ impl From<Post> for Entry {
         link.set_href(post.id());
         link.set_rel("alternate");
         entry.set_links(vec![link]);
-        entry.set_rights(RIGHTS.to_string());
-        entry.set_summary(post.front_matter.summary.clone());
+        entry.set_rights(right());
+        entry.set_summary(Text::plain(post.front_matter.summary));
         // content
         let mut content = Content::default();
         let mut html = String::new();
@@ -78,8 +81,8 @@ fn gen_atom_feed() -> Feed {
     feed.set_id("https://blog.gyara.moe/");
     feed.set_generator(generator);
     feed.set_links(vec![link, pubsubhubbub]);
-    feed.set_rights(RIGHTS.to_string());
-    feed.set_subtitle("島風造船所".to_string());
+    feed.set_rights(right());
+    feed.set_subtitle(Text::plain("島風造船所"));
     feed
 }
 
