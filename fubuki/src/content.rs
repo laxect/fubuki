@@ -56,8 +56,8 @@ impl Content {
         let fm_title = self.front_matter.as_ref().map(|f| &f.title);
         let title = self.title.as_ref().or(fm_title);
         match title {
-            Some(ref title) => html! {
-                <h1>{ title.clone() }</h1>
+            Some(title) => html! {
+                <h1>{ &title.clone() }</h1>
             },
             None => html! { <></> },
         }

@@ -33,7 +33,7 @@ impl Date {
                 .split(' ')
                 .flat_map(|s| s.split('/'))
                 .flat_map(|s| s.split(':'))
-                .flat_map(|s| s.split("年"))
+                .flat_map(|s| s.split('年'))
                 .flat_map(|s| s.split('月'))
                 .flat_map(|s| s.split('日'))
                 .filter(|s| !s.is_empty())

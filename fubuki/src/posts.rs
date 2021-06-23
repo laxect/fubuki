@@ -91,7 +91,7 @@ impl Posts {
         let end = std::cmp::min(start + 5, self.list.len());
         html! {
             <>
-            { for self.list.get(start..end).unwrap_or(&[]).into_iter().map(article_html) }
+            { for self.list.get(start..end).unwrap_or(&[]).iter().map(article_html) }
             </>
         }
     }

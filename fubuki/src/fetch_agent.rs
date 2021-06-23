@@ -13,7 +13,7 @@ pub mod fetch {
         fetch_config.cache(RequestCache::Reload);
         // get windows object
         let window = window().ok_or_else(|| JsValue::from_str("open window failed"))?;
-        let response = window.fetch_with_str_and_init(&uri, &fetch_config);
+        let response = window.fetch_with_str_and_init(uri, &fetch_config);
         let response: Response = JsFuture::from(response).await?.into();
         let res = JsFuture::from(response.text().unwrap())
             .await?
@@ -128,7 +128,7 @@ impl Agent for FetchAgent {
     fn handle_input(&mut self, input: Self::Input, who: HandlerId) {
         self.who = Some(who);
         let FetchRequest(ref page) = input;
-        if let Some(cc) = self.cache.get(&page) {
+        if let Some(cc) = self.cache.get(page) {
             // cache response
             self.link.respond(who, cc);
         } else {

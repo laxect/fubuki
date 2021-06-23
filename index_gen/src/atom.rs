@@ -1,5 +1,5 @@
 use crate::date;
-use atom_syndication::{FixedDateTime, Link, Person, Entry, Feed, Text, Content, Generator};
+use atom_syndication::{Content, Entry, Feed, FixedDateTime, Generator, Link, Person, Text};
 
 #[derive(Clone)]
 pub struct Post {
