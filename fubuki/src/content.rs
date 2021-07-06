@@ -4,7 +4,7 @@ use crate::{
     utils::Page,
 };
 use fubuki_types::{FrontMatter, Spoiler};
-use yew::*;
+use yew::{html, Bridge, Bridged, Callback, Component, ComponentLink, Html, Properties, ShouldRender};
 
 #[derive(PartialEq, Clone, Properties)]
 pub struct ContentStatus {

@@ -13,8 +13,8 @@ use content::Content;
 use navbar::NavBar;
 use router::{Request, Router};
 use utils::Page;
-use wasm_bindgen::prelude::*;
-use yew::*;
+use wasm_bindgen::prelude::wasm_bindgen;
+use yew::{html, Bridge, Bridged, Component, ComponentLink, Html, ShouldRender};
 
 pub enum Change {
     Click(Page),

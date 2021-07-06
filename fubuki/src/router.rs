@@ -1,9 +1,9 @@
 use crate::Page;
 use serde_derive::{Deserialize, Serialize};
 use std::convert::TryFrom;
-use wasm_bindgen::{prelude::*, JsCast};
+use wasm_bindgen::{prelude::Closure, JsCast};
 use web_sys::{window, History, Location, PopStateEvent};
-use yew::worker::*;
+use yew::worker::{Agent, AgentLink, Context, HandlerId};
 
 #[derive(PartialEq, Clone, Serialize, Deserialize)]
 pub enum Request {

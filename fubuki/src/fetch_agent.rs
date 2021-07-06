@@ -1,6 +1,6 @@
 pub use crate::cache::{Cache, Load};
 use crate::{posts::PostList, utils::Page};
-use yew::worker::*;
+use yew::worker::{Agent, AgentLink, Context, HandlerId};
 
 pub mod fetch {
     use wasm_bindgen::JsValue;
