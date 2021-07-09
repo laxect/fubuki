@@ -127,7 +127,7 @@ fn make_tag(t: Tag) -> VTag {
             let mut el = VTag::new("code");
             let class = match lang {
                 CodeBlockKind::Indented => "".to_owned(),
-                CodeBlockKind::Fenced(l) => l.to_string(),
+                CodeBlockKind::Fenced(lang) => lang.to_string(),
             };
             el.add_attribute("class", class);
             el
