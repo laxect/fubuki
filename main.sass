@@ -7,6 +7,8 @@ $shironeri: rgb(252, 250, 242)
 $ginnezumi: rgb(145, 152, 159)
 $shironezumi: rgb(189, 192, 186)
 $usubeni: #E87A90
+$sora: #58B2DC
+$nakabeni: #DB4D6D
 // color table - self
 $black: #444
 $little_black: #666
@@ -62,8 +64,6 @@ button
     background: none
 
 a
-    --sora: #58B2DC
-    --nakabeni: #DB4D6D
     color: $hai
     transition: all 0.3s
     &::after
@@ -71,16 +71,16 @@ a
         position: relative
         top: -0.15em
         right: 0.05em
-        color: var(--sora)
+        color: $sora
         transition: all 0.5s
     &:visited::after
-        color: var(--sora)
+        color: $sora
     &:hover
         color: $black
         padding: 0.2em 0
         background: $far_gray
         &::after
-            color: var(--nakabeni)
+            color: $nakabeni
 
 ol, ul
     margin-left: -2em
@@ -94,10 +94,11 @@ nav
             font-weight: bold
         .nav-brand
             padding: 0.4em
-            background-color: gray
-            color: gray
+            background-color: $shironezumi
+            color: transparent
+            text-shadow: 0 0 0 $shironeri
             &:hover
-                color: white
+              text-shadow: 0 0 0 $hai
         .nav-bar-right
             --nav-item-width: 3.6em
             --nav-gap: 0.1em
