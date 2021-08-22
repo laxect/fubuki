@@ -1,5 +1,5 @@
 use crate::date;
-use atom_syndication::{Content, Entry, Feed, FixedDateTime, Generator, Link, Person, Text};
+use atom_syndication::{CategoryBuilder, Content, Entry, Feed, FixedDateTime, Generator, Link, Person, Text};
 
 #[derive(Clone)]
 pub struct Post {
@@ -39,6 +39,11 @@ impl From<Post> for Entry {
         entry.set_links(vec![link]);
         entry.set_rights(right());
         entry.set_summary(Text::plain(post.front_matter.summary));
+        // category
+        let mut category = CategoryBuilder::default();
+        category.label(Some(post.front_matter.category.clone()));
+        category.term(post.front_matter.category);
+        entry.set_categories(vec![category.build()]);
         // content
         let mut content = Content::default();
         let mut html = String::new();
