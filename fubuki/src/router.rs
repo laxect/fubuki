@@ -30,7 +30,7 @@ pub struct Router {
 }
 
 impl Router {
-    pub fn register_callback(&mut self) {
+    fn register_callback(&mut self) {
         let cb = self.link.callback(|x| x);
         let handle = Closure::wrap(Box::new(move |event: PopStateEvent| {
             if let Some(Ok(page)) = event.state().as_string().map(Page::try_from) {
