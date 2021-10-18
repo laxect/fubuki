@@ -24,7 +24,7 @@ fn file_handle(entry: &fs::DirEntry) -> anyhow::Result<Post> {
     if entry.path().is_dir() {
         return Err(anyhow::Error::msg("Not a file."));
     }
-    println!("::  {}", entry.path().to_str().unwrap());
+    println!("::  {}", entry.path().to_string_lossy());
     let mut file = fs::File::open(entry.path())?;
     let mut contents = String::new();
     let mut hasher = blake2::Blake2b::new();
@@ -33,13 +33,13 @@ fn file_handle(entry: &fs::DirEntry) -> anyhow::Result<Post> {
     let res = hasher.finalize();
     let hash = base64::encode(res);
     if let Ok((front_matter, content)) = front_matter::parse_front_matter(contents) {
-        let post = front_matter.into_post(entry.file_name().into_string().unwrap().replace(".md", ""), hash);
+        let post = front_matter.into_post(entry.file_name().to_string_lossy().replace(".md", ""), hash);
         return Ok(Post {
             front_matter: post,
             content,
         });
     } else {
-        println!("x {} parse failed", entry.file_name().into_string().unwrap());
+        println!("x {} parse failed", entry.file_name().to_string_lossy());
     }
     Err(anyhow::Error::msg("File handle failed"))
 }
@@ -64,7 +64,7 @@ pub fn read_files() -> anyhow::Result<()> {
     println!("## write atom xml result to {}", feed);
     let mut atom_output = fs::File::create(feed)?;
     let atom_feed = atom::gather_posts(posts.clone());
-    atom_output.write_all(atom_feed.to_string().as_bytes())?;
+    atom_feed.write_to(&mut atom_output)?;
     // get yaml
     let yaml = [dist, "/posts.yml".into()].concat();
     println!("## write post yaml result to {}", yaml);

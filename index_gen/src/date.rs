@@ -81,34 +81,34 @@ mod test {
     fn from_jp_to_iso() {
         let input = String::from("平成31/4/29 23:45");
         let output = Date::from_japan_locale(input).unwrap().to_iso_string();
-        assert_eq!(output, "2019-04-29T23:45:00Z".to_string());
+        assert_eq!(output, "2019-04-29T23:45:00Z");
     }
 
     #[test]
     fn from_jp_to_iso2() {
         let input = String::from("平成31年/4/29 23:45");
         let output = Date::from_japan_locale(input).unwrap().to_iso_string();
-        assert_eq!(output, "2019-04-29T23:45:00Z".to_string());
+        assert_eq!(output, "2019-04-29T23:45:00Z");
     }
 
     #[test]
     fn from_jp_to_iso3() {
         let input = String::from("平成元年/4/29 23:45");
         let output = Date::from_japan_locale(input).unwrap().to_iso_string();
-        assert_eq!(output, "1989-04-29T23:45:00Z".to_string());
+        assert_eq!(output, "1989-04-29T23:45:00Z");
     }
 
     #[test]
     fn from_jp_to_iso4() {
         let input = String::from("令和3年4月1日");
         let output = Date::from_japan_locale(input).unwrap().to_iso_string();
-        assert_eq!(output, "2021-04-01T00:00:00Z".to_string());
+        assert_eq!(output, "2021-04-01T00:00:00Z");
     }
 
     #[test]
     fn reiwa() {
         let input = String::from("令和1/5/1");
         let output = Date::from_japan_locale(input).unwrap().to_iso_string();
-        assert_eq!(output, "2019-05-01T00:00:00Z".to_string());
+        assert_eq!(output, "2019-05-01T00:00:00Z");
     }
 }

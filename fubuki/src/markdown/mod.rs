@@ -8,7 +8,6 @@ use yew::{
     Html,
 };
 
-#[allow(clippy::cognitive_complexity)]
 pub fn render_markdown(src: &str) -> Html {
     let mut depth: u32 = 0; // virtal stack
     let mut spine = Vec::new();
@@ -16,7 +15,7 @@ pub fn render_markdown(src: &str) -> Html {
     macro_rules! add_child {
         ($child:expr) => {{
             if depth < 1 {
-                log::warn!("stack error");
+                log::error!("stack error");
             } else if let Some(node) = spine.last_mut() {
                 node.add_child($child.into());
             }
@@ -38,21 +37,21 @@ pub fn render_markdown(src: &str) -> Html {
                     pre.add_child(top.into());
                     top = pre;
                 }
-                if depth > 1 {
+                depth -= 1;
+                if depth > 0 {
                     add_child!(top);
                 } else {
                     spine.push(top);
                 }
-                depth -= 1;
             }
-            Event::Text(text) => add_child!(VText::new(text.to_string())),
+            Event::Text(text) => add_child!(VText::new(text.into_string())),
             Event::Code(text) => {
                 let mut code = VTag::new("code");
                 code.add_attribute("class", "inline-code");
                 code.add_child(VText::new(text.to_string()).into());
                 add_child!(code);
             }
-            Event::SoftBreak => add_child!(VText::new("\n".to_string())),
+            Event::SoftBreak => add_child!(VText::new("\n")),
             Event::HardBreak => add_child!(VTag::new("br")),
             Event::TaskListMarker(done) => {
                 if let Some(back) = spine.last_mut() {
@@ -69,13 +68,17 @@ pub fn render_markdown(src: &str) -> Html {
                 for tag in tags.into_iter() {
                     match tag {
                         HTag::Left(t_name) => {
+                            depth += 1;
                             let mut v_tag = VTag::new(t_name);
                             v_tag.add_attribute("class", "html");
                             spine.push(v_tag);
                         }
                         HTag::Right(_) => {
-                            if let Some(node) = spine.pop() {
-                                add_child!(node);
+                            depth -= 1;
+                            if depth > 0 {
+                                if let Some(node) = spine.pop() {
+                                    add_child!(node);
+                                }
                             }
                         }
                         HTag::Text(inner) => {
@@ -127,14 +130,14 @@ fn make_tag(t: Tag) -> VTag {
             let mut el = VTag::new("code");
             let class = match lang {
                 CodeBlockKind::Indented => "".to_owned(),
-                CodeBlockKind::Fenced(lang) => lang.to_string(),
+                CodeBlockKind::Fenced(lang) => lang.into_string(),
             };
             el.add_attribute("class", class);
             el
         }
         Tag::List(None) => VTag::new("ul"),
         Tag::List(Some(1)) => VTag::new("ol"),
-        Tag::List(Some(ref start)) => {
+        Tag::List(Some(start)) => {
             let mut el = VTag::new("ol");
             el.add_attribute("start", start.to_string());
             el
@@ -150,23 +153,23 @@ fn make_tag(t: Tag) -> VTag {
             el.add_attribute("class", "font-weight-bold");
             el
         }
-        Tag::Link(ref _type, href, title) => {
+        Tag::Link(_type, href, title) => {
             let mut el = VTag::new("a");
-            el.add_attribute("href", href.to_string());
+            el.add_attribute("href", href.into_string());
             if title.len() != 0 {
-                el.add_attribute("title", title.to_string());
+                el.add_attribute("title", title.into_string());
             }
             el
         }
-        Tag::Image(ref _type, ref src, ref title) => {
+        Tag::Image(_type, src, title) => {
             let mut el = VTag::new("img");
-            el.add_attribute("src", src.to_string());
+            el.add_attribute("src", src.into_string());
             if title.len() != 0 {
-                el.add_attribute("title", title.to_string());
+                el.add_attribute("title", title.into_string());
             }
             el
         }
-        Tag::FootnoteDefinition(ref fnn) => {
+        Tag::FootnoteDefinition(fnn) => {
             let fr = format!("#r:fr:{}", fnn);
             let fd = format!("r:fd:{}", fnn);
             // link to defin
@@ -176,7 +179,7 @@ fn make_tag(t: Tag) -> VTag {
             // link back
             let mut inner = VTag::new("a");
             inner.add_attribute("href", fr);
-            inner.add_child(VText::new(fnn.to_string()).into());
+            inner.add_child(VText::new(fnn.into_string()).into());
             el.add_child(inner.into());
             el
         }

@@ -75,11 +75,11 @@ fn gen_atom_feed() -> Feed {
     // website link
     let mut link = Link::default();
     link.set_href("https://blog.gyara.moe/atom.xml");
-    link.set_rel("self".to_string());
+    link.set_rel("self");
     // pubsubhubbub
     let mut pubsubhubbub = Link::default();
     pubsubhubbub.set_href("https://pubsubhubbub.appspot.com/");
-    pubsubhubbub.set_rel("hub".to_string());
+    pubsubhubbub.set_rel("hub");
     // feed
     feed.set_authors(vec![get_me()]);
     feed.set_title("島風造船所");

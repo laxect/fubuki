@@ -41,7 +41,7 @@ impl Default for Spoiler {
     }
 }
 
-#[derive(PartialEq, Clone, Deserialize, Serialize, Debug)]
+#[derive(PartialEq, Clone, Deserialize, Serialize, Debug, Default)]
 pub struct Post {
     pub url: String,
     pub date: String,
@@ -70,21 +70,6 @@ impl Post {
 }
 
 pub type PostList = Vec<Post>;
-
-impl Default for Post {
-    fn default() -> Post {
-        Post {
-            url: String::from(""),
-            date: String::from(""),
-            hash: String::from(""),
-            title: String::from(""),
-            summary: String::from(""),
-            category: String::from(""),
-            tags: Vec::new(),
-            spoiler: Spoiler::None,
-        }
-    }
-}
 
 #[cfg(test)]
 mod tests {

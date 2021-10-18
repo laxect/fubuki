@@ -3,7 +3,7 @@ target
 node_modules
 dist
 .cache
-yarn-error.log
+.pnpm-debug.log
 pkg
 .parcel-cache
 .firebase/
