@@ -15,4 +15,3 @@ date: 令和3年4月1日
 ![](https://t.gyara.moe/hfZK)
 
 ![](https://t.gyara.moe/nHxa)
-

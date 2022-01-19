@@ -5,6 +5,7 @@ tags: [ leetcode, rust ]
 date: 平成31年4月17日
 summary: 令和最初？
 ---
+
 # 平成最后的 leetcode 解题报告
 
 最近一段时间积攒的 leetcode 解题报告（虽然都是水题啦）。
@@ -51,7 +52,7 @@ matrix67 上一个类似的[实例](http://www.matrix67.com/blog/archives/6584)
 
 ## 326 power of three
 
-真正的水题...只需要一次 log...可能会有精度问题，提前判一下是不是 3 的倍数（注意*1*）就好了。
+真正的水题...只需要一次 log...可能会有精度问题，提前判一下是不是 3 的倍数（注意_1_）就好了。
 
 ## 704 binary search
 

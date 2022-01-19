@@ -45,9 +45,11 @@ impl Router {
 
     fn set_path(&mut self, page: Page) {
         let route = format!("/{}", page.value());
-        let _ = self
-            .history
-            .push_state_with_url(&(page.value().into()), &page.title(), Some(route.as_str()));
+        let _ = self.history.push_state_with_url(
+            &(page.value().into()),
+            &page.title(),
+            Some(route.as_str()),
+        );
         let _ = set_title(&page.title());
     }
 
@@ -65,9 +67,11 @@ impl Router {
     fn replace_path(&mut self, page: Page) {
         let mut route = page.value();
         route.insert(0, '/');
-        let _ = self
-            .history
-            .replace_state_with_url(&(page.value().into()), &page.title(), Some(route.as_str()));
+        let _ = self.history.replace_state_with_url(
+            &(page.value().into()),
+            &page.title(),
+            Some(route.as_str()),
+        );
         let _ = set_title(&page.title());
     }
 

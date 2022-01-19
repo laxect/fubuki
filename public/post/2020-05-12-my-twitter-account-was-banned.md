@@ -5,6 +5,7 @@ tags: [ Mastodon ]
 summary: 是时候去中心化了。
 date: 令和2年5月12日
 ---
+
 我的 Twitter 被封禁了。根据 Twitter 的支持页面，我的帐号可能是违反了以下规则之一：
 
 > Spam: Most of the accounts we suspend are suspended because they are spammy, or just plain fake, and they introduce security risks for Twitter and all of our users. These types of accounts are against our Twitter Rules. Unfortunately, sometimes a real person’s account gets suspended by mistake, and in those cases we’ll work with the person to make sure the account is unsuspended.

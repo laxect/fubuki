@@ -33,7 +33,8 @@ fn file_handle(entry: &fs::DirEntry) -> anyhow::Result<Post> {
     let res = hasher.finalize();
     let hash = base64::encode(res);
     if let Ok((front_matter, content)) = front_matter::parse_front_matter(contents) {
-        let post = front_matter.into_post(entry.file_name().to_string_lossy().replace(".md", ""), hash);
+        let post =
+            front_matter.into_post(entry.file_name().to_string_lossy().replace(".md", ""), hash);
         return Ok(Post {
             front_matter: post,
             content,

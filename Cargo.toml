@@ -1,9 +1,8 @@
 [workspace]
-
 members = [
-    "fubuki",
-    "fubuki_types",
-    "index_gen"
+  "fubuki",
+  "fubuki_types",
+  "index_gen",
 ]
 
 [profile.release]

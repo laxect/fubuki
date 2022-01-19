@@ -15,5 +15,3 @@ date: 令和3年2月10日
 ![](https://t.gyara.moe/jqXC)
 
 ![](https://t.gyara.moe/56rF)
-
-

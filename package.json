@@ -1,27 +1,27 @@
 {
-    "name": "fubuki-gs",
-    "version": "1.0.0",
-    "main": "index.js",
-    "repository": "git@github.com:laxect/fubuki.git",
-    "author": "Gyara <me@gyara.moe>",
-    "license": "MIT",
-    "private": true,
-    "devDependencies": {
-        "@wasm-tool/wasm-pack-plugin": "^1.5.0",
-        "copy-webpack-plugin": "^9.0.1",
-        "css-loader": "^6.3.0",
-        "rimraf": "^3.0.2",
-        "sass": "^1.42.1",
-        "sass-loader": "^12.1.0",
-        "style-loader": "^3.3.0",
-        "webpack": "^5.55.1",
-        "webpack-cli": "^4.8.0",
-        "webpack-dev-server": "^3.11.2"
-    },
-    "scripts": {
-        "index": "cargo run --bin index_gen --release -- public/post public",
-        "build": "rimraf dist fubuki/pkg pkg && webpack",
-        "start": "rimraf dist fubuki/pkg pkg && webpack serve",
-        "test": "cargo test && wasm-pack test --headless"
-    }
+  "name": "fubuki-gs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:laxect/fubuki.git",
+  "author": "Gyara <me@gyara.moe>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@wasm-tool/wasm-pack-plugin": "^1.5.0",
+    "copy-webpack-plugin": "^9.0.1",
+    "css-loader": "^6.3.0",
+    "rimraf": "^3.0.2",
+    "sass": "^1.42.1",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.3.0",
+    "webpack": "^5.55.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "scripts": {
+    "index": "cargo run --bin index_gen --release -- public/post public",
+    "build": "rimraf dist fubuki/pkg pkg && webpack",
+    "start": "rimraf dist fubuki/pkg pkg && webpack serve",
+    "test": "cargo test && wasm-pack test --headless"
+  }
 }
