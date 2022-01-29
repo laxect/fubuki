@@ -1,12 +1,11 @@
 use crate::{
-    fetch_agent::{FetchAgent, Load},
+    fetch_agent::{FetchAgent, FetchRequest, Load},
     markdown::render_markdown,
     utils::Page,
 };
 use fubuki_types::{FrontMatter, Spoiler};
-use yew::{
-    html, Bridge, Bridged, Callback, Component, ComponentLink, Html, Properties, ShouldRender,
-};
+use yew::{html, Callback, Component, Context, Html, Properties};
+use yew_agent::{Bridge, Bridged};
 
 #[derive(PartialEq, Clone, Properties)]
 pub struct ContentStatus {
@@ -20,18 +19,14 @@ pub struct Content {
     title: Option<String>,
     front_matter: Option<FrontMatter>,
     fetch: Box<dyn Bridge<FetchAgent>>,
-    on_change: Callback<Page>,
 }
 
 impl Content {
     fn inner(&self) -> Option<String> {
-        self.inner
-            .as_ref()
-            .map(|load| match load {
-                Load::Page(c) => Some(c.clone()),
-                _ => None,
-            })
-            .flatten()
+        self.inner.as_ref().and_then(|load| match load {
+            Load::Page(c) => Some(c.clone()),
+            _ => None,
+        })
     }
 
     fn render_spoiler(&self) -> Html {
@@ -70,21 +65,20 @@ impl Component for Content {
     type Message = Load;
     type Properties = ContentStatus;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let callback = link.callback(|x| x);
+    fn create(ctx: &Context<Self>) -> Self {
+        let callback = ctx.link().callback(|x| x);
         let mut fetch_agent = FetchAgent::bridge(callback);
-        fetch_agent.send(props.page.clone().into());
+        fetch_agent.send(ctx.props().page.clone().into());
         Content {
-            page: props.page,
+            page: ctx.props().page.clone(),
             inner: None,
             title: None,
             front_matter: None,
             fetch: fetch_agent,
-            on_change: props.on_change,
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         if let Load::Page(ref article) = msg {
             let main: String;
             // remove front matter
@@ -125,18 +119,19 @@ impl Component for Content {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if props.page != self.page {
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        let page = ctx.props().page.clone();
+        if page != self.page {
             self.inner = None;
             self.title = None;
             self.front_matter = None;
-            self.page = props.page.clone();
-            self.fetch.send(props.page.into());
+            self.page = page.clone();
+            self.fetch.send(FetchRequest(page));
         }
         false
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         if self.inner.is_none() {
             return html! {
                 <main>
@@ -151,7 +146,7 @@ impl Component for Content {
                 };
                 html! {
                     <main class="post-list">
-                        <crate::posts::Posts on_click=self.on_change.clone() post_list=post_list/>
+                        <crate::posts::Posts on_click={ctx.props().on_change.clone()} {post_list}/>
                     </main>
                 }
             }
@@ -162,7 +157,7 @@ impl Component for Content {
                 };
                 let c = self.inner().unwrap_or_default();
                 html! {
-                    <main class=class>
+                    <main {class}>
                         { self.render_title() }
                         { self.render_spoiler() }
                         <article>{ render_markdown(&c) }</article>

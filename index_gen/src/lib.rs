@@ -27,7 +27,7 @@ fn file_handle(entry: &fs::DirEntry) -> anyhow::Result<Post> {
     println!("::  {}", entry.path().to_string_lossy());
     let mut file = fs::File::open(entry.path())?;
     let mut contents = String::new();
-    let mut hasher = blake2::Blake2b::new();
+    let mut hasher = blake2::Blake2b512::new();
     file.read_to_string(&mut contents)?;
     hasher.update(contents.as_bytes());
     let res = hasher.finalize();

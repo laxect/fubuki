@@ -3,7 +3,7 @@ use serde_derive::{Deserialize, Serialize};
 use std::convert::TryFrom;
 use wasm_bindgen::{prelude::Closure, JsCast};
 use web_sys::{window, History, Location, PopStateEvent};
-use yew::worker::{Agent, AgentLink, Context, HandlerId};
+use yew_agent::{Agent, AgentLink, Context, HandlerId};
 
 #[derive(PartialEq, Clone, Serialize, Deserialize)]
 pub enum Request {
@@ -56,7 +56,7 @@ impl Router {
     fn get_path(&self) -> Page {
         let mut path = self.location.pathname().unwrap_or_else(|_| "gs".to_owned());
         if path.starts_with('/') {
-            path = path.replacen("/", "", 1);
+            path = path.replacen('/', "", 1);
         }
         if path.ends_with('/') {
             path.pop();

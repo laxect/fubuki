@@ -128,7 +128,7 @@ pub fn render_markdown(src: &str) -> Html {
 fn make_tag(t: Tag) -> VTag {
     match t {
         Tag::Paragraph => VTag::new("p"),
-        Tag::Heading(n) => VTag::new(format!("h{}", n)),
+        Tag::Heading(n, ..) => VTag::new(format!("h{}", n)),
         Tag::BlockQuote => VTag::new("blockquote"),
         Tag::CodeBlock(lang) => {
             let mut el = VTag::new("code");

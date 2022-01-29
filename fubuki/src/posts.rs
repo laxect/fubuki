@@ -1,7 +1,7 @@
 // article list component
 use crate::utils::Page;
 pub use fubuki_types::{Post, PostList};
-use yew::{html, Callback, Component, ComponentLink, Html, Properties, ShouldRender};
+use yew::{html, Callback, Component, Context, Html, Properties};
 
 impl From<Post> for Page {
     fn from(item: Post) -> Page {
@@ -27,8 +27,8 @@ impl Msg {
 }
 
 #[inline]
-fn page_count(post_num: usize) -> u32 {
-    (post_num as u32 + 4) / 5
+fn page_count(ctx: &Context<Posts>) -> u32 {
+    (ctx.props().post_list.len() as u32 + 4) / 5
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -40,36 +40,32 @@ pub struct PostsStatus {
 
 pub struct Posts {
     page_num: u32,
-    page_count: u32,
-    list: Vec<Post>,
-    on_click: Callback<Page>,
-    link: ComponentLink<Self>,
 }
 
 impl Posts {
-    fn page_flip(&mut self, msg: &Msg) -> bool {
+    fn page_flip(&mut self, msg: &Msg, page_count: u32) -> bool {
         let mut new_page_num = match msg {
             Msg::Prev => self.page_num.saturating_sub(1),
             Msg::Next => self.page_num.saturating_add(1),
             // Msg::Click
             _ => unreachable!(),
         };
-        if new_page_num > self.page_count {
-            new_page_num = self.page_count;
+        if new_page_num > page_count {
+            new_page_num = page_count;
         }
         let res = self.page_num != new_page_num;
         self.page_num = new_page_num;
         res
     }
 
-    fn article_list_html(&self) -> Html {
+    fn article_list_html(&self, ctx: &Context<Self>) -> Html {
         let article_html = |post: &Post| -> Html {
             let url = post.url.clone();
-            let on_click = self.link.callback(move |_| Msg::Click(url.clone()));
+            let onclick = ctx.link().callback(move |_| Msg::Click(url.clone()));
             html! {
                 <article>
                     <h2 class="post-title">
-                        <button class="post-title" onclick=on_click>{ &post.title }</button>
+                        <button class="post-title" {onclick}>{ &post.title }</button>
                     </h2>
                     <p>{ &post.summary }</p>
                     <small>
@@ -88,10 +84,10 @@ impl Posts {
             }
         };
         let start = self.page_num as usize * 5;
-        let end = std::cmp::min(start + 5, self.list.len());
+        let end = std::cmp::min(start + 5, ctx.props().post_list.len());
         html! {
             <>
-            { for self.list.get(start..end).unwrap_or(&[]).iter().map(article_html) }
+            { for ctx.props().post_list.get(start..end).unwrap_or(&[]).iter().map(article_html) }
             </>
         }
     }
@@ -101,38 +97,31 @@ impl Component for Posts {
     type Message = Msg;
     type Properties = PostsStatus;
 
-    fn create(prop: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Posts {
-            page_num: 0,
-            page_count: page_count(prop.post_list.len()),
-            list: prop.post_list,
-            on_click: prop.on_click,
-            link,
-        }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Posts { page_num: 0 }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::Click(post) => {
-                self.on_click.emit(Page::Article(post));
+                ctx.props().on_click.emit(Page::Article(post));
                 false
             }
-            _ => self.page_flip(&msg),
+            _ => self.page_flip(&msg, page_count(ctx)),
         }
     }
 
-    fn change(&mut self, prop: Self::Properties) -> ShouldRender {
+    fn changed(&mut self, _ctx: &Context<Self>) -> bool {
         // never change
-        self.page_count = page_count(prop.post_list.len());
-        self.list = prop.post_list;
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         // pagnation link item
+        let page_count = page_count(ctx);
         let link = |item: Msg| -> Html {
             let disabled = match item {
-                Msg::Next => self.page_num + 1 >= self.page_count,
+                Msg::Next => self.page_num + 1 >= page_count,
                 Msg::Prev => self.page_num == 0,
                 _ => unreachable!(),
             };
@@ -142,17 +131,16 @@ impl Component for Posts {
             } else {
                 "btn btn-post"
             };
-            let on_click = self.link.callback(move |_| item.clone());
+            let onclick = ctx.link().callback(move |_| item.clone());
             html! {
-                <button class=class
-                    onclick=on_click>
+                <button {class} {onclick}>
                     { mark }
                 </button>
             }
         };
         html! {
             <>
-                { self.article_list_html() }
+                { self.article_list_html(ctx) }
                 <nav class="post-nav" style="float: right">
                     { link(Msg::Prev) }
                     { link(Msg::Next) }

@@ -1,4 +1,5 @@
 #![recursion_limit = "256"]
+#![allow(clippy::unused_unit)]
 
 mod cache;
 mod content;
@@ -14,7 +15,8 @@ use navbar::NavBar;
 use router::{Request, Router};
 use utils::Page;
 use wasm_bindgen::prelude::wasm_bindgen;
-use yew::{html, Bridge, Bridged, Component, ComponentLink, Html, ShouldRender};
+use yew::{html, Component, Context, Html};
+use yew_agent::{Bridge, Bridged};
 
 pub enum Change {
     Click(Page),
@@ -24,29 +26,27 @@ pub enum Change {
 pub struct Blog {
     page: Page,
     router: Box<dyn Bridge<Router>>,
-    link: ComponentLink<Self>,
 }
 
 impl Component for Blog {
     type Message = Change;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let cb = link.callback(Change::NavTo);
+    fn create(ctx: &Context<Self>) -> Self {
+        let cb = ctx.link().callback(Change::NavTo);
         let mut router = Router::bridge(cb);
         router.send(Request::Where);
         Blog {
             page: Page::Index,
             router,
-            link,
         }
     }
 
-    fn change(&mut self, _: Self::Properties) -> ShouldRender {
+    fn changed(&mut self, _ctx: &Context<Self>) -> bool {
         false
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         let inner = match msg {
             Change::Click(page) => {
                 if page != self.page {
@@ -64,14 +64,13 @@ impl Component for Blog {
         }
     }
 
-    fn view(&self) -> Html {
-        let on_change = self.link.callback(Change::Click);
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let on_change = ctx.link().callback(Change::Click);
+        let page = self.page.clone();
         html! {
             <>
-                <NavBar page=self.page.clone()
-                    on_change=on_change.clone()/>
-                <Content page=self.page.clone()
-                    on_change=on_change/>
+                <NavBar page={page.clone()} on_change={on_change.clone()}/>
+                <Content {page} {on_change}/>
                 <footer>
                     <p>{ "このブログ記事は" }<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja">{ "クリエイティブ・コモンズ 表示-継承ライセンス" }</a>{ "の下で利用可能です。" }</p>
                     <p>{ "メールアドレス：me at gyara dot moe。" }</p>

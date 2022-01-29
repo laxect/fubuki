@@ -1,6 +1,6 @@
 pub use crate::cache::{Cache, Load};
 use crate::{posts::PostList, utils::Page};
-use yew::worker::{Agent, AgentLink, Context, HandlerId};
+use yew_agent::{Agent, AgentLink, Context, HandlerId};
 
 pub mod fetch {
     use wasm_bindgen::JsValue;
@@ -27,7 +27,7 @@ pub mod fetch {
 pub struct FetchResult(Load, Page, u32);
 
 #[derive(Clone)]
-pub struct FetchRequest(Page);
+pub struct FetchRequest(pub Page);
 
 impl From<Page> for FetchRequest {
     fn from(page: Page) -> FetchRequest {
