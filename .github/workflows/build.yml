@@ -12,7 +12,7 @@ jobs:
     - uses: hecrj/setup-rust-action@master
       with:
         rust-version: nightly
-    - uses: actions/setup-node@v2
+    - uses: actions/setup-node@v3
     - name: Install Wasm-pack
       run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
     - uses: pnpm/action-setup@v2.2.1
