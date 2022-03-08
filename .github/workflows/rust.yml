@@ -55,10 +55,6 @@ jobs:
   fmt:
     runs-on: ubuntu-latest
     steps:
-    - uses: hecrj/setup-rust-action@master
-      with:
-        rust-version: nightly
-        components: rustfmt
     - uses: actions/checkout@master
-    - name: fmt check
-      run: cargo fmt --all -- --check --verbose
+    - uses: dprint/check@v2.0
+

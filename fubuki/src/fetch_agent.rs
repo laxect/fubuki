@@ -89,9 +89,7 @@ impl FetchAgent {
         let update_id = self.get_id();
         let future = async move {
             if let Ok(res) = fetch::get(&uri).await {
-                let _ = target
-                    .fill(res, update_id)
-                    .map(|fetch_result| cb.emit(fetch_result));
+                let _ = target.fill(res, update_id).map(|fetch_result| cb.emit(fetch_result));
             }
         };
         wasm_bindgen_futures::spawn_local(future);

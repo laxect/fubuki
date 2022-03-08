@@ -59,11 +59,7 @@ pub fn render_markdown(src: &str) -> Html {
                 }
                 let mut task_marker = VTag::new("img");
                 task_marker.add_attribute("class", "task-marker");
-                let marker = if done {
-                    "icon/check.svg"
-                } else {
-                    "icon/square.svg"
-                };
+                let marker = if done { "icon/check.svg" } else { "icon/square.svg" };
                 task_marker.add_attribute("src", marker);
                 add_child!(task_marker);
             }

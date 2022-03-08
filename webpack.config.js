@@ -14,17 +14,17 @@ module.exports = {
           "style-loader",
           "css-loader",
           {
-            loader: 'sass-loader',
+            loader: "sass-loader",
             options: {
-              implementation: require('sass')
-            }
-          }
-        ]
-      }
-    ]
+              implementation: require("sass"),
+            },
+          },
+        ],
+      },
+    ],
   },
   entry: {
-    index: "./index.js"
+    index: "./index.js",
   },
   output: {
     path: dist,
@@ -37,9 +37,7 @@ module.exports = {
   },
   plugins: [
     new CopyPlugin({
-      patterns: [
-        { from: "public" }
-      ]
+      patterns: [{ from: "public" }],
     }),
 
     new WasmPackPlugin({
@@ -47,6 +45,6 @@ module.exports = {
     }),
   ],
   experiments: {
-    asyncWebAssembly: true
-  }
+    asyncWebAssembly: true,
+  },
 };

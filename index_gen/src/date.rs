@@ -27,9 +27,7 @@ impl Date {
     /// from 平成31/4/29
     pub fn from_japan_locale(locale: String) -> anyhow::Result<Date> {
         if let Some(genngo) = locale.get(..6) {
-            let date = locale
-                .get(6..)
-                .ok_or_else(|| anyhow::Error::msg("parse failed"))?;
+            let date = locale.get(6..).ok_or_else(|| anyhow::Error::msg("parse failed"))?;
             let spines: Result<Vec<u32>, _> = date
                 .replace("元年", "1年")
                 .split(' ')
