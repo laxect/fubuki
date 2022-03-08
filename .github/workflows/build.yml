@@ -15,7 +15,7 @@ jobs:
     - uses: actions/setup-node@v2
     - name: Install Wasm-pack
       run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-    - uses: pnpm/action-setup@v1.2.1
+    - uses: pnpm/action-setup@v2.2.1
     - name: build script
       run: ./scripts/build.sh
     - uses: FirebaseExtended/action-hosting-deploy@v0
