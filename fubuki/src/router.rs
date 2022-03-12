@@ -4,6 +4,7 @@ use std::convert::TryFrom;
 use wasm_bindgen::{prelude::Closure, JsCast};
 use web_sys::{window, History, Location, PopStateEvent};
 use yew_agent::{Agent, AgentLink, Context, HandlerId};
+use yew_router::Routable;
 
 #[derive(PartialEq, Clone, Serialize, Deserialize)]
 pub enum Request {

@@ -11,73 +11,38 @@ mod router;
 mod utils;
 
 use content::Content;
-use navbar::NavBar;
-use router::{Request, Router};
+use navbar::Navbar;
 use utils::Page;
 use wasm_bindgen::prelude::wasm_bindgen;
-use yew::{html, Component, Context, Html};
-use yew_agent::{Bridge, Bridged};
+use yew::function_component;
+use yew::{html};
+use yew_router::{BrowserRouter, Routable};
 
-pub enum Change {
-    Click(Page),
-    NavTo(Page),
+#[derive(Clone, Routable, PartialEq)]
+enum Route {
+    #[at("/")]
+    Main,
+    #[at("/posts")]
+    Posts,
+    #[at("/post/:id")]
+    Post { id: String },
+    #[at("/about")]
+    About,
+    #[at("/links")]
+    Links,
 }
 
-pub struct Blog {
-    page: Page,
-    router: Box<dyn Bridge<Router>>,
-}
-
-impl Component for Blog {
-    type Message = Change;
-    type Properties = ();
-
-    fn create(ctx: &Context<Self>) -> Self {
-        let cb = ctx.link().callback(Change::NavTo);
-        let mut router = Router::bridge(cb);
-        router.send(Request::Where);
-        Blog {
-            page: Page::Index,
-            router,
-        }
-    }
-
-    fn changed(&mut self, _ctx: &Context<Self>) -> bool {
-        false
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
-        let inner = match msg {
-            Change::Click(page) => {
-                if page != self.page {
-                    self.router.send(Request::Goto(page.clone()));
-                }
-                page
-            }
-            Change::NavTo(page) => page,
-        };
-        if inner != self.page {
-            self.page = inner;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let on_change = ctx.link().callback(Change::Click);
-        let page = self.page.clone();
-        html! {
-            <>
-                <NavBar page={page.clone()} on_change={on_change.clone()}/>
-                <Content {page} {on_change}/>
-                <footer>
-                    <p>{ "このブログ記事は" }<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja">{ "クリエイティブ・コモンズ 表示-継承ライセンス" }</a>{ "の下で利用可能です。" }</p>
-                    <p>{ "メールアドレス：me at gyara dot moe。" }</p>
-                    <p>{ ["ビルドバージョン：", std::env!("CARGO_PKG_VERSION"), "。"].concat() }</p>
-                </footer>
-            </>
-        }
+#[function_component(Blog)]
+fn blog() -> Html {
+    html! {
+        <BrowserRouter>
+            <Navbar />
+            <footer>
+                <p>{ "このブログ記事は" }<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja">{ "クリエイティブ・コモンズ 表示-継承ライセンス" }</a>{ "の下で利用可能です。" }</p>
+                <p>{ "メールアドレス：me at gyara dot moe。" }</p>
+                <p>{ ["ビルドバージョン：", std::env!("CARGO_PKG_VERSION"), "。"].concat() }</p>
+            </footer>
+        </BrowserRouter>
     }
 }
 

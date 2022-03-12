@@ -5,10 +5,10 @@ authors = ["Gyara <me@gyara.moe>"]
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0.53"
+anyhow = "1.0.56"
 atom_syndication = "0.11.0"
 base64 = "0.13.0"
-blake2 = "0.10.2"
+blake2 = "0.10.4"
 fubuki_types = { path = "../fubuki_types" }
 htmlescape = "0.3.1"
 serde_derive = "1.0.136"
