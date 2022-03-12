@@ -18,6 +18,8 @@ wasm-bindgen-futures = "0.4.29"
 web_logger = { git = "https://github.com/Gyara-studio/web_logger.git" }
 yew = "0.19.3"
 yew-agent = "0.1.0"
+stylist = { version = "0.10.0", features = ["yew_integration"] }
+yew-router = "0.16.0"
 
 [dependencies.web-sys]
 version = "0.3.56"
@@ -44,7 +46,7 @@ version = "0.9.1"
 default-features = false
 
 [dependencies.getrandom]
-version = "0.2.4"
+version = "0.2.5"
 features = ["js"]
 
 [dev-dependencies]

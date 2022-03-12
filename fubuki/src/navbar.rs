@@ -1,99 +1,61 @@
-use crate::utils::Page;
-use yew::{html, Callback, Component, Context, Html, Properties};
+use crate::Route;
+use yew::{function_component, html, Callback, Html};
+use yew_router::{
+    history::{AnyHistory, History},
+    hooks::{use_history, use_route},
+};
 
-#[derive(PartialEq, Clone, Properties)]
-pub struct NavStatus {
-    pub page: Page,
-    pub on_change: Callback<Page>,
-}
-
-fn get_item_mark(item: &Page) -> String {
-    match item {
-        Page::Index => "🏗".to_string(),
-        _ => item.value(),
-    }
-}
-
-pub struct NavBar {
-    page: Page,
-}
-
-impl NavBar {
-    fn get_callback<T>(&self, item: &Page, ctx: &Context<Self>) -> Callback<T> {
-        let move_item = item.clone();
-        ctx.link().callback(move |_| move_item.clone())
-    }
-
-    fn get_item_class(&self, item: &Page) -> &'static str {
-        if *item == Page::Index {
-            "nav-brand"
-        } else if *item == self.page {
-            "nav-link active current"
-        } else {
-            "nav-link"
-        }
-    }
-
-    fn link_html(&self, item: Page, ctx: &Context<Self>) -> Html {
-        let mark = get_item_mark(&item);
-        let onclick = self.get_callback(&item, ctx);
-        if self.page.is_article() && item == Page::Posts {
-            html! {
-                <button class="nav-link active" {onclick}>
-                    <span class="mark">{ "post" }</span>
-                    <span class="unmark">{ "s" }</span>
-                </button>
-            }
-        } else {
-            let class = self.get_item_class(&item);
-            html! {
-                <button {class} {onclick}>
-                    { mark }
-                </button>
+fn link_html(item: Route, ima: &Route, history: AnyHistory) -> Html {
+    let mark = match item {
+        Route::Main => "🏗",
+        Route::Posts => "posts",
+        Route::About => "about",
+        Route::Links => "links",
+        _ => unreachable!(),
+    };
+    let class = match (&item, ima) {
+        (&Route::Main, _) => "nav-brand",
+        (&Route::Post { id: _ }, &Route::Posts) => "nav-link active",
+        (a, b) => {
+            if a == b {
+                "nav-link active"
+            } else {
+                "nav-link"
             }
         }
-    }
-}
-
-impl Component for NavBar {
-    type Message = Page;
-    type Properties = NavStatus;
-
-    fn create(ctx: &Context<Self>) -> Self {
-        Self {
-            page: ctx.props().page.clone(),
-        }
-    }
-
-    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
-        if msg != self.page {
-            self.page = msg.clone();
-            ctx.props().on_change.emit(msg);
-            true
-        } else {
-            false
-        }
-    }
-
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
-        self.page = ctx.props().page.clone();
-        true
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        // nav bar
+    };
+    let ii = item.clone();
+    let onclick = Callback::from(move |_| history.push(ii.clone()));
+    if matches!(item, Route::Post { id: _ }) && *ima == Route::Posts {
         html! {
-            <>
-            <nav class="nav nav-bar">
-                { self.link_html(Page::Index, ctx) }
-                <span class="site-title">{ "島風造船所" }</span>
-                <div class="nav-bar-right">
-                    { self.link_html(Page::Posts, ctx) }
-                    { self.link_html(Page::Links, ctx) }
-                    { self.link_html(Page::About, ctx) }
-                </div>
-            </nav>
-            </>
+            <button {class} {onclick}>
+                <span class="mark">{ "post" }</span>
+                <span class="unmark">{ "s" }</span>
+            </button>
         }
+    } else {
+        html! {
+            <button {class} {onclick}>
+                { mark }
+            </button>
+        }
+    }
+}
+
+#[function_component(Navbar)]
+pub fn navbar() -> Html {
+    let ima: Route = use_route().unwrap();
+    let history = use_history().unwrap();
+    // nav bar
+    html! {
+        <nav class="nav nav-bar">
+            { link_html(Route::Main, &ima, history.clone()) }
+            <span class="site-title">{ "島風造船所" }</span>
+            <div class="nav-bar-right">
+                { link_html(Route::Posts, &ima, history.clone()) }
+                { link_html(Route::Links, &ima, history.clone()) }
+                { link_html(Route::About, &ima, history.clone()) }
+            </div>
+        </nav>
     }
 }
