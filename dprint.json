@@ -6,6 +6,9 @@
     "max_width": 120
   },
   "toml": {},
+  "prettier": {
+    "max_width": 120
+  },
   "includes": [
     "**/*.{json,md,toml,rs,js,scss,html}"
   ],

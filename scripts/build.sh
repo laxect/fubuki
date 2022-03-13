@@ -1,3 +1,1 @@
-pnpm install
-pnpm run index
-pnpm run build
+trunk build --release

@@ -4,9 +4,6 @@ version = "4.2.0"
 authors = ["Gyara <me@gyara.moe>"]
 edition = "2021"
 
-[lib]
-crate-type = ["rlib", "cdylib"]
-
 [dependencies]
 fubuki_types = { path = "../fubuki_types" }
 git-version = "0.3.5"

@@ -50,8 +50,7 @@ fn blog() -> Html {
     }
 }
 
-#[wasm_bindgen(start)]
-pub fn run_app() {
+fn main() {
     web_logger::custom_init(web_logger::Config {
         level: log::Level::Info,
     });
