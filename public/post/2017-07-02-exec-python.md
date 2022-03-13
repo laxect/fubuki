@@ -33,7 +33,8 @@ func_test()
 ```
 
 执行之后结果竟然还是 1 ? _exec_ 没有执行吗？那之前的结果是怎么来的？仔细再看看文档，会注意到其中有这样一段 (然而就是第二段 = =)。
->In all cases, if the optional parts are omitted, the code is executed in the current scope. If only globals is provided, it must be a dictionary, which will be used for both the global and the local variables. If globals and locals are given, they are used for the global and local variables, respectively. If provided, locals can be any mapping object. Remember that at module level, globals and locals are the same dictionary. If exec gets two separate objects as globals and locals, the code will be executed as if it were embedded in a class definition.
+
+> In all cases, if the optional parts are omitted, the code is executed in the current scope. If only globals is provided, it must be a dictionary, which will be used for both the global and the local variables. If globals and locals are given, they are used for the global and local variables, respectively. If provided, locals can be any mapping object. Remember that at module level, globals and locals are the same dictionary. If exec gets two separate objects as globals and locals, the code will be executed as if it were embedded in a class definition.
 
 换句话说，当 _exec_ (exec(object[, globals[, locals]])) 没有给予可选参数时，它的结果只会在当前作用域有效。当 _exec_ 在模块级运行时， _locals_ 和 _global_ 是相同的字典，这也就是第一段代码生效的原因。但在第二段代码中， _print_ 打印的是 _global_ 中的 _a_ ，_exec_ 的结果却在 _locals_ 中， 这也就是第二段代码不生效的原因。
 
