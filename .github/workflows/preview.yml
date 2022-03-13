@@ -10,6 +10,7 @@ jobs:
     - uses: hecrj/setup-rust-action@master
       with:
         rust-version: nightly
+        targets: wasm32-unknown-unknown
     - uses: jetli/trunk-action@v0.1.0
     - name: build script
       run: ./scripts/build.sh
