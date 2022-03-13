@@ -253,6 +253,7 @@ dependencies = [
  "fubuki_types",
  "getrandom",
  "git-version",
+ "gloo-utils",
  "log",
  "pulldown-cmark",
  "serde",

@@ -8,16 +8,19 @@ mod markdown;
 mod navbar;
 mod posts;
 mod router;
+mod style;
 mod utils;
 
 use content::Content;
 use navbar::Navbar;
 use stylist::yew::Global;
 use utils::Page;
-use wasm_bindgen::prelude::wasm_bindgen;
 use yew::function_component;
 use yew::html;
+use yew::ContextProvider;
 use yew_router::{BrowserRouter, Routable};
+
+use crate::style::Colors;
 
 #[derive(Clone, Routable, PartialEq)]
 enum Route {
@@ -35,17 +38,20 @@ enum Route {
 
 #[function_component(Blog)]
 fn blog() -> Html {
+    let colors = style::colors(style::Theme::Light);
     html! {
         <>
         <Global css=""/>
+        <ContextProvider<Colors> context={colors}>
         <BrowserRouter>
             <Navbar />
+        </BrowserRouter>
             <footer>
                 <p>{ "このブログ記事は" }<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja">{ "クリエイティブ・コモンズ 表示-継承ライセンス" }</a>{ "の下で利用可能です。" }</p>
                 <p>{ "メールアドレス：me at gyara dot moe。" }</p>
                 <p>{ ["ビルドバージョン：", std::env!("CARGO_PKG_VERSION"), "。"].concat() }</p>
             </footer>
-        </BrowserRouter>
+        </ ContextProvider<Colors>>
         </>
     }
 }
