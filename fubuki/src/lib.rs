@@ -12,10 +12,11 @@ mod utils;
 
 use content::Content;
 use navbar::Navbar;
+use stylist::yew::Global;
 use utils::Page;
 use wasm_bindgen::prelude::wasm_bindgen;
 use yew::function_component;
-use yew::{html};
+use yew::html;
 use yew_router::{BrowserRouter, Routable};
 
 #[derive(Clone, Routable, PartialEq)]
@@ -35,6 +36,8 @@ enum Route {
 #[function_component(Blog)]
 fn blog() -> Html {
     html! {
+        <>
+        <Global css=""/>
         <BrowserRouter>
             <Navbar />
             <footer>
@@ -43,6 +46,7 @@ fn blog() -> Html {
                 <p>{ ["ビルドバージョン：", std::env!("CARGO_PKG_VERSION"), "。"].concat() }</p>
             </footer>
         </BrowserRouter>
+        </>
     }
 }
 
