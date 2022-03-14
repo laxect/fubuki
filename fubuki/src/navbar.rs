@@ -30,7 +30,7 @@ fn button(props: &ButtonProps) -> Html {
     let button_common = use_style!(
         "
          text-align: center;
-         padding: 0.4em 0;
+         padding: 0.4rem 0;
          transition-property: all;
          transition-duration: 0.3s;
          transition-timing-function: ease-out;"
@@ -38,7 +38,7 @@ fn button(props: &ButtonProps) -> Html {
     let style = match (item, ima) {
         (&Route::Main, _) => use_style!(
             "
-             padding: 0.4em;
+             padding: 0.4rem;
              background-color: ${bg1};
              color: transparent;
              text-shadow: 0 0 0 ${fg1};
@@ -57,13 +57,7 @@ fn button(props: &ButtonProps) -> Html {
                     fg = colors.rev_fg
                 )
             } else {
-                use_style!(
-                    "
-                 &:hover {
-                   background-color: ${bg};
-                 }",
-                    bg = colors.bg2
-                )
+                use_style!("&:hover { background-color: ${bg};}", bg = colors.bg2)
             }
         }
     };
@@ -73,7 +67,7 @@ fn button(props: &ButtonProps) -> Html {
         use_style!(pointer-events: auto;)
     };
     let ii = item.clone();
-    let onclick = Callback::from(move |_| history.push(ii.clone()));
+    let onclick = Callback::once(move |_| history.push(ii.clone()));
     let class = classes![button_common, style, pointer];
     if matches!(ima, Route::Post { id: _ }) && *item == Route::Posts {
         let shadow = use_style!("color: ${fg};", fg = colors.rev_shadow);
@@ -95,10 +89,10 @@ fn button(props: &ButtonProps) -> Html {
 #[styled_component(Navbar)]
 pub fn navbar() -> Html {
     let ima: Route = use_route().unwrap();
-    let navbar = use_style!(r#"font-family: "Iosevka Fixed SS10 web"; margin-top: 1em;"#);
+    let navbar = use_style!(r#"font-family: "Iosevka Fixed SS10 web"; margin-top: 1rem;"#);
     let nav_right = use_style!(
-        "--nav-item-width: 3.6em;
-         --nav-gap: 0.1em;
+        "--nav-item-width: 3.6rem;
+         --nav-gap: 0.1rem;
          display: grid;
          grid-template-columns: repeat(3, var(--nav-item-width));
          grid-gap: var(--nav-gap);
@@ -106,7 +100,7 @@ pub fn navbar() -> Html {
          right: 0;
          float: right;",
     );
-    let site_title = use_style!("margin-left: 0.4em; font-weight: bold;");
+    let site_title = use_style!("margin-left: 0.4rem; font-weight: bold;");
     html! {
         <nav class={classes!(navbar, "navbar")}>
             <Button item={Route::Main} ima={ima.clone()} />

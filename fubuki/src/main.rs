@@ -13,11 +13,9 @@ mod utils;
 
 use content::Content;
 use navbar::Navbar;
-use stylist::yew::Global;
+use stylist::yew::{styled_component, use_style, Global};
 use utils::Page;
-use yew::function_component;
-use yew::html;
-use yew::ContextProvider;
+use yew::{function_component, html, use_context, ContextProvider};
 use yew_router::{BrowserRouter, Routable};
 
 use crate::style::Colors;
@@ -36,6 +34,35 @@ enum Route {
     Links,
 }
 
+const CC3: &str = "https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja";
+#[styled_component(Footer)]
+fn footer() -> Html {
+    let layout = style::Layout::layout();
+    let colors = use_context::<Colors>().unwrap();
+    let class = use_style!(
+        "
+  font-size: 0.8rem;
+  height: ${main}rem;
+  padding-top: ${top}rem;
+  padding-bottom: ${bottom}rem;
+  &, a, a:visited {
+    color: ${color};
+  }
+",
+        top = layout.footer_top,
+        main = layout.footer_main,
+        bottom = layout.footer_bottom,
+        color = colors.shadow
+    );
+    html! {
+        <footer {class}>
+            <p>{ "このブログ記事は" }<a href={CC3}>{ "クリエイティブ・コモンズ 表示-継承ライセンス" }</a>{ "の下で利用可能です。" }</p>
+            <p>{ "メールアドレス：me at gyara dot moe。" }</p>
+            <p>{ ["ビルドバージョン：", std::env!("CARGO_PKG_VERSION"), "。"].concat() }</p>
+        </footer>
+    }
+}
+
 #[function_component(Blog)]
 fn blog() -> Html {
     let colors = style::colors(style::Theme::Light);
@@ -45,12 +72,9 @@ fn blog() -> Html {
         <ContextProvider<Colors> context={colors}>
         <BrowserRouter>
             <Navbar />
+            <main>{"main"}</main>
         </BrowserRouter>
-            <footer>
-                <p>{ "このブログ記事は" }<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja">{ "クリエイティブ・コモンズ 表示-継承ライセンス" }</a>{ "の下で利用可能です。" }</p>
-                <p>{ "メールアドレス：me at gyara dot moe。" }</p>
-                <p>{ ["ビルドバージョン：", std::env!("CARGO_PKG_VERSION"), "。"].concat() }</p>
-            </footer>
+            <Footer />
         </ ContextProvider<Colors>>
         </>
     }

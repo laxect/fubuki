@@ -16,16 +16,14 @@ html {
   --gray: #d4d4d4;
   --far_gray: #f1f1f1;
   // layout
-  --footer-top: 6em;
-  --footer-bottom: 2em;
-  --footer-h: 4em;
+  --footer-top: 6rem;
+  --footer-bottom: 2rem;
+  --footer-h: 6rem;
   --footer: calc(var(--footer-top) + var(--footer-bottom) + var(--footer-h));
-  height: 100%;
   font-size: 12pt;
 }
 
 body {
-  height: 100%;
   color: var(--black);
   overflow-y: scroll;
   padding: {
@@ -46,7 +44,6 @@ body {
 // base style
 // reset default button style
 button {
-  text-align: left;
   margin: 0;
   border: none;
   outline: none;
@@ -77,9 +74,21 @@ a {
   }
 }
 
-ol,
-ul {
-  margin-left: -2em;
+// all other custom html style
+@mixin html_mark($bgc) {
+  display: inline-block;
+  padding: {
+    left: 0.5em;
+    right: 0.5em;
+    bottom: 0;
+  }
+  margin: {
+    left: 0.2em;
+    right: 0.2em;
+  }
+  background: $bgc;
+  border-bottom: none;
+  text-decoration: none;
 }
 
 main {
@@ -88,7 +97,7 @@ main {
     --main-top: 4em;
   }
   padding-top: var(--main-top);
-  min-height: calc(100vh - var(--main-top) - var(--footer));
+  min-height: calc(100vh - var(--main-top) - var(--footer) - 3.2rem);
   .spoiler-alert {
     color: rgb(255, 150, 150);
     .spoiler-level {
@@ -96,6 +105,28 @@ main {
     }
   }
   article {
+    ins.html {
+      @include html_mark(#d6f7cd);
+      &::before {
+        color: green;
+        content: "+";
+        padding-right: 0.4em;
+      }
+    }
+
+    del.html {
+      @include html_mark(#ffced4);
+      &::before {
+        color: red;
+        content: "-";
+        padding-right: 0.4em;
+      }
+    }
+    ol,
+    ul {
+      margin-left: -2em;
+    }
+
     blockquote {
       margin-left: -0.8em;
       padding: 0.5em 0.5em;
@@ -250,55 +281,6 @@ main {
         font-family: sans-serif;
       }
     }
-  }
-}
-
-footer {
-  font-size: 0.8rem;
-  height: var(--footer-h);
-  padding: {
-    top: var(--footer-top);
-    bottom: var(--footer-bottom);
-  }
-  &,
-  a,
-  a:visited {
-    color: var(--gray);
-  }
-}
-
-// all other custom html style
-@mixin html_mark($bgc) {
-  display: inline-block;
-  padding: {
-    left: 0.5em;
-    right: 0.5em;
-    bottom: 0;
-  }
-  margin: {
-    left: 0.2em;
-    right: 0.2em;
-  }
-  background: $bgc;
-  border-bottom: none;
-  text-decoration: none;
-}
-
-ins.html {
-  @include html_mark(#d6f7cd);
-  &::before {
-    color: green;
-    content: "+";
-    padding-right: 0.4em;
-  }
-}
-
-del.html {
-  @include html_mark(#ffced4);
-  &::before {
-    color: red;
-    content: "-";
-    padding-right: 0.4em;
   }
 }
 
