@@ -61,3 +61,37 @@ pub(crate) fn colors(theme: Theme) -> Colors {
         },
     }
 }
+
+pub struct Layout {
+    pub nav_bar: f32,
+    pub glitch: f32,
+    pub footer_top: f32,
+    pub footer_main: f32,
+    pub footer_bottom: f32,
+}
+
+/// All in /0.1 rem
+/// 28 is 2.8
+const LAYOUT: Layout = Layout {
+    // compute value.
+    nav_bar: 2.8,
+    // Save some space for glitch.
+    glitch: 0.4,
+    footer_top: 4.0,
+    footer_main: 6.0,
+    footer_bottom: 2.0,
+};
+
+impl Layout {
+    pub fn footer() -> f32 {
+        LAYOUT.footer_bottom + LAYOUT.footer_main + LAYOUT.footer_top
+    }
+
+    pub fn navbar() -> f32 {
+        LAYOUT.nav_bar + LAYOUT.glitch
+    }
+
+    pub fn layout() -> &'static Layout {
+        &LAYOUT
+    }
+}
