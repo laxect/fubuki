@@ -13,10 +13,7 @@
     "**/*.{json,md,toml,rs,js,scss,html}"
   ],
   "excludes": [
-    "**/*-lock.json",
-    "node_modules/",
-    "pkg",
-    "fubuki/pkg"
+    "dist/"
   ],
   "plugins": [
     "https://plugins.dprint.dev/json-0.14.1.wasm",
