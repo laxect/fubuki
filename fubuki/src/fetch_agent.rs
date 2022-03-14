@@ -1,5 +1,5 @@
-pub use crate::cache::{Cache, Load};
-use crate::{posts::PostList, utils::Page};
+use crate::Route;
+use fubuki_types::PostList;
 use yew_agent::{Agent, AgentLink, Context, HandlerId};
 
 pub mod fetch {
@@ -24,27 +24,43 @@ pub mod fetch {
 }
 
 #[derive(Clone)]
-pub struct FetchResult(Load, Page, u32);
+pub enum Load {
+    Posts(PostList),
+    Page(String),
+}
 
 #[derive(Clone)]
-pub struct FetchRequest(pub Page);
+pub struct FetchResult(Load, Route, u32);
 
-impl From<Page> for FetchRequest {
-    fn from(page: Page) -> FetchRequest {
+#[derive(Clone)]
+pub struct FetchRequest(pub Route);
+
+impl From<Route> for FetchRequest {
+    fn from(page: Route) -> FetchRequest {
         FetchRequest(page)
+    }
+}
+
+fn route_to_url(route: &Route) -> String {
+    match route {
+        Route::Posts => "/public/posts.yml".to_owned(),
+        Route::Post { id } => format!("/public/post/{}.md", id),
+        Route::Main => "/public/index.md".to_owned(),
+        Route::About => "/public/about.md".to_owned(),
+        Route::Links => "/public/links.md".to_owned(),
     }
 }
 
 impl FetchRequest {
     fn uri(&self) -> String {
-        self.0.url()
+        route_to_url(&self.0)
     }
 
     pub fn fill(self, res: String, update_id: u32) -> serde_yaml::Result<FetchResult> {
         let fetch_result = match self {
-            FetchRequest(Page::Posts) => {
+            FetchRequest(Route::Posts) => {
                 let list: PostList = serde_yaml::from_str(&res)?;
-                FetchResult(Load::Posts(list), Page::Posts, update_id)
+                FetchResult(Load::Posts(list), Route::Posts, update_id)
             }
             FetchRequest(page) => FetchResult(Load::Page(res), page, update_id),
         };
@@ -53,7 +69,6 @@ impl FetchRequest {
 }
 
 pub struct FetchAgent {
-    cache: Cache,
     link: AgentLink<FetchAgent>,
     who: Option<HandlerId>,
     base: String,
@@ -107,15 +122,13 @@ impl Agent for FetchAgent {
         FetchAgent {
             link,
             who: None,
-            cache: Cache::new(),
             base,
             update_id: 0,
         }
     }
 
     fn update(&mut self, msg: Self::Message) {
-        let FetchResult(msg, page, update_id) = msg;
-        self.cache.set(&page, &msg);
+        let FetchResult(msg, _page, update_id) = msg;
         if self.update_id > update_id {
             // over date
             return;
@@ -127,13 +140,7 @@ impl Agent for FetchAgent {
 
     fn handle_input(&mut self, input: Self::Input, who: HandlerId) {
         self.who = Some(who);
-        let FetchRequest(ref page) = input;
-        if let Some(cc) = self.cache.get(page) {
-            // cache response
-            self.link.respond(who, cc);
-        } else {
-            // only load when no cache
-            self.fetch(input);
-        }
+        let FetchRequest(ref _page) = input;
+        self.fetch(input);
     }
 }
