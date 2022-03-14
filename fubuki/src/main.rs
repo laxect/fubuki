@@ -1,27 +1,25 @@
 #![recursion_limit = "256"]
 #![allow(clippy::unused_unit)]
 
-mod cache;
-mod content;
+// mod content;
 mod fetch_agent;
 mod markdown;
 mod navbar;
-mod posts;
-mod router;
+// mod posts;
 mod style;
 mod utils;
 
-use content::Content;
+// use content::Content;
+// use posts::Posts;
 use navbar::Navbar;
 use stylist::yew::{styled_component, use_style, Global};
-use utils::Page;
-use yew::{function_component, html, use_context, ContextProvider};
-use yew_router::{BrowserRouter, Routable};
+use yew::{function_component, html, use_context, ContextProvider, Html};
+use yew_router::{BrowserRouter, Routable, Switch};
 
 use crate::style::Colors;
 
 #[derive(Clone, Routable, PartialEq)]
-enum Route {
+pub enum Route {
     #[at("/")]
     Main,
     #[at("/posts")]
@@ -63,6 +61,13 @@ fn footer() -> Html {
     }
 }
 
+fn switch(route: &Route) -> Html {
+    match route {
+        Route::Posts => html! { "posts" },
+        _ => html! { "hello" },
+    }
+}
+
 #[function_component(Blog)]
 fn blog() -> Html {
     let colors = style::colors(style::Theme::Light);
@@ -72,7 +77,9 @@ fn blog() -> Html {
         <ContextProvider<Colors> context={colors}>
         <BrowserRouter>
             <Navbar />
-            <main>{"main"}</main>
+            <main>
+                <Switch<Route> render={Switch::render(switch)} />
+            </main>
         </BrowserRouter>
             <Footer />
         </ ContextProvider<Colors>>
