@@ -103,8 +103,8 @@ fn article_item(props: &ArticleItemProps) -> Html {
 
     html! {
         <article class={split_line}>
-            <h2 class={post_title}>
-                <button {onclick}>{ &post.title }</button>
+            <h2>
+                <button {onclick} class={post_title}>{ &post.title }</button>
             </h2>
             <p>{ &post.summary }</p>
             <small>
@@ -150,7 +150,7 @@ pub fn posts() -> Html {
       border-top: solid ${underground} 0.2em;
       &:hover {
         border-top: solid ${normal} 0.2em;
-        background: ${bg2};
+        background-color: ${bg2};
       }
       transition-property: all;
       transition-duration: 0.3s;
