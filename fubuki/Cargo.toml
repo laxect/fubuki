@@ -7,6 +7,7 @@ edition = "2021"
 [dependencies]
 fubuki_types = { path = "../fubuki_types" }
 git-version = "0.3.5"
+gloo-net = "0.1.0"
 gloo-utils = "0.1.2"
 log = "0.4.14"
 serde_derive = "1.0.136"
@@ -18,22 +19,6 @@ web_logger = { git = "https://github.com/Gyara-studio/web_logger.git" }
 yew = "0.19.3"
 yew-agent = "0.1.0"
 yew-router = "0.16.0"
-
-[dependencies.web-sys]
-version = "0.3.56"
-features = [
-  "Location",
-  "Window",
-  "History",
-  "EventTarget",
-  "PopStateEvent",
-  "Document",
-  "Storage",
-  "Response",
-  "RequestInit",
-  "RequestMode",
-  "RequestCache",
-]
 
 [dependencies.serde]
 version = "1.0.136"

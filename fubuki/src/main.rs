@@ -5,15 +5,15 @@
 mod fetch_agent;
 mod markdown;
 mod navbar;
-// mod posts;
+mod posts;
 mod style;
 mod utils;
 
 // use content::Content;
-// use posts::Posts;
 use navbar::Navbar;
+use posts::Posts;
 use stylist::yew::{styled_component, use_style, Global};
-use yew::{function_component, html, use_context, ContextProvider, Html};
+use yew::{html, use_context, ContextProvider, Html};
 use yew_router::{BrowserRouter, Routable, Switch};
 
 use crate::style::Colors;
@@ -63,12 +63,12 @@ fn footer() -> Html {
 
 fn switch(route: &Route) -> Html {
     match route {
-        Route::Posts => html! { "posts" },
+        Route::Posts => html! { <Posts /> },
         _ => html! { "hello" },
     }
 }
 
-#[function_component(Blog)]
+#[styled_component(Blog)]
 fn blog() -> Html {
     let colors = style::colors(style::Theme::Light);
     html! {

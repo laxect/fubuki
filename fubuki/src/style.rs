@@ -15,12 +15,15 @@ pub(crate) struct Colors {
     pub underground: &'static str,
     pub red: &'static str,
     pub blue: &'static str,
+    pub red_bg: &'static str,
+    pub blue_bg: &'static str,
+    pub green_bg: &'static str,
+    pub colors_fg: &'static str,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(crate) enum Theme {
     Light,
-    Dark,
 }
 
 pub(crate) fn colors(theme: Theme) -> Colors {
@@ -41,23 +44,12 @@ pub(crate) fn colors(theme: Theme) -> Colors {
             underground: "#f1f1f1",
             red: "#db4d6d",
             blue: "#58b2dc",
-        },
-        Theme::Dark => Colors {
-            background: "#f3f3f3",
-            bg2: "#d4d4d4",
-            brand_bg1: "#d4d4d4",
-            brand_bg2: "#606060",
-            brand_fg1: "#000000",
-            brand_fg2: "#f3f3f3",
-            rev_bg: "#606060",
-            rev_fg: "#f3f3f3",
-            rev_shadow: "#606060",
-            bold: "#404040",
-            normal: "#606060",
-            shadow: "#d4d4d4",
-            underground: "#f1f1f1",
-            red: "#db4d6d",
-            blue: "#58b2dc",
+            // usubeni
+            red_bg: "#e87a90",
+            blue_bg: "#58b2dc",
+            // nae
+            green_bg: "#86C166",
+            colors_fg: "#f3f3f3",
         },
     }
 }

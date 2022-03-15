@@ -1,4 +1,4 @@
 [[hooks]]
 stage = "pre_build"
 command = "cargo"
-command_arguments = ["build", "--bin", "index_gen"]
+command_arguments = ["run", "--bin", "index_gen", "--release", "--", "public/post", "public"]

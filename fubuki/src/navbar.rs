@@ -1,8 +1,5 @@
 use crate::{style::Colors, Route};
-use stylist::{
-    css,
-    yew::{styled_component, use_style},
-};
+use stylist::yew::{styled_component, use_style};
 use yew::{classes, html, use_context, Callback, Properties};
 use yew_router::{
     history::History,
