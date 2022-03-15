@@ -2,27 +2,6 @@ use crate::Route;
 use fubuki_types::PostList;
 use yew_agent::{Agent, AgentLink, Context, HandlerId};
 
-pub mod fetch {
-    use wasm_bindgen::JsValue;
-    use wasm_bindgen_futures::JsFuture;
-    use web_sys::{window, RequestCache, RequestInit, RequestMode, Response};
-
-    pub async fn get(uri: &str) -> Result<String, JsValue> {
-        let mut fetch_config = RequestInit::new();
-        fetch_config.mode(RequestMode::Cors);
-        fetch_config.cache(RequestCache::Reload);
-        // get windows object
-        let window = window().ok_or_else(|| JsValue::from_str("open window failed"))?;
-        let response = window.fetch_with_str_and_init(uri, &fetch_config);
-        let response: Response = JsFuture::from(response).await?.into();
-        let res = JsFuture::from(response.text().unwrap())
-            .await?
-            .as_string()
-            .ok_or_else(|| JsValue::from_str("no body"))?;
-        Ok(res)
-    }
-}
-
 #[derive(Clone)]
 pub enum Load {
     Posts(PostList),
@@ -81,20 +60,12 @@ impl FetchAgent {
         self.update_id
     }
 
-    fn random_link(url: &mut String) {
-        let mut end = [0u8; 1];
-        getrandom::getrandom(&mut end).unwrap();
-        let append = format!("?{}", end[0]);
-        url.push_str(&append);
-    }
-
     fn get_uri(&self, target: &FetchRequest) -> String {
         let mut uri = target.uri();
         if uri.starts_with("http") {
             return uri;
         }
         uri.insert_str(0, &self.base);
-        Self::random_link(&mut uri);
         uri
     }
 
@@ -103,9 +74,17 @@ impl FetchAgent {
         let cb = self.link.callback(|x| x);
         let update_id = self.get_id();
         let future = async move {
-            if let Ok(res) = fetch::get(&uri).await {
-                let _ = target.fill(res, update_id).map(|fetch_result| cb.emit(fetch_result));
-            }
+            let res = gloo_net::http::Request::get(&uri)
+                .send()
+                .await
+                .unwrap()
+                .text()
+                .await
+                .unwrap();
+            target
+                .fill(res, update_id)
+                .map(|fetch_result| cb.emit(fetch_result))
+                .ok();
         };
         wasm_bindgen_futures::spawn_local(future);
     }
@@ -118,7 +97,7 @@ impl Agent for FetchAgent {
     type Output = Load;
 
     fn create(link: AgentLink<Self>) -> Self {
-        let base = web_sys::window().unwrap().location().origin().unwrap();
+        let base = gloo_utils::window().location().origin().unwrap();
         FetchAgent {
             link,
             who: None,

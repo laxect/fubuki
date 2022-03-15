@@ -212,74 +212,7 @@ main {
     }
   }
   .post-nav {
-    margin: {
-      top: 1em;
-      left: -0.5em;
-    }
-    display: grid;
-    grid: {
-      template-columns: repeat(2, 4em);
-      gap: 1.5em;
-    }
     button {
-      border-top: solid var(--far-gray) 0.2em;
-      &:hover {
-        border-top: solid var(--little_black) 0.2em;
-      }
-    }
-  }
-  .post-title button {
-    padding: 0;
-    transform: perspective(1px) translateZ(0);
-    &::before {
-      content: "";
-      position: absolute;
-      z-index: -1;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 0.7rem;
-      background: var(--black);
-      height: 0.15em;
-      transition: {
-        property: width;
-        duration: 0.6s;
-        timing-function: ease-out;
-      }
-    }
-    &:hover::before {
-      width: 4rem;
-    }
-  }
-  &.post-list {
-    time {
-      display: inline-block;
-      width: 9em;
-    }
-    .category {
-      margin-left: 1em;
-      padding: 0.3em 0.5em;
-      color: white;
-      background-color: var(--black);
-    }
-    .spoiler {
-      padding: 0.3em 0.5em;
-      color: white;
-      background-color: var(--usubeni);
-    }
-    article {
-      padding-bottom: 2em;
-      border-bottom: solid 0.05em var(--gray);
-    }
-    article:nth-last-of-type(1) {
-      border: none;
-    }
-  }
-  &.post {
-    @for $i from 2 through 7 {
-      h#{$i} {
-        font-family: sans-serif;
-      }
     }
   }
 }
