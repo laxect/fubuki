@@ -48,10 +48,8 @@ jobs:
     - uses: hecrj/setup-rust-action@master
       with:
         rust-version: nightly
-    - name: install wasm pack
-      run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-    - name: run wasm test
-      run: wasm-pack test --node fubuki
+    - name: Run tests
+      run: cargo test --verbose -p fubuki
   fmt:
     runs-on: ubuntu-latest
     steps:
