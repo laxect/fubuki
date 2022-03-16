@@ -37,7 +37,7 @@ fn footer() -> Html {
         use_style!(
             "
         float: right;
-        line-height: 1.5rem;
+        line-height: 1.5em;
         font-size: 0.8rem;
         height: ${main}rem;
         padding-top: ${top}rem;

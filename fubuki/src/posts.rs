@@ -84,9 +84,12 @@ fn article_item(props: &ArticleItemProps) -> Html {
     }"#,
         bold = colors.bold
     );
-    let time = use_style!("display: inline-block; width: 9em;");
+    let time = use_style!(
+        "display: inline-block; width: 9em; color: ${shadow};",
+        shadow = colors.shadow
+    );
     let category = use_style!(
-        "margin-left: 1em; padding: 0.3em 0.5em; color: ${fg}; background-color: ${bg};",
+        "margin-left: 0; padding: 0.3em 0.5em; color: ${fg}; background-color: ${bg};",
         fg = colors.rev_fg,
         bg = colors.rev_bg
     );
@@ -103,7 +106,8 @@ fn article_item(props: &ArticleItemProps) -> Html {
             </h2>
             <p>{ &post.summary }</p>
             <small>
-                <time class={time}>{ &post.date }</time><span class={category}>{ &post.category }</span>
+                <time class={time}>{ &post.date }</time>
+                <span class={category}>{ &post.category }</span>
                 {
                     if post.has_spoiler() {
                         html! {
