@@ -86,6 +86,7 @@ fn button(props: &ButtonProps) -> Html {
 #[styled_component(Navbar)]
 pub fn navbar() -> Html {
     let ima: Route = use_route().unwrap();
+    let colors: Colors = use_context().unwrap();
     let navbar = use_style!(r#"font-family: "Iosevka Fixed SS10 web"; margin-top: 1rem;"#);
     let nav_right = use_style!(
         "--nav-item-width: 3.6rem;
@@ -97,7 +98,10 @@ pub fn navbar() -> Html {
          right: 0;
          float: right;",
     );
-    let site_title = use_style!("margin-left: 0.4rem; font-weight: bold;");
+    let site_title = use_style!(
+        "margin-left: 0.4rem; font-weight: bold; color: ${bold};",
+        bold = colors.bold
+    );
     html! {
         <nav class={classes!(navbar, "navbar")}>
             <Button item={Route::Main} ima={ima.clone()} />
