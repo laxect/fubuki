@@ -15,14 +15,14 @@
 - [Iosevka](https://github.com/be5invis/Iosevka) 超赞
 - Splatoon2 萌新
 - **XenoBlade2** 天下第一
-- ~~疑似~~ 弹丸厨
+- <del>疑似</del>弹丸厨
 - Sony 大法好
 - 任天堂就是世界的主宰
 - 中文/English/日本語初心者
 
 ---
 
-#### 以下排名 ~~不分~~ 分先后
+#### 以下排名<del>不</del>分先后
 
 音乐人: ACE+ | Falcom JDK | 神前晓
 

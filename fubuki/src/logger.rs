@@ -39,6 +39,7 @@ impl Default for Config {
 }
 
 impl Config {
+    #[cfg(debug_assertions)]
     fn debug_profile() -> Self {
         Config { level: Level::Debug }
     }

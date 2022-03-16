@@ -37,18 +37,22 @@ fn footer() -> Html {
     let colors = use_context::<Colors>().unwrap();
     let class = use_style!(
         "
-  font-size: 0.8rem;
-  height: ${main}rem;
-  padding-top: ${top}rem;
-  padding-bottom: ${bottom}rem;
-  &, a, a:visited {
-    color: ${color};
-  }
-",
+        font-size: 0.8rem;
+        height: ${main}rem;
+        padding-top: ${top}rem;
+        padding-bottom: ${bottom}rem;
+        &, a, a:visited {
+            transition: all 0.3s;
+            color: ${color};
+        }
+        a:hover {
+            color: ${fg};
+        }",
         top = layout.footer_top,
         main = layout.footer_main,
         bottom = layout.footer_bottom,
-        color = colors.shadow
+        color = colors.shadow,
+        fg = colors.normal,
     );
     html! {
         <footer {class}>
@@ -68,8 +72,9 @@ fn switch(route: &Route) -> Html {
 
 #[styled_component(Blog)]
 fn blog() -> Html {
-    let is_small_device = use_media_query("max-width: 1036px");
-    let top = if is_small_device { 2.0 } else { 3.0 };
+    let colors = style::colors(style::Theme::Light);
+    // layout
+    let top = if use_media_query("max-width: 1036px") { 2.0 } else { 3.0 };
     let other = top + Layout::footer() + Layout::navbar();
     let class = use_style!(
         "
@@ -78,10 +83,26 @@ fn blog() -> Html {
         top = top,
         other = other
     );
-    let colors = style::colors(style::Theme::Light);
+    // global style
+    let global = css!(
+        "
+        font-size: 12pt;
+        color: ${fg};
+        overflow-y: scroll;
+        padding-left: 40px;
+        padding-right: 40px;
+        @media (min-width: 1000px) {
+            --max-width: 592px;
+            --space: calc((100% - var(--max-width)) / 2);
+            max-width: var(--max-width);
+            padding-left: var(--space);
+            padding-right: var(--space);
+        }",
+        fg = colors.normal
+    );
     html! {
         <>
-        <Global css=""/>
+        <Global css={global}/>
         <ContextProvider<Colors> context={colors}>
         <BrowserRouter>
             <Navbar />
