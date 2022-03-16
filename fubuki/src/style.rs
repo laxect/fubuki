@@ -39,7 +39,7 @@ pub(crate) fn colors(theme: Theme) -> Colors {
             rev_fg: "#f3f3f3",
             rev_shadow: "#505050",
             bold: "#404040",
-            normal: "#606060",
+            normal: "#505050",
             shadow: "#d4d4d4",
             underground: "#f1f1f1",
             red: "#db4d6d",
