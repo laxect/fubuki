@@ -1,169 +1,117 @@
 use crate::{
     fetch_agent::{FetchAgent, FetchRequest, Load},
     markdown::render_markdown,
-    utils::Page,
+    style::Colors,
+    Route,
 };
 use fubuki_types::{FrontMatter, Spoiler};
-use yew::{html, Callback, Component, Context, Html, Properties};
-use yew_agent::{Bridge, Bridged};
+use stylist::yew::{styled_component, use_style};
+use yew::{classes, html, use_context, use_state_eq, Html, Properties};
+use yew_agent::{use_bridge, UseBridgeHandle};
 
 #[derive(PartialEq, Clone, Properties)]
-pub struct ContentStatus {
-    pub page: Page,
-    pub on_change: Callback<Page>,
+pub struct ArticleProps {
+    pub page: String,
 }
 
-pub struct Content {
-    page: Page,
-    inner: Option<Load>,
-    title: Option<String>,
-    front_matter: Option<FrontMatter>,
-    fetch: Box<dyn Bridge<FetchAgent>>,
+#[derive(Clone, PartialEq, Properties)]
+struct SpoilerProps {
+    spoiler: Spoiler,
 }
 
-impl Content {
-    fn inner(&self) -> Option<String> {
-        self.inner.as_ref().and_then(|load| match load {
-            Load::Page(c) => Some(c.clone()),
-            _ => None,
-        })
+#[styled_component(SpoilerAlert)]
+fn spoiler_alert(props: &SpoilerProps) -> Html {
+    let colors: Colors = use_context().unwrap();
+    let SpoilerProps { spoiler } = props;
+    let spoiler_alert = use_style!("color: ${fg};", fg = colors.red);
+    if let Spoiler::Some { target, level } = spoiler {
+        html! {
+            <p class={classes![spoiler_alert, "spoiler-alert"]}>
+            { format!("请注意，本文可能含有对{}的 ", target) }
+            <span class={css!(font-weight: bold;)}>{ level }</span>
+            { " 等级剧透。" }
+            </p>
+        }
+    } else {
+        html! {
+            <></>
+        }
     }
+}
 
-    fn render_spoiler(&self) -> Html {
-        match self.front_matter {
-            Some(FrontMatter { ref spoiler, .. }) => match spoiler {
-                Spoiler::None => html! {
-                    <></>
-                },
-                Spoiler::Some { target, level } => {
-                    html! {
-                        <p class="spoiler-alert">
-                        { format!("请注意，本文可能含有对{}的 ", target) }
-                        <span class="spoiler-level">{ level }</span>
-                        { " 等级剧透。" }
-                        </p>
-                    }
+#[styled_component(Article)]
+pub(crate) fn article(props: &ArticleProps) -> Html {
+    let ArticleProps { page } = props;
+
+    let mut main: String;
+    let mut title = String::new();
+    let mut spoiler = Spoiler::None;
+    // remove front matter
+    if page.starts_with("---\n") {
+        if let Some(fm) = page.split("---\n").nth(1) {
+            // ---\n..---\n
+            match serde_yaml::from_str::<FrontMatter>(fm) {
+                Ok(fm) => {
+                    log::info!("get front_matter\n{:?}", &fm);
+                    title = fm.title;
+                    spoiler = fm.spoiler;
                 }
-            },
-            _ => html! { <></> },
-        }
-    }
-
-    fn render_title(&self) -> Html {
-        let fm_title = self.front_matter.as_ref().map(|f| &f.title);
-        let title = self.title.as_ref().or(fm_title);
-        match title {
-            Some(title) => html! {
-                <h1>{ &title.clone() }</h1>
-            },
-            None => html! { <></> },
-        }
-    }
-}
-
-impl Component for Content {
-    type Message = Load;
-    type Properties = ContentStatus;
-
-    fn create(ctx: &Context<Self>) -> Self {
-        let callback = ctx.link().callback(|x| x);
-        let mut fetch_agent = FetchAgent::bridge(callback);
-        fetch_agent.send(ctx.props().page.clone().into());
-        Content {
-            page: ctx.props().page.clone(),
-            inner: None,
-            title: None,
-            front_matter: None,
-            fetch: fetch_agent,
-        }
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
-        if let Load::Page(ref article) = msg {
-            let main: String;
-            // remove front matter
-            if article.starts_with("---\n") {
-                if let Some(fm) = article.split("---\n").nth(1) {
-                    // ---\n..---\n
-                    match serde_yaml::from_str(fm) {
-                        Ok(fm) => {
-                            log::info!("get front_matter\n{:?}", &fm);
-                            self.front_matter = Some(fm);
-                        }
-                        Err(e) => {
-                            log::error!("fm parser failed: {}", e);
-                        }
-                    }
-                    main = article[fm.len() + 8..].to_string();
-                } else {
-                    unreachable!();
+                Err(e) => {
+                    log::error!("fm parser failed: {}", e);
                 }
-            } else {
-                main = msg.into_page().unwrap();
             }
-            // checkout title
-            if main.starts_with("# ") {
-                let title_end = main.find('\n').unwrap_or_default();
-                let title = &main[..title_end].replace("# ", "");
-                let main = &main[title_end..];
-                self.title = Some(title.to_owned());
-                self.inner = Some(Load::Page(main.to_owned()));
-            } else {
-                self.inner = Some(Load::Page(main));
-            }
+            main = page[fm.len() + 8..].to_string();
         } else {
-            self.inner = Some(msg);
+            unreachable!();
         }
-
-        // parser front_matter
-        true
+    } else {
+        main = page.to_owned();
     }
-
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
-        let page = ctx.props().page.clone();
-        if page != self.page {
-            self.inner = None;
-            self.title = None;
-            self.front_matter = None;
-            self.page = page.clone();
-            self.fetch.send(FetchRequest(page));
-        }
-        false
+    if main.starts_with("# ") {
+        let title_end = main.find('\n').unwrap_or_default();
+        title = main[..title_end].replace("# ", "");
+        main = main[title_end..].to_owned();
     }
+    let h1 = if title.is_empty() {
+        html! { <></> }
+    } else {
+        html! { <h1>{ title }</h1> }
+    };
+    html! {
+        <>
+            { h1 }
+            <SpoilerAlert {spoiler} />
+            <article>{ render_markdown(&main) }</article>
+        </>
+    }
+}
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        if self.inner.is_none() {
-            return html! {
-                <main>
-                </main>
-            };
+#[derive(Clone, PartialEq, Properties)]
+pub(crate) struct ContentProps {
+    pub route: Route,
+}
+
+#[styled_component(Content)]
+pub(crate) fn content(props: &ContentProps) -> Html {
+    let ContentProps { route } = props;
+    let page = use_state_eq(|| None);
+    let handle: UseBridgeHandle<FetchAgent> = {
+        let page = page.clone();
+        use_bridge(move |res| match res {
+            Load::Page(p) => page.set(Some(p)),
+            _ => unreachable!(),
+        })
+    };
+    handle.send(FetchRequest(route.clone()));
+    if let Some(page) = (*page).clone() {
+        html! {
+        <Article {page} />
         }
-        match self.page {
-            Page::Posts => {
-                let post_list = match self.inner.clone() {
-                    Some(Load::Posts(post_list)) => post_list,
-                    _ => Vec::new(),
-                };
-                html! {
-                    <main class="post-list">
-                        <crate::posts::Posts on_click={ctx.props().on_change.clone()} {post_list}/>
-                    </main>
-                }
-            }
-            _ => {
-                let class = match self.page {
-                    Page::Article(_) => "post",
-                    _ => "",
-                };
-                let c = self.inner().unwrap_or_default();
-                html! {
-                    <main {class}>
-                        { self.render_title() }
-                        { self.render_spoiler() }
-                        <article>{ render_markdown(&c) }</article>
-                    </main>
-                }
-            }
+    } else {
+        html! {
+        <>
+            { "loading" }
+        </>
         }
     }
 }

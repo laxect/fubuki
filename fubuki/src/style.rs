@@ -83,7 +83,7 @@ impl Layout {
         LAYOUT.nav_bar + LAYOUT.glitch
     }
 
-    pub fn layout() -> &'static Layout {
+    pub fn leaf() -> &'static Layout {
         &LAYOUT
     }
 }

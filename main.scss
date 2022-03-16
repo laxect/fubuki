@@ -99,10 +99,6 @@ main {
   padding-top: var(--main-top);
   min-height: calc(100vh - var(--main-top) - var(--footer) - 3.2rem);
   .spoiler-alert {
-    color: rgb(255, 150, 150);
-    .spoiler-level {
-      font-weight: bold !important;
-    }
   }
   article {
     ins.html {
