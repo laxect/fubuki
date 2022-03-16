@@ -15,11 +15,6 @@ html {
   --little_black: #666;
   --gray: #d4d4d4;
   --far_gray: #f1f1f1;
-  // layout
-  --footer-top: 6rem;
-  --footer-bottom: 2rem;
-  --footer-h: 6rem;
-  --footer: calc(var(--footer-top) + var(--footer-bottom) + var(--footer-h));
   font-size: 12pt;
 }
 
@@ -92,14 +87,6 @@ a {
 }
 
 main {
-  --main-top: 2em;
-  @media (min-width: 1036px) {
-    --main-top: 4em;
-  }
-  padding-top: var(--main-top);
-  min-height: calc(100vh - var(--main-top) - var(--footer) - 3.2rem);
-  .spoiler-alert {
-  }
   article {
     ins.html {
       @include html_mark(#d6f7cd);
@@ -205,10 +192,6 @@ main {
           display: inline;
         }
       }
-    }
-  }
-  .post-nav {
-    button {
     }
   }
 }
