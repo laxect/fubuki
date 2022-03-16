@@ -8,6 +8,8 @@ use stylist::yew::{styled_component, use_style};
 use yew::{classes, html, use_context, use_state_eq, virtual_dom::VNode, Html, Properties};
 use yew_agent::{use_bridge, UseBridgeHandle};
 
+mod style;
+
 #[derive(PartialEq, Clone, Properties)]
 pub struct ArticleProps {
     pub page: String,
@@ -23,12 +25,9 @@ fn render_markdown(md: &str) -> Html {
     let parser = pulldown_cmark::Parser::new_ext(md, options);
     let mut html = String::new();
     pulldown_cmark::html::push_html(&mut html, parser);
-    let node = gloo_utils::document().create_element("article").unwrap();
+    let node = gloo_utils::document().create_element("section").unwrap();
     node.set_inner_html(&html);
-    let node = VNode::VRef(node.into());
-    html! {
-        {node}
-    }
+    VNode::VRef(node.into())
 }
 
 #[styled_component(SpoilerAlert)]
@@ -85,17 +84,22 @@ pub(crate) fn article(props: &ArticleProps) -> Html {
         title = main[..title_end].replace("# ", "");
         main = main[title_end..].to_owned();
     }
+
+    let title_style = use_style!("margin-bottom: 2rem; margin-top: 0;");
     let h1 = if title.is_empty() {
         html! { <></> }
     } else {
-        html! { <h1>{ title }</h1> }
+        html! { <h1 class={title_style}>{ title }</h1> }
     };
+
+    let colors: Colors = use_context().unwrap();
+    let class = use_style(style::article(&colors));
     html! {
-        <>
+        <article {class}>
             { h1 }
             <SpoilerAlert {spoiler} />
-            <article>{ render_markdown(&main) }</article>
-        </>
+            { render_markdown(&main) }
+        </article>
     }
 }
 

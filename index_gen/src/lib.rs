@@ -53,7 +53,10 @@ pub fn read_files() -> anyhow::Result<()> {
     assert!(from.is_dir(), "origin is not a directory!");
     let mut posts = Vec::new();
     for file in fs::read_dir(from)? {
-        if let Ok(fm) = file_handle(&file?) {
+        let file = file?;
+        if file.file_name().to_string_lossy().contains("test-page") {
+            println!("::  skip test page: {}", file.path().to_string_lossy());
+        } else if let Ok(fm) = file_handle(&file) {
             posts.push(fm);
         }
     }
