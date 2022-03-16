@@ -8,7 +8,7 @@ pub use fubuki_types::{Post, PostList};
 use stylist::yew::{styled_component, use_style};
 use yew::{classes, html, use_context, use_state_eq, Callback, Html, Properties};
 use yew_agent::{use_bridge, UseBridgeHandle};
-use yew_router::{components::Link, hooks::use_history};
+use yew_router::components::Link;
 
 #[derive(Clone, PartialEq)]
 pub enum PageNumMod {

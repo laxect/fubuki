@@ -1,5 +1,3 @@
-#![recursion_limit = "256"]
-
 mod content;
 mod fetch_agent;
 mod logger;
@@ -35,8 +33,11 @@ const CC3: &str = "https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja";
 fn footer() -> Html {
     let layout = style::Layout::leaf();
     let colors = use_context::<Colors>().unwrap();
-    let class = use_style!(
-        "
+    let class = classes![
+        use_style!(
+            "
+        float: right;
+        line-height: 1.5rem;
         font-size: 0.8rem;
         height: ${main}rem;
         padding-top: ${top}rem;
@@ -48,17 +49,23 @@ fn footer() -> Html {
         a:hover {
             color: ${fg};
         }",
-        top = layout.footer_top,
-        main = layout.footer_main,
-        bottom = layout.footer_bottom,
-        color = colors.shadow,
-        fg = colors.normal,
-    );
+            top = layout.footer_top,
+            main = layout.footer_main,
+            bottom = layout.footer_bottom,
+            color = colors.shadow,
+            fg = colors.normal,
+        ),
+        "heti--vertical"
+    ];
     html! {
         <footer {class}>
-            <p>{ "このブログ記事は" }<a href={CC3}>{ "クリエイティブ・コモンズ 表示-継承ライセンス" }</a>{ "の下で利用可能です。" }</p>
-            <p>{ "メールアドレス：me at gyara dot moe。" }</p>
-            <p>{ ["ビルドバージョン：", std::env!("CARGO_PKG_VERSION"), "。"].concat() }</p>
+            <p>
+            { "このブログ記事は" }
+            <a href={CC3}>{ "クリエイティブ・コモンズ表示-継承ライセンス" }</a>
+            { "の下で利用可能です。なにがいいたいなら、この"}
+            <a href="mailto:inbox@gyara.moe">{"メール"}</a>
+            {"に連絡ください。" }
+            </p>
         </footer>
     }
 }
