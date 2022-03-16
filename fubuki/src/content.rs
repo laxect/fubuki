@@ -1,12 +1,11 @@
 use crate::{
     fetch_agent::{FetchAgent, FetchRequest, Load},
-    markdown::render_markdown,
     style::Colors,
     Route,
 };
 use fubuki_types::{FrontMatter, Spoiler};
 use stylist::yew::{styled_component, use_style};
-use yew::{classes, html, use_context, use_state_eq, Html, Properties};
+use yew::{classes, html, use_context, use_state_eq, virtual_dom::VNode, Html, Properties};
 use yew_agent::{use_bridge, UseBridgeHandle};
 
 #[derive(PartialEq, Clone, Properties)]
@@ -17,6 +16,19 @@ pub struct ArticleProps {
 #[derive(Clone, PartialEq, Properties)]
 struct SpoilerProps {
     spoiler: Spoiler,
+}
+
+fn render_markdown(md: &str) -> Html {
+    let options = pulldown_cmark::Options::all();
+    let parser = pulldown_cmark::Parser::new_ext(md, options);
+    let mut html = String::new();
+    pulldown_cmark::html::push_html(&mut html, parser);
+    let node = gloo_utils::document().create_element("article").unwrap();
+    node.set_inner_html(&html);
+    let node = VNode::VRef(node.into());
+    html! {
+        {node}
+    }
 }
 
 #[styled_component(SpoilerAlert)]
@@ -62,6 +74,7 @@ pub(crate) fn article(props: &ArticleProps) -> Html {
             }
             main = page[fm.len() + 8..].to_string();
         } else {
+            // guard
             unreachable!();
         }
     } else {

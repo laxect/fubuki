@@ -1,9 +1,8 @@
 #![recursion_limit = "256"]
-#![allow(clippy::unused_unit)]
 
 mod content;
 mod fetch_agent;
-mod markdown;
+mod logger;
 mod navbar;
 mod posts;
 mod style;
@@ -11,11 +10,11 @@ mod style;
 use content::Content;
 use navbar::Navbar;
 use posts::Posts;
-use stylist::yew::{styled_component, use_style, Global};
+use stylist::yew::{styled_component, use_media_query, use_style, Global};
 use yew::{html, use_context, ContextProvider, Html};
 use yew_router::{BrowserRouter, Routable, Switch};
 
-use crate::style::Colors;
+use crate::style::{Colors, Layout};
 
 #[derive(Clone, Routable, PartialEq)]
 pub enum Route {
@@ -69,6 +68,16 @@ fn switch(route: &Route) -> Html {
 
 #[styled_component(Blog)]
 fn blog() -> Html {
+    let is_small_device = use_media_query("max-width: 1036px");
+    let top = if is_small_device { 2.0 } else { 3.0 };
+    let other = top + Layout::footer() + Layout::navbar();
+    let class = use_style!(
+        "
+        padding-top: ${top}em;
+        min-height: calc(100vh - ${other}em);",
+        top = top,
+        other = other
+    );
     let colors = style::colors(style::Theme::Light);
     html! {
         <>
@@ -76,7 +85,7 @@ fn blog() -> Html {
         <ContextProvider<Colors> context={colors}>
         <BrowserRouter>
             <Navbar />
-            <main>
+            <main {class}>
                 <Switch<Route> render={Switch::render(switch)} />
             </main>
         </BrowserRouter>
@@ -87,8 +96,6 @@ fn blog() -> Html {
 }
 
 fn main() {
-    web_logger::custom_init(web_logger::Config {
-        level: log::Level::Info,
-    });
+    logger::init();
     yew::start_app::<Blog>();
 }

@@ -253,6 +253,7 @@ dependencies = [
  "fubuki_types",
  "getrandom",
  "git-version",
+ "gloo-console",
  "gloo-net",
  "gloo-utils",
  "log",
@@ -264,7 +265,6 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "wasm-bindgen-test",
- "web_logger",
  "yew",
  "yew-agent",
  "yew-router",
@@ -1063,16 +1063,6 @@ checksum = "c060b319f29dd25724f09a2ba1418f142f539b2be99fbf4d2d5a8f7330afb8eb"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
-]
-
-[[package]]
-name = "web_logger"
-version = "0.2.0"
-source = "git+https://github.com/Gyara-studio/web_logger.git#a71fa45b9f54ffed7277b58b6e9aa1a702fe306b"
-dependencies = [
- "log",
- "wasm-bindgen",
- "web-sys",
 ]
 
 [[package]]
