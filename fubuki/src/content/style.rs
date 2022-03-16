@@ -66,7 +66,7 @@ ol,ul {
     margin-left: -2em;
 }
 blockquote {
-    margin-left: -0.8em;
+    margin: 0 -0.5em 0 -0.8em;
     padding: 0.5em 0.5em;
     border-left: 0.3em double ${shadow};
     font-family: initial !important;
@@ -88,7 +88,7 @@ em {
     -webkit-text-emphasis: none;
 }
 pre {
-    margin-left: -0.8em;
+    margin: 0 -0.5em 0 -0.8em;
     padding: 0.5em 0.5em;
     border-left: 0.3em solid ${shadow};
     display: block;

@@ -11,7 +11,7 @@ use content::Content;
 use navbar::Navbar;
 use posts::Posts;
 use stylist::yew::{styled_component, use_media_query, use_style, Global};
-use yew::{html, use_context, ContextProvider, Html};
+use yew::{classes, html, use_context, ContextProvider, Html};
 use yew_router::{BrowserRouter, Routable, Switch};
 
 use crate::style::{Colors, Layout};
@@ -73,31 +73,26 @@ fn switch(route: &Route) -> Html {
 #[styled_component(Blog)]
 fn blog() -> Html {
     let colors = style::colors(style::Theme::Light);
+    let is_on_small_device = use_media_query("max-width: 1036px");
     // layout
-    let top = if use_media_query("max-width: 1036px") { 2.0 } else { 3.0 };
+    let top = if is_on_small_device { 2.0 } else { 3.0 };
     let other = top + Layout::footer() + Layout::navbar();
-    let class = use_style!(
-        "
+    let class = classes![
+        use_style!(
+            "
         padding-top: ${top}em;
         min-height: calc(100vh - ${other}em);",
-        top = top,
-        other = other
-    );
+            top = top,
+            other = other
+        ),
+        "heti"
+    ];
     // global style
     let global = css!(
         "
         font-size: 12pt;
         color: ${fg};
-        overflow-y: scroll;
-        padding-left: 40px;
-        padding-right: 40px;
-        @media (min-width: 1000px) {
-            --max-width: 592px;
-            --space: calc((100% - var(--max-width)) / 2);
-            max-width: var(--max-width);
-            padding-left: var(--space);
-            padding-right: var(--space);
-        }",
+        overflow-y: scroll;",
         fg = colors.normal
     );
     html! {

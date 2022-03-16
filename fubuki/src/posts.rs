@@ -8,7 +8,7 @@ pub use fubuki_types::{Post, PostList};
 use stylist::yew::{styled_component, use_style};
 use yew::{classes, html, use_context, use_state_eq, Callback, Html, Properties};
 use yew_agent::{use_bridge, UseBridgeHandle};
-use yew_router::{history::History, hooks::use_history};
+use yew_router::{components::Link, hooks::use_history};
 
 #[derive(Clone, PartialEq)]
 pub enum PageNumMod {
@@ -49,9 +49,7 @@ struct ArticleItemProps {
 #[styled_component(ArticleItem)]
 fn article_item(props: &ArticleItemProps) -> Html {
     let ArticleItemProps { post } = props;
-    let history = use_history().unwrap();
     let route = Route::Post { id: post.url.clone() };
-    let onclick = Callback::once(move |_| history.push(route));
     let colors: Colors = use_context().unwrap();
 
     // styles
@@ -63,15 +61,19 @@ fn article_item(props: &ArticleItemProps) -> Html {
         r#"
     padding: 0;
     transform: perspective(1px) translateZ(0);
+    color: ${bold};
+    &:visited {
+        color: ${bold};
+    }
     &::before {
         content: "";
         position: absolute;
         z-index: -1;
         left: 0;
         right: 0;
-        bottom: 0;
+        bottom: -0.3rem;
         width: 0.7rem;
-        background: ${main};
+        background: ${bold};
         height: 0.15em;
         transition-property: width;
         transition-duration: 0.6s;
@@ -80,7 +82,7 @@ fn article_item(props: &ArticleItemProps) -> Html {
     &:hover::before {
         width: 4rem;
     }"#,
-        main = colors.bold
+        bold = colors.bold
     );
     let time = use_style!("display: inline-block; width: 9em;");
     let category = use_style!(
@@ -97,7 +99,7 @@ fn article_item(props: &ArticleItemProps) -> Html {
     html! {
         <article class={split_line}>
             <h2>
-                <button {onclick} class={post_title}>{ &post.title }</button>
+                <Link<Route> to={route} classes={classes![post_title]}>{&post.title}</Link<Route>>
             </h2>
             <p>{ &post.summary }</p>
             <small>
