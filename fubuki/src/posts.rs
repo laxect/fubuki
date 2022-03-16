@@ -2,7 +2,6 @@
 use crate::{
     fetch_agent::{FetchAgent, FetchRequest, Load},
     style::Colors,
-    utils::Page,
     Route,
 };
 pub use fubuki_types::{Post, PostList};
@@ -10,12 +9,6 @@ use stylist::yew::{styled_component, use_style};
 use yew::{classes, html, use_context, use_state_eq, Callback, Html, Properties};
 use yew_agent::{use_bridge, UseBridgeHandle};
 use yew_router::{history::History, hooks::use_history};
-
-impl From<Post> for Page {
-    fn from(item: Post) -> Page {
-        Page::Article(item.url)
-    }
-}
 
 #[derive(Clone, PartialEq)]
 pub enum PageNumMod {

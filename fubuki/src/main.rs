@@ -1,15 +1,14 @@
 #![recursion_limit = "256"]
 #![allow(clippy::unused_unit)]
 
-// mod content;
+mod content;
 mod fetch_agent;
 mod markdown;
 mod navbar;
 mod posts;
 mod style;
-mod utils;
 
-// use content::Content;
+use content::Content;
 use navbar::Navbar;
 use posts::Posts;
 use stylist::yew::{styled_component, use_style, Global};
@@ -35,7 +34,7 @@ pub enum Route {
 const CC3: &str = "https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja";
 #[styled_component(Footer)]
 fn footer() -> Html {
-    let layout = style::Layout::layout();
+    let layout = style::Layout::leaf();
     let colors = use_context::<Colors>().unwrap();
     let class = use_style!(
         "
@@ -64,7 +63,7 @@ fn footer() -> Html {
 fn switch(route: &Route) -> Html {
     match route {
         Route::Posts => html! { <Posts /> },
-        _ => html! { "hello" },
+        route => html! { <Content route={route.clone()} /> },
     }
 }
 
