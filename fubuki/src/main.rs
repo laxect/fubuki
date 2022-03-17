@@ -1,18 +1,19 @@
 mod content;
 mod fetch_agent;
+mod loading;
 mod logger;
 mod navbar;
 mod posts;
 mod style;
 
-use content::Content;
-use navbar::Navbar;
-use posts::Posts;
 use stylist::yew::{styled_component, use_media_query, use_style, Global};
 use yew::{classes, html, use_context, ContextProvider, Html};
 use yew_router::{BrowserRouter, Routable, Switch};
 
-use crate::style::{Colors, Layout};
+use content::Content;
+use navbar::Navbar;
+use posts::Posts;
+use style::{Colors, Layout};
 
 #[derive(Clone, Routable, PartialEq)]
 pub enum Route {
@@ -32,7 +33,7 @@ const CC3: &str = "https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja";
 #[styled_component(Footer)]
 fn footer() -> Html {
     let layout = style::Layout::leaf();
-    let colors = use_context::<Colors>().unwrap();
+    let colors: Colors = use_context().unwrap();
     let class = classes![
         use_style!(
             "
@@ -61,10 +62,10 @@ fn footer() -> Html {
         <footer {class}>
             <p>
             { "このブログ記事は" }
-            <a href={CC3}>{ "クリエイティブ・コモンズ表示-継承ライセンス" }</a>
-            { "の下で利用可能です。なにがいいたいなら、この"}
+            <a href={CC3}>{ "クリエイティブ・コモンズ表示継承ライセンス" }</a>
+            { "の下で利用可能です。なにがいいたいなれば、この" }
             <a href="mailto:inbox@gyara.moe">{"メール"}</a>
-            {"に連絡ください。" }
+            { "に連絡ください。" }
             </p>
         </footer>
     }

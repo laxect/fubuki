@@ -1,6 +1,7 @@
 /// article list component
 use crate::{
     fetch_agent::{FetchAgent, FetchRequest, Load},
+    loading::Loading,
     style::Colors,
     Route,
 };
@@ -177,7 +178,7 @@ pub fn posts() -> Html {
     if postlist.is_empty() {
         handle.send(FetchRequest(Route::Posts));
         html! {
-            { "Loading" }
+             <Loading />
         }
     } else {
         let nav = use_style!(
