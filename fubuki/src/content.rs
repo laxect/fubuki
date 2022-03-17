@@ -1,5 +1,6 @@
 use crate::{
     fetch_agent::{FetchAgent, FetchRequest, Load},
+    loading::Loading,
     style::Colors,
     Route,
 };
@@ -54,11 +55,10 @@ fn spoiler_alert(props: &SpoilerProps) -> Html {
 pub(crate) fn article(props: &ArticleProps) -> Html {
     let ArticleProps { page } = props;
 
-    let mut main: String;
     let mut title = String::new();
     let mut spoiler = Spoiler::None;
     // remove front matter
-    if page.starts_with("---\n") {
+    let mut main = if page.starts_with("---\n") {
         if let Some(fm) = page.split("---\n").nth(1) {
             // ---\n..---\n
             match serde_yaml::from_str::<FrontMatter>(fm) {
@@ -71,14 +71,15 @@ pub(crate) fn article(props: &ArticleProps) -> Html {
                     log::error!("fm parser failed: {}", e);
                 }
             }
-            main = page[fm.len() + 8..].to_string();
+            page[fm.len() + 8..].to_owned()
         } else {
             // guard
             unreachable!();
         }
     } else {
-        main = page.to_owned();
-    }
+        page.to_owned()
+    };
+
     if main.starts_with("# ") {
         let title_end = main.find('\n').unwrap_or_default();
         title = main[..title_end].replace("# ", "");
@@ -126,9 +127,7 @@ pub(crate) fn content(props: &ContentProps) -> Html {
         }
     } else {
         html! {
-        <>
-            { "loading" }
-        </>
+        <Loading />
         }
     }
 }
