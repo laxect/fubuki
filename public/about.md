@@ -32,4 +32,4 @@
 
 ### PGP
 
-[`686F3411A9823621`](http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc26bce774cc866acde9b127c686f3411a9823621)
+[`C26B CE77 4CC8 66AC DE9B 127C 686F 3411 A982 3621`](https://meta.sr.ht/~fubuki.pgp)

@@ -60,7 +60,7 @@ fn footer() -> Html {
     ];
     html! {
         <footer {class}>
-            <p>
+            <p class={css!(margin-right: 0;)}>
             { "このブログ記事は" }
             <a href={CC3}>{ "クリエイティブ・コモンズ表示継承ライセンス" }</a>
             { "の下で利用可能です。なにがいいたいなれば、この" }

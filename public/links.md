@@ -12,6 +12,10 @@
 - [鸦之歌](https://crows.moe)
 - <https://bird14.space/>
 
+### Side <ruby>projects<rt>オモチャ</rt></ruby>
+
+- [Schulze Method](https://schulze.fubuki.me)
+
 ### 一些其他的<ruby>链接<rt>ゼルダ</rt></ruby>
 
 - [Iosevka](https://github.com/be5invis/Iosevka)
