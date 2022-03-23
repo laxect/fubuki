@@ -22,6 +22,7 @@ fn button(props: &ButtonProps) -> Html {
     };
     let button_common = use_style!(
         "
+        display: inline-block;
         text-decoration: none;
         color: ${fg};
         text-align: center;
@@ -94,7 +95,7 @@ pub fn navbar() -> Html {
          float: right;",
     );
     let site_title = use_style!(
-        "margin-left: 0.4rem; font-weight: bold; color: ${bold};",
+        "margin-left: 0.4rem; font-weight: bold; color: ${bold}; display: inline-block;",
         bold = colors.bold
     );
     html! {
