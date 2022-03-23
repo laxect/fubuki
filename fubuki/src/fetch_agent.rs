@@ -71,6 +71,7 @@ impl FetchAgent {
 
     fn fetch(&mut self, target: FetchRequest) {
         let uri = self.get_uri(&target);
+        log::debug!("fetch {}", &uri);
         let cb = self.link.callback(|x| x);
         let update_id = self.get_id();
         let future = async move {

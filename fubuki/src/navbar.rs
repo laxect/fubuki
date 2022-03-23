@@ -1,10 +1,7 @@
 use crate::{style::Colors, Route};
 use stylist::yew::{styled_component, use_style};
-use yew::{classes, html, use_context, Callback, Properties};
-use yew_router::{
-    history::History,
-    hooks::{use_history, use_route},
-};
+use yew::{classes, html, use_context, Properties};
+use yew_router::{components::Link, hooks::use_route};
 
 #[derive(PartialEq, Properties)]
 struct ButtonProps {
@@ -15,7 +12,6 @@ struct ButtonProps {
 #[styled_component(Button)]
 fn button(props: &ButtonProps) -> Html {
     let ButtonProps { item, ima } = props;
-    let history = use_history().unwrap();
     let colors: Colors = use_context().unwrap();
     let mark = match item {
         Route::Main => "🏗",
@@ -26,11 +22,14 @@ fn button(props: &ButtonProps) -> Html {
     };
     let button_common = use_style!(
         "
-         text-align: center;
-         padding: 0.4rem 0;
-         transition-property: all;
-         transition-duration: 0.3s;
-         transition-timing-function: ease-out;"
+        text-decoration: none;
+        color: ${fg};
+        text-align: center;
+        padding: 0.4rem 0;
+        transition-property: all;
+        transition-duration: 0.3s;
+        transition-timing-function: ease-out;",
+        fg = colors.normal
     );
     let style = match (item, ima) {
         (&Route::Main, _) => use_style!(
@@ -63,22 +62,18 @@ fn button(props: &ButtonProps) -> Html {
     } else {
         use_style!(pointer-events: auto;)
     };
-    let ii = item.clone();
-    let onclick = Callback::once(move |_| history.push(ii.clone()));
-    let class = classes![button_common, style, pointer];
+    let classes = classes![button_common, style, pointer];
     if matches!(ima, Route::Post { id: _ }) && *item == Route::Posts {
         let shadow = use_style!("color: ${fg};", fg = colors.rev_shadow);
         html! {
-            <button {class} {onclick}>
+            <Link<Route> to={item.clone()} {classes}>
                 <span>{ "post" }</span>
                 <span class={shadow}>{ "s" }</span>
-            </button>
+            </Link<Route>>
         }
     } else {
         html! {
-            <button {class} {onclick}>
-                { mark }
-            </button>
+            <Link<Route> to={item.clone()} {classes}>{ mark }</Link<Route>>
         }
     }
 }

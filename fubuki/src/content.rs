@@ -115,6 +115,7 @@ pub(crate) struct ContentProps {
 #[styled_component(Content)]
 pub(crate) fn content(props: &ContentProps) -> Html {
     let ContentProps { route } = props;
+    log::debug!("{:?}", route);
     let page = use_state_eq(|| None);
     let handle: UseBridgeHandle<FetchAgent> = {
         let page = page.clone();
@@ -123,7 +124,6 @@ pub(crate) fn content(props: &ContentProps) -> Html {
             _ => unreachable!(),
         })
     };
-    handle.send(FetchRequest(route.clone()));
 
     let render_title = matches!(route, Route::Post { .. });
     if let Some(page) = (*page).clone() {
@@ -131,6 +131,7 @@ pub(crate) fn content(props: &ContentProps) -> Html {
         <Article {page} {render_title} />
         }
     } else {
+        handle.send(FetchRequest(route.clone()));
         html! {
         <Loading />
         }

@@ -16,7 +16,7 @@ use navbar::Navbar;
 use posts::Posts;
 use style::{Colors, Layout};
 
-#[derive(Clone, Routable, PartialEq)]
+#[derive(Clone, Routable, PartialEq, Debug)]
 pub enum Route {
     #[at("/")]
     Main,
@@ -75,7 +75,7 @@ fn footer() -> Html {
 fn switch(route: &Route) -> Html {
     match route {
         Route::Posts => html! { <Posts /> },
-        route => html! { <Content route={route.clone()} /> },
+        route => html! { <Content key={route.to_path()} route={route.clone()} /> },
     }
 }
 
