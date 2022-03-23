@@ -195,7 +195,7 @@ pub fn posts() -> Html {
         let end = std::cmp::min(start + 5, postlist.len());
         html! {
             <>
-            { postlist.get(start..end).unwrap_or(&[]).iter().cloned().map(|post| html! {<ArticleItem post={post} />}).collect::<Html>() }
+            { postlist.get(start..end).unwrap_or(&[]).iter().cloned().enumerate().map(|(key, post)| html! {<ArticleItem {post} {key}/>}).collect::<Html>() }
                <nav class={nav} style="float: right">
                     { link(PageNumMod::Prev, page_num.clone()) }
                     { link(PageNumMod::Next, page_num.clone()) }
