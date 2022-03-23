@@ -28,11 +28,11 @@ impl PageNumMod {
 }
 
 #[inline]
-fn page_count(postlist: &PostList) -> u32 {
-    (postlist.len() as u32 + 4) / 5
+fn page_count(postlist: &PostList) -> usize {
+    (postlist.len() + 4) / 5
 }
 
-fn page_flip(page_num: u32, msg: &PageNumMod, page_count: u32) -> u32 {
+fn page_flip(page_num: usize, msg: &PageNumMod, page_count: usize) -> usize {
     let mut new_page_num = match msg {
         PageNumMod::Prev => page_num.saturating_sub(1),
         PageNumMod::Next => page_num.saturating_add(1),
@@ -137,10 +137,11 @@ pub fn posts() -> Html {
     };
     let colors: Colors = use_context().unwrap();
     use_title("ポスト");
+    gloo_utils::document().document_element().unwrap().set_scroll_top(0);
 
     // nav button
     let page_count = page_count(&postlist);
-    let link = |item: PageNumMod, page_num: yew::UseStateHandle<u32>| -> Html {
+    let link = |item: PageNumMod, page_num: yew::UseStateHandle<usize>| -> Html {
         let disabled = match item {
             PageNumMod::Next => *page_num + 1 >= page_count,
             PageNumMod::Prev => *page_num == 0,
@@ -191,11 +192,20 @@ pub fn posts() -> Html {
             grid-template-columns: repeat(2, 4em);
             grid-gap: 1.5em;"
         );
-        let start = *page_num as usize * 5;
-        let end = std::cmp::min(start + 5, postlist.len());
+        let start = *page_num * 5;
+        let postlist = postlist
+            .iter()
+            .skip(start)
+            .take(5)
+            .cloned()
+            .map(|post| {
+                let key = post.url.clone();
+                html! {<ArticleItem {key} {post}/>}
+            })
+            .collect::<Html>();
         html! {
             <>
-            { postlist.get(start..end).unwrap_or(&[]).iter().cloned().enumerate().map(|(key, post)| html! {<ArticleItem {post} {key}/>}).collect::<Html>() }
+            { postlist }
                <nav class={nav} style="float: right">
                     { link(PageNumMod::Prev, page_num.clone()) }
                     { link(PageNumMod::Next, page_num.clone()) }
