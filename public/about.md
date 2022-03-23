@@ -1,3 +1,11 @@
+---
+title: アタシ
+category: About
+tags: ["Meta Article"]
+summary: アタシ、再生産!
+date: 令和4年3月23日
+---
+
 ようこそ、ここは島風造船所です。
 
 ---

@@ -2,6 +2,7 @@ use crate::{
     fetch_agent::{FetchAgent, FetchRequest, Load},
     loading::Loading,
     style::Colors,
+    utils::use_title,
     Route,
 };
 use fubuki_types::{FrontMatter, Spoiler};
@@ -14,6 +15,7 @@ mod style;
 #[derive(PartialEq, Clone, Properties)]
 pub struct ArticleProps {
     pub page: String,
+    pub render_title: bool,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -53,7 +55,7 @@ fn spoiler_alert(props: &SpoilerProps) -> Html {
 
 #[styled_component(Article)]
 pub(crate) fn article(props: &ArticleProps) -> Html {
-    let ArticleProps { page } = props;
+    let ArticleProps { page, render_title } = props;
 
     let mut title = String::new();
     let mut spoiler = Spoiler::None;
@@ -87,7 +89,8 @@ pub(crate) fn article(props: &ArticleProps) -> Html {
     }
 
     let title_style = use_style!("margin-bottom: 2rem; margin-top: 0;");
-    let h1 = if title.is_empty() {
+    use_title(title.clone());
+    let h1 = if title.is_empty() || !render_title {
         html! { <></> }
     } else {
         html! { <h1 class={title_style}>{ title }</h1> }
@@ -121,9 +124,11 @@ pub(crate) fn content(props: &ContentProps) -> Html {
         })
     };
     handle.send(FetchRequest(route.clone()));
+
+    let render_title = matches!(route, Route::Post { .. });
     if let Some(page) = (*page).clone() {
         html! {
-        <Article {page} />
+        <Article {page} {render_title} />
         }
     } else {
         html! {

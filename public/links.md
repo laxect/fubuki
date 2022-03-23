@@ -1,3 +1,11 @@
+---
+title: ゼルダ
+category: Links
+tags: ["Meta Article"]
+summary: ゼルダの伝説
+date: 令和4年3月23日
+---
+
 ### 朋友们
 
 - [igaryhe](https://blog.igaryhe.io/)

@@ -3,6 +3,7 @@ use crate::{
     fetch_agent::{FetchAgent, FetchRequest, Load},
     loading::Loading,
     style::Colors,
+    utils::use_title,
     Route,
 };
 pub use fubuki_types::{Post, PostList};
@@ -135,6 +136,7 @@ pub fn posts() -> Html {
         })
     };
     let colors: Colors = use_context().unwrap();
+    use_title("ポスト");
 
     // nav button
     let page_count = page_count(&postlist);
