@@ -1,32 +1,5 @@
+use gloo_console as console;
 use log::{Level, Log, Metadata, Record, SetLoggerError};
-
-mod console {
-    use wasm_bindgen::JsValue;
-    pub(super) fn trace(message: &str) {
-        let msg = JsValue::from_str(message);
-        gloo_console::log!(&msg);
-    }
-
-    pub(super) fn debug(message: &str) {
-        let msg = JsValue::from_str(message);
-        gloo_console::debug!(&msg);
-    }
-
-    pub(super) fn info(message: &str) {
-        let msg = JsValue::from_str(message);
-        gloo_console::info!(&msg);
-    }
-
-    pub(super) fn warn(message: &str) {
-        let msg = JsValue::from_str(message);
-        gloo_console::warn!(&msg);
-    }
-
-    pub(super) fn error(message: &str) {
-        let msg = JsValue::from_str(message);
-        gloo_console::error!(&msg);
-    }
-}
 
 pub struct Config {
     pub level: Level,
@@ -60,11 +33,11 @@ impl Log for WebLogger {
         if self.enabled(metadata) {
             let msg = format!("{}:{} -- {}", record.level(), record.target(), record.args());
             match metadata.level() {
-                Level::Trace => console::trace(&msg),
-                Level::Debug => console::debug(&msg),
-                Level::Info => console::info(&msg),
-                Level::Warn => console::warn(&msg),
-                Level::Error => console::error(&msg),
+                Level::Trace => console::trace!(&msg),
+                Level::Debug => console::debug!(&msg),
+                Level::Info => console::info!(&msg),
+                Level::Warn => console::warn!(&msg),
+                Level::Error => console::error!(&msg),
             }
         }
     }

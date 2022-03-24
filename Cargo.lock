@@ -248,7 +248,7 @@ dependencies = [
 
 [[package]]
 name = "fubuki"
-version = "5.1.1"
+version = "5.2.0"
 dependencies = [
  "fubuki_types",
  "gloo-console",
@@ -258,8 +258,6 @@ dependencies = [
  "pulldown-cmark",
  "serde_yaml",
  "stylist",
- "wasm-bindgen",
- "wasm-bindgen-futures",
  "yew",
  "yew-agent",
  "yew-router",

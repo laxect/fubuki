@@ -1,22 +1,27 @@
 use crate::Route;
 use fubuki_types::PostList;
+use gloo_net::http::Request;
+use std::collections::HashMap;
 use yew_agent::{Agent, AgentLink, Context, HandlerId};
 
 #[derive(Clone)]
-pub enum Load {
+pub enum Response {
     Posts(PostList),
     Page(String),
 }
 
+/// (response, id)
 #[derive(Clone)]
-pub struct FetchResult(Load, Route, u32);
+pub struct FetchResult(Response, u32);
 
 #[derive(Clone)]
-pub struct FetchRequest(pub Route);
+pub enum FetchRequest {
+    Inner(Route),
+}
 
 impl From<Route> for FetchRequest {
     fn from(page: Route) -> FetchRequest {
-        FetchRequest(page)
+        FetchRequest::Inner(page)
     }
 }
 
@@ -32,16 +37,18 @@ fn route_to_url(route: &Route) -> String {
 
 impl FetchRequest {
     fn uri(&self) -> String {
-        route_to_url(&self.0)
+        match self {
+            FetchRequest::Inner(route) => route_to_url(route),
+        }
     }
 
     pub fn fill(self, res: String, update_id: u32) -> serde_yaml::Result<FetchResult> {
         let fetch_result = match self {
-            FetchRequest(Route::Posts) => {
+            FetchRequest::Inner(Route::Posts) => {
                 let list: PostList = serde_yaml::from_str(&res)?;
-                FetchResult(Load::Posts(list), Route::Posts, update_id)
+                FetchResult(Response::Posts(list), update_id)
             }
-            FetchRequest(page) => FetchResult(Load::Page(res), page, update_id),
+            FetchRequest::Inner(_) => FetchResult(Response::Page(res), update_id),
         };
         Ok(fetch_result)
     }
@@ -49,9 +56,8 @@ impl FetchRequest {
 
 pub struct FetchAgent {
     link: AgentLink<FetchAgent>,
-    who: Option<HandlerId>,
-    base: String,
     update_id: u32,
+    who: HashMap<u32, HandlerId>,
 }
 
 impl FetchAgent {
@@ -60,67 +66,46 @@ impl FetchAgent {
         self.update_id
     }
 
-    fn get_uri(&self, target: &FetchRequest) -> String {
-        let mut uri = target.uri();
-        if uri.starts_with("http") {
-            return uri;
-        }
-        uri.insert_str(0, &self.base);
-        uri
-    }
-
-    fn fetch(&mut self, target: FetchRequest) {
-        let uri = self.get_uri(&target);
+    fn fetch(&mut self, target: FetchRequest, update_id: u32) {
+        let uri = target.uri();
         log::debug!("fetch {}", &uri);
-        let cb = self.link.callback(|x| x);
-        let update_id = self.get_id();
         let future = async move {
-            let res = gloo_net::http::Request::get(&uri)
-                .send()
-                .await
-                .unwrap()
-                .text()
-                .await
-                .unwrap();
-            target
-                .fill(res, update_id)
-                .map(|fetch_result| cb.emit(fetch_result))
-                .ok();
+            let res = Request::get(&uri).send().await;
+            let res = res.map_err(|e| log::error!("fetch error: {}", e)).ok()?;
+            let text = res.text().await.map_err(|e| log::error!("parse error: {}", e)).ok()?;
+
+            target.fill(text, update_id).ok()
         };
-        wasm_bindgen_futures::spawn_local(future);
+        self.link.send_future(future);
     }
 }
 
 impl Agent for FetchAgent {
     type Reach = Context<Self>;
-    type Message = FetchResult;
+    type Message = Option<FetchResult>;
     type Input = FetchRequest;
-    type Output = Load;
+    type Output = Response;
 
     fn create(link: AgentLink<Self>) -> Self {
-        let base = gloo_utils::window().location().origin().unwrap();
         FetchAgent {
             link,
-            who: None,
-            base,
+            who: HashMap::new(),
             update_id: 0,
         }
     }
 
     fn update(&mut self, msg: Self::Message) {
-        let FetchResult(msg, _page, update_id) = msg;
-        if self.update_id > update_id {
-            // over date
-            return;
-        }
-        if let Some(who) = self.who {
+        let msg = if let Some(msg) = msg { msg } else { return };
+        let FetchResult(msg, update_id) = msg;
+        if let Some(who) = self.who.remove(&update_id) {
             self.link.respond(who, msg);
         }
     }
 
     fn handle_input(&mut self, input: Self::Input, who: HandlerId) {
-        self.who = Some(who);
-        let FetchRequest(ref _page) = input;
-        self.fetch(input);
+        let update_id = self.get_id();
+        let dup_key = self.who.insert(update_id, who).is_some();
+        assert!(!dup_key, "should never have dup key!");
+        self.fetch(input, update_id);
     }
 }

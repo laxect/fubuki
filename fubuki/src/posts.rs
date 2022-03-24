@@ -1,6 +1,6 @@
 /// article list component
 use crate::{
-    fetch_agent::{FetchAgent, FetchRequest, Load},
+    fetch_agent::{FetchAgent, Response},
     loading::Loading,
     style::Colors,
     utils::use_title,
@@ -131,7 +131,7 @@ pub fn posts() -> Html {
     let handle: UseBridgeHandle<FetchAgent> = {
         let postlist = postlist.clone();
         use_bridge(move |res| match res {
-            Load::Posts(list) => postlist.set(list),
+            Response::Posts(list) => postlist.set(list),
             _ => unreachable!(),
         })
     };
@@ -179,7 +179,7 @@ pub fn posts() -> Html {
 
     // List
     if postlist.is_empty() {
-        handle.send(FetchRequest(Route::Posts));
+        handle.send(Route::Posts.into());
         html! {
              <Loading />
         }

@@ -1,5 +1,5 @@
 use crate::{
-    fetch_agent::{FetchAgent, FetchRequest, Load},
+    fetch_agent::{FetchAgent, Response},
     loading::Loading,
     style::Colors,
     utils::use_title,
@@ -120,7 +120,7 @@ pub(crate) fn content(props: &ContentProps) -> Html {
     let handle: UseBridgeHandle<FetchAgent> = {
         let page = page.clone();
         use_bridge(move |res| match res {
-            Load::Page(p) => page.set(Some(p)),
+            Response::Page(p) => page.set(Some(p)),
             _ => unreachable!(),
         })
     };
@@ -131,7 +131,7 @@ pub(crate) fn content(props: &ContentProps) -> Html {
         <Article {page} {render_title} />
         }
     } else {
-        handle.send(FetchRequest(route.clone()));
+        handle.send(route.clone().into());
         html! {
         <Loading />
         }
