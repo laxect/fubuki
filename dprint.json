@@ -19,7 +19,7 @@
     "https://plugins.dprint.dev/json-0.15.1.wasm",
     "https://plugins.dprint.dev/markdown-0.13.1.wasm",
     "https://plugins.dprint.dev/toml-0.5.4.wasm",
-    "https://plugins.dprint.dev/rustfmt-0.6.1.exe-plugin@99b89a0599fd3a63e597e03436862157901f3facae2f0c2fbd0b9f656cdbc2a5",
-    "https://plugins.dprint.dev/prettier-0.6.2.exe-plugin@36dd4f8b9710ab323c471017ecd00a20cf1dca2728c12242c7dabb8dfacad0e2"
+    "https://plugins.dprint.dev/rustfmt-0.6.2.json@886c6f3161cf020c2d75160262b0f56d74a521e05cfb91ec4f956650c8ca76ca",
+    "https://plugins.dprint.dev/prettier-0.7.0.json@4e846f43b32981258cef5095b3d732522947592e090ef52333801f9d6e8adb33"
   ]
 }
