@@ -1,10 +1,4 @@
-[watch]
-# Paths to watch. The `build.target`'s parent folder is watched by default.
-watch = ["."]
-# Paths to ignore.
-ignore = ["public/atom.xml", "public/posts.yml"]
-
 [[hooks]]
-stage = "pre_build"
+stage = "post_build"
 command = "cargo"
-command_arguments = ["run", "--bin", "index_gen", "--release", "--", "public/post", "public"]
+command_arguments = ["run", "--bin", "index_gen", "--release", "--", "public/post", "dist/.stage"]

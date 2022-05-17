@@ -27,7 +27,7 @@ impl From<Route> for FetchRequest {
 
 fn route_to_url(route: &Route) -> String {
     match route {
-        Route::Posts => "/public/posts.yml".to_owned(),
+        Route::Posts => "/posts.yml".to_owned(),
         Route::Post { id } => format!("/public/post/{}.md", id),
         Route::Main => "/public/index.md".to_owned(),
         Route::About => "/public/about.md".to_owned(),
