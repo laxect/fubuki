@@ -5,17 +5,17 @@ authors = ["Gyara <me@gyara.moe>"]
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0.56"
+anyhow = "1.0.57"
 atom_syndication = "0.11.0"
 base64 = "0.13.0"
 blake2 = "0.10.4"
 fubuki_types = { path = "../fubuki_types" }
 htmlescape = "0.3.1"
-serde_derive = "1.0.136"
-serde_yaml = "0.8.23"
+serde_derive = "1.0.137"
+serde_yaml = "0.8.24"
 
 [dependencies.serde]
-version = "1.0.136"
+version = "1.0.137"
 features = ["derive"]
 
 [dependencies.pulldown-cmark]
