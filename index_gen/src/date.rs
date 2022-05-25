@@ -13,7 +13,7 @@ impl Genngo {
 }
 
 /// C.E.
-/// dosen't provide before MeiJi
+/// doesn't provide before MeiJi
 pub struct Date {
     year: u32,
     month: u32,
