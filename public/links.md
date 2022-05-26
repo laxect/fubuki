@@ -14,7 +14,7 @@ date: 令和4年3月23日
 - [max](https://maxxxxx.life/)
 - [xixing](https://xixing.dev/)
 - [读写终子](https://ioover.net)
-- [<ruby>有理<rt>monsoon</rt></ruby>](https://monsoon.cl/)
+- [<span title="monsoon">有理</span>](https://monsoon.cl/)
 - [芋頭屋](https://umit.moe)
 - [奇想斋](https://blog.nebula.moe)
 - [鸦之歌](https://crows.moe)

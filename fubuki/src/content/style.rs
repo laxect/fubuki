@@ -99,9 +99,10 @@ pre code {
 }
 code {
     font-family: "Iosevka Fixed SS10 web";
-}
-code {
     border: 0.1em dashed ${shadow};
+}
+a > code,.phi {
+    font-family: 'Phi horizontal';
 }
 hr {
     background-color: ${underground};

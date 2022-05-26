@@ -38,6 +38,6 @@ date: 令和4年3月23日
 
 ---
 
-### PGP
+### <span class="phi">PGP</span>
 
 [`C26B CE77 4CC8 66AC DE9B 127C 686F 3411 A982 3621`](https://meta.sr.ht/~fubuki.pgp)
