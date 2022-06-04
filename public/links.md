@@ -9,7 +9,6 @@ date: 令和4年3月23日
 ### 朋友们
 
 - [igaryhe](https://blog.igaryhe.io/)
-- [ddddxxx](https://ddddxxx.github.io/)
 - [yunyang088](https://blog.y01.me/)
 - [max](https://maxxxxx.life/)
 - [xixing](https://xixing.dev/)
