@@ -1,6 +1,7 @@
 use crate::Route;
 use fubuki_types::PostList;
 use gloo_net::http::Request;
+use serde_yaml::Value;
 use std::collections::HashMap;
 use yew_agent::{Agent, AgentLink, Context, HandlerId};
 
@@ -8,6 +9,8 @@ use yew_agent::{Agent, AgentLink, Context, HandlerId};
 pub enum Response {
     Posts(PostList),
     Page(String),
+    // json is a yaml.
+    JSON(Value),
 }
 
 /// (response, id)
@@ -17,6 +20,7 @@ pub struct FetchResult(Response, u32);
 #[derive(Clone)]
 pub enum FetchRequest {
     Inner(Route),
+    Outer(String),
 }
 
 impl From<Route> for FetchRequest {
@@ -38,7 +42,8 @@ fn route_to_url(route: &Route) -> String {
 impl FetchRequest {
     fn uri(&self) -> String {
         match self {
-            FetchRequest::Inner(route) => route_to_url(route),
+            Self::Inner(route) => route_to_url(route),
+            Self::Outer(uri) => uri.to_owned(),
         }
     }
 
@@ -49,6 +54,10 @@ impl FetchRequest {
                 FetchResult(Response::Posts(list), update_id)
             }
             FetchRequest::Inner(_) => FetchResult(Response::Page(res), update_id),
+            FetchRequest::Outer(_) => {
+                let val = serde_yaml::from_str(&res)?;
+                FetchResult(Response::JSON(val), update_id)
+            }
         };
         Ok(fetch_result)
     }
