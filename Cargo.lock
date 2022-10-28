@@ -256,6 +256,7 @@ dependencies = [
  "gloo-utils",
  "log",
  "pulldown-cmark",
+ "serde",
  "serde_yaml",
  "stylist",
  "yew",

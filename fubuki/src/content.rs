@@ -11,10 +11,13 @@ use yew::{classes, html, use_context, use_state_eq, virtual_dom::VNode, Html, Pr
 use yew_agent::{use_bridge, UseBridgeHandle};
 
 mod style;
+mod webmention;
 
 #[derive(PartialEq, Clone, Properties)]
 pub struct ArticleProps {
     pub page: String,
+    // meta page? post page?
+    pub is_post: bool,
     pub render_title: bool,
 }
 
@@ -55,7 +58,11 @@ fn spoiler_alert(props: &SpoilerProps) -> Html {
 
 #[styled_component(Article)]
 pub(crate) fn article(props: &ArticleProps) -> Html {
-    let ArticleProps { page, render_title } = props;
+    let ArticleProps {
+        page,
+        is_post,
+        render_title,
+    } = props;
 
     let mut title = String::new();
     let mut spoiler = Spoiler::None;
@@ -103,6 +110,9 @@ pub(crate) fn article(props: &ArticleProps) -> Html {
             { h1 }
             <SpoilerAlert {spoiler} />
             { render_markdown(&main) }
+            if *is_post {
+                <webmention::Echo />
+            }
         </article>
     }
 }
@@ -125,10 +135,11 @@ pub(crate) fn content(props: &ContentProps) -> Html {
         })
     };
 
+    let is_post = route.is_post();
     let render_title = matches!(route, Route::Post { .. });
     if let Some(page) = (*page).clone() {
         html! {
-        <Article {page} {render_title} />
+        <Article {page} {render_title} {is_post}/>
         }
     } else {
         handle.send(route.clone().into());
