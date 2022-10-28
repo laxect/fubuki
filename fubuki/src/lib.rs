@@ -30,6 +30,12 @@ pub enum Route {
     Links,
 }
 
+impl Route {
+    pub fn is_post(&self) -> bool {
+        matches!(self, Self::Post { .. })
+    }
+}
+
 const CC3: &str = "https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja";
 #[styled_component(Footer)]
 fn footer() -> Html {
