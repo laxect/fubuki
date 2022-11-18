@@ -8,14 +8,14 @@ date: 令和4年3月23日
 
 ### 朋友们
 
-- [igaryhe](https://blog.igaryhe.io/)
+- [igaryhe](https://www.dan.games/)
 - [yunyang088](https://blog.y01.me/)
 - [max](https://maxxxxx.life/)
 - [xixing](https://xixing.dev/)
 - [读写终子](https://ioover.net)
 - [<span title="monsoon">有理</span>](https://monsoon.cl/)
 - [芋頭屋](https://umit.moe)
-- [奇想斋](https://blog.nebula.moe)
+- [Pondering Stargazer](https://astrologer.cc/)
 - [鸦之歌](https://crows.moe)
 - <https://bird14.space/>
 
