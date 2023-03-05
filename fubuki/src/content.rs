@@ -1,17 +1,19 @@
-use crate::{loading::Loading, style::Colors, utils::use_title, Route};
+use crate::{
+    loading::Loading,
+    style::Colors,
+    utils::{use_remote, use_title},
+    Route,
+};
 use fubuki_types::{FrontMatter, Spoiler};
 use stylist::yew::{styled_component, use_style};
-use yew::{classes, html, use_context, use_state_eq, virtual_dom::VNode, Html, Properties};
+use yew::{classes, html, use_context, use_state_eq, virtual_dom::VNode, Html, HtmlResult, Properties, Suspense};
 
 mod style;
 mod webmention;
 
 #[derive(PartialEq, Clone, Properties)]
 pub struct ArticleProps {
-    pub page: String,
-    // meta page? post page?
-    pub is_post: bool,
-    pub render_title: bool,
+    pub route: Route,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -50,12 +52,12 @@ fn spoiler_alert(props: &SpoilerProps) -> Html {
 }
 
 #[styled_component(Article)]
-pub(crate) fn article(props: &ArticleProps) -> Html {
-    let ArticleProps {
-        page,
-        is_post,
-        render_title,
-    } = props;
+pub(crate) fn article(props: &ArticleProps) -> HtmlResult {
+    let ArticleProps { route } = props;
+
+    let page = use_remote(route.route_to_url())?.unwrap_or_default();
+    let is_post = route.is_post();
+    let render_title = matches!(route, Route::Post { .. });
 
     let mut title = String::new();
     let mut spoiler = Spoiler::None;
@@ -98,16 +100,16 @@ pub(crate) fn article(props: &ArticleProps) -> Html {
 
     let colors: Colors = use_context().unwrap();
     let class = use_style(style::article(&colors));
-    html! {
+    Ok(html! {
         <article {class}>
             { h1 }
             <SpoilerAlert {spoiler} />
             { render_markdown(&main) }
-            if *is_post {
+            if is_post {
                 <webmention::Echo />
             }
         </article>
-    }
+    })
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -119,17 +121,13 @@ pub(crate) struct ContentProps {
 pub(crate) fn content(props: &ContentProps) -> Html {
     let ContentProps { route } = props;
     log::debug!("{:?}", route);
-    let page = use_state_eq(|| None);
-    let is_post = route.is_post();
-    let render_title = matches!(route, Route::Post { .. });
-    if let Some(page) = (*page).clone() {
-        let page: String = page;
-        html! {
-        <Article {page} {render_title} {is_post}/>
-        }
-    } else {
-        html! {
-        <Loading />
-        }
+    let fallback = html! {
+    <Loading />
+    };
+
+    html! {
+        <Suspense {fallback}>
+            <Article route={route.clone()} />
+        </Suspense>
     }
 }
