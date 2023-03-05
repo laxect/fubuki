@@ -1,15 +1,8 @@
 /// article list component
-use crate::{
-    fetch_agent::{FetchAgent, Response},
-    loading::Loading,
-    style::Colors,
-    utils::use_title,
-    Route,
-};
+use crate::{loading::Loading, style::Colors, utils::use_title, Route};
 pub use fubuki_types::{Post, PostList};
 use stylist::yew::{styled_component, use_style};
 use yew::{classes, html, use_context, use_state_eq, Callback, Html, Properties};
-use yew_agent::{use_bridge, UseBridgeHandle};
 use yew_router::components::Link;
 
 #[derive(Clone, PartialEq)]
@@ -128,27 +121,15 @@ fn article_item(props: &ArticleItemProps) -> Html {
 pub fn posts() -> Html {
     let postlist = use_state_eq(PostList::new);
     let page_num = use_state_eq(|| 0);
-    let handle: UseBridgeHandle<FetchAgent> = {
-        let postlist = postlist.clone();
-        use_bridge(move |res| match res {
-            Response::Posts(list) => postlist.set(list),
-            _ => unreachable!(),
-        })
-    };
+
     let colors: Colors = use_context().unwrap();
     use_title("ポスト");
     gloo_utils::document().document_element().unwrap().set_scroll_top(0);
 
     // nav button
     let page_count = page_count(&postlist);
-    let link = |item: PageNumMod, page_num: yew::UseStateHandle<usize>| -> Html {
-        let disabled = match item {
-            PageNumMod::Next => *page_num + 1 >= page_count,
-            PageNumMod::Prev => *page_num == 0,
-        };
-        let mark = item.value();
-        let nav = use_style!(
-            "
+    let style_nav_button = use_style!(
+        "
       padding: 0.3em 0.2em;
       border-top: solid ${underground} 0.2em;
       &:hover {
@@ -159,17 +140,25 @@ pub fn posts() -> Html {
       transition-duration: 0.3s;
       transition-timing-function: ease-out;
 ",
-            underground = colors.underground,
-            normal = colors.normal,
-            bg2 = colors.bg2,
-        );
-        let mut class = classes![nav];
+        underground = colors.underground,
+        normal = colors.normal,
+        bg2 = colors.bg2,
+    );
+
+    let style_disable = use_style!("pointer-events: none; color: ${shadow};", shadow = colors.shadow);
+    let link = |item: PageNumMod, page_num: yew::UseStateHandle<usize>| -> Html {
+        let disabled = match item {
+            PageNumMod::Next => *page_num + 1 >= page_count,
+            PageNumMod::Prev => *page_num == 0,
+        };
+        let mark = item.value();
+
+        let mut class = classes![style_nav_button.clone()];
         if disabled {
-            let disable = use_style!("pointer-events: none; color: ${shadow};", shadow = colors.shadow);
-            class.push(disable);
+            class.push(style_disable.clone());
         }
         let next = page_flip(*page_num, &item, page_count);
-        let onclick = Callback::once(move |_| page_num.set(next));
+        let onclick = Callback::from(move |_| page_num.set(next));
         html! {
             <button {class} {onclick}>
                 { mark }
@@ -178,20 +167,19 @@ pub fn posts() -> Html {
     };
 
     // List
-    if postlist.is_empty() {
-        handle.send(Route::Posts.into());
-        html! {
-             <Loading />
-        }
-    } else {
-        let nav = use_style!(
-            "
+    let style_nav = use_style!(
+        "
             margin-top: 1em;
             margin-left: -0.5em;
             display: grid;
             grid-template-columns: repeat(2, 4em);
             grid-gap: 1.5em;"
-        );
+    );
+    if postlist.is_empty() {
+        html! {
+             <Loading />
+        }
+    } else {
         let start = *page_num * 5;
         let postlist = postlist
             .iter()
@@ -206,7 +194,7 @@ pub fn posts() -> Html {
         html! {
             <>
             { postlist }
-               <nav class={nav} style="float: right">
+               <nav class={style_nav} style="float: right">
                     { link(PageNumMod::Prev, page_num.clone()) }
                     { link(PageNumMod::Next, page_num.clone()) }
                 </nav>

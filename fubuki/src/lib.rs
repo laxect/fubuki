@@ -1,5 +1,4 @@
 mod content;
-mod fetch_agent;
 mod loading;
 pub mod logger;
 mod navbar;
@@ -34,6 +33,16 @@ impl Route {
     pub fn is_post(&self) -> bool {
         matches!(self, Self::Post { .. })
     }
+
+    fn route_to_url(&self) -> String {
+        match self {
+            Route::Posts => "/posts.yml".to_owned(),
+            Route::Post { id } => format!("/public/post/{}.md", id),
+            Route::Main => "/public/index.md".to_owned(),
+            Route::About => "/public/about.md".to_owned(),
+            Route::Links => "/public/links.md".to_owned(),
+        }
+    }
 }
 
 const CC3: &str = "https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja";
@@ -41,9 +50,8 @@ const CC3: &str = "https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ja";
 fn footer() -> Html {
     let layout = style::Layout::leaf();
     let colors: Colors = use_context().unwrap();
-    let class = classes![
-        use_style!(
-            "
+    let style = use_style!(
+        "
         float: right;
         line-height: 1.5em;
         font-size: 0.8rem;
@@ -57,14 +65,13 @@ fn footer() -> Html {
         a:hover {
             color: ${fg};
         }",
-            top = layout.footer_top,
-            main = layout.footer_main,
-            bottom = layout.footer_bottom,
-            color = colors.shadow,
-            fg = colors.normal,
-        ),
-        "heti--vertical"
-    ];
+        top = layout.footer_top,
+        main = layout.footer_main,
+        bottom = layout.footer_bottom,
+        color = colors.shadow,
+        fg = colors.normal,
+    );
+    let class = classes![style, "heti--vertical"];
     html! {
         <footer {class}>
             <p class={css!(margin-right: 0;)}>
@@ -78,7 +85,7 @@ fn footer() -> Html {
     }
 }
 
-fn switch(route: &Route) -> Html {
+fn switch(route: Route) -> Html {
     match route {
         Route::Posts => html! { <Posts /> },
         route => html! { <Content key={route.to_path()} route={route.clone()} /> },
@@ -92,16 +99,14 @@ pub fn blog() -> Html {
     // layout
     let top = if is_on_small_device { 2.0 } else { 3.0 };
     let other = top + Layout::footer() + Layout::navbar();
-    let class = classes![
-        use_style!(
-            "
+    let style = use_style!(
+        "
         padding-top: ${top}em;
         min-height: calc(100vh - ${other}em);",
-            top = top,
-            other = other
-        ),
-        "heti"
-    ];
+        top = top,
+        other = other
+    );
+    let class = classes![style, "heti"];
     // global style
     let global = css!(
         "
@@ -117,7 +122,7 @@ pub fn blog() -> Html {
         <BrowserRouter>
             <Navbar />
             <main {class}>
-                <Switch<Route> render={Switch::render(switch)} />
+                <Switch<Route> render={switch} />
             </main>
         </BrowserRouter>
             <Footer />

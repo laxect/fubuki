@@ -1,8 +1,6 @@
-use crate::fetch_agent::{FetchAgent, FetchRequest, Response};
 use serde::{Deserialize, Serialize};
 use stylist::yew::styled_component;
 use yew::{html, use_state_eq, Html};
-use yew_agent::{use_bridge, UseBridgeHandle};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone)]
 struct Webmention {
@@ -28,26 +26,8 @@ const TOKEN: &str = "iLobGtxghdo0MnNFqW7bbA";
 pub(super) fn echo() -> Html {
     let mentions = use_state_eq(|| None);
 
-    let handle: UseBridgeHandle<FetchAgent> = {
-        let mentions = mentions.clone();
-        use_bridge(move |res| match res {
-            Response::JSON(json) => {
-                let mention_io: serde_yaml::Result<Webmentions> = serde_yaml::from_value(json);
-                if let Ok(mention_io) = mention_io {
-                    mentions.set(Some(mention_io.children));
-                }
-            }
-            _ => unreachable!(),
-        })
-    };
-
-    let mentions = (*mentions).clone().unwrap_or_default();
+    let mentions: Vec<Webmention> = (*mentions).clone().unwrap_or_default();
     if mentions.is_empty() {
-        if let Some(url) = get_current() {
-            handle.send(FetchRequest::Outer(format!(
-                "https://webmention.io/api/mentions.jf2?target={url}&token={TOKEN}"
-            )));
-        }
         return html! { <></> };
     }
     let mentions_list = mentions

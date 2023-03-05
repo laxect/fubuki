@@ -1,6 +1,6 @@
 use crate::{style::Colors, Route};
 use stylist::yew::{styled_component, use_style};
-use yew::{classes, html, use_context, Properties};
+use yew::{classes, html, use_context, Html, Properties};
 use yew_router::{components::Link, hooks::use_route};
 
 #[derive(PartialEq, Properties)]
@@ -32,9 +32,8 @@ fn button(props: &ButtonProps) -> Html {
         transition-timing-function: ease-out;",
         fg = colors.normal
     );
-    let style = match (item, ima) {
-        (&Route::Main, _) => use_style!(
-            "
+    let style_main = use_style!(
+        "
              padding: 0.4rem;
              background-color: ${bg1};
              color: transparent;
@@ -42,30 +41,35 @@ fn button(props: &ButtonProps) -> Html {
              &:hover {
                text-shadow: 0 0 0 ${fg2};
              }",
-            bg1 = colors.brand_bg1,
-            fg1 = colors.brand_fg1,
-            fg2 = colors.brand_fg2
-        ),
+        bg1 = colors.brand_bg1,
+        fg1 = colors.brand_fg1,
+        fg2 = colors.brand_fg2
+    );
+    let style_active = use_style!(
+        "background-color: ${bg}; color: ${fg};",
+        bg = colors.rev_bg,
+        fg = colors.rev_fg
+    );
+    let style_other = use_style!("&:hover { background-color: ${bg};}", bg = colors.bg2);
+    let style = match (item, ima) {
+        (&Route::Main, _) => style_main,
         (a, b) => {
             if a == b || (matches!(ima, Route::Post { id: _ }) && *item == Route::Posts) {
-                use_style!(
-                    "background-color: ${bg}; color: ${fg};",
-                    bg = colors.rev_bg,
-                    fg = colors.rev_fg
-                )
+                style_active
             } else {
-                use_style!("&:hover { background-color: ${bg};}", bg = colors.bg2)
+                style_other
             }
         }
     };
-    let pointer = if item == ima {
-        use_style!(pointer-events: none;)
-    } else {
-        use_style!(pointer-events: auto;)
-    };
+
+    let pointer_none = use_style!(pointer-events: none;);
+    let pointer_auto = use_style!(pointer-events: auto;);
+    let pointer = if item == ima { pointer_none } else { pointer_auto };
+
     let classes = classes![button_common, style, pointer];
+
+    let shadow = use_style!("color: ${fg};", fg = colors.rev_shadow);
     if matches!(ima, Route::Post { id: _ }) && *item == Route::Posts {
-        let shadow = use_style!("color: ${fg};", fg = colors.rev_shadow);
         html! {
             <Link<Route> to={item.clone()} {classes}>
                 <span>{ "post" }</span>
