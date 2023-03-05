@@ -1,4 +1,4 @@
-use yew::{hook, use_effect, use_memo};
+use yew::{hook, suspense::SuspensionResult, use_effect, use_memo};
 
 #[hook]
 pub fn use_title<T: Into<String>>(title: T) {
@@ -16,4 +16,10 @@ pub fn use_title<T: Into<String>>(title: T) {
             gloo_utils::document().set_title(&*pre_title);
         }
     });
+}
+
+#[hook]
+pub fn use_remote<T: Into<String>>(target: T) -> SuspensionResult<Option<String>> {
+    let target = target.into();
+    Ok(Some(target))
 }
