@@ -1,5 +1,5 @@
 use stylist::yew::{styled_component, use_style};
-use yew::{classes, html, use_context};
+use yew::{classes, html, use_context, Html};
 
 use crate::style::Colors;
 

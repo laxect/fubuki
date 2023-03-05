@@ -2,7 +2,7 @@ use crate::style::Colors;
 use stylist::{css, StyleSource};
 
 #[inline]
-pub(super) fn article<'a>(colors: &Colors) -> StyleSource<'a> {
+pub(super) fn article<'a>(colors: &Colors) -> StyleSource {
     css!(
         r#"
 h1,h2,h3,h4,h5 {

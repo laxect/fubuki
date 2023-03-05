@@ -1,14 +1,7 @@
-use crate::{
-    fetch_agent::{FetchAgent, Response},
-    loading::Loading,
-    style::Colors,
-    utils::use_title,
-    Route,
-};
+use crate::{loading::Loading, style::Colors, utils::use_title, Route};
 use fubuki_types::{FrontMatter, Spoiler};
 use stylist::yew::{styled_component, use_style};
 use yew::{classes, html, use_context, use_state_eq, virtual_dom::VNode, Html, Properties};
-use yew_agent::{use_bridge, UseBridgeHandle};
 
 mod style;
 mod webmention;
@@ -127,22 +120,14 @@ pub(crate) fn content(props: &ContentProps) -> Html {
     let ContentProps { route } = props;
     log::debug!("{:?}", route);
     let page = use_state_eq(|| None);
-    let handle: UseBridgeHandle<FetchAgent> = {
-        let page = page.clone();
-        use_bridge(move |res| match res {
-            Response::Page(p) => page.set(Some(p)),
-            _ => unreachable!(),
-        })
-    };
-
     let is_post = route.is_post();
     let render_title = matches!(route, Route::Post { .. });
     if let Some(page) = (*page).clone() {
+        let page: String = page;
         html! {
         <Article {page} {render_title} {is_post}/>
         }
     } else {
-        handle.send(route.clone().into());
         html! {
         <Loading />
         }

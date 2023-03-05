@@ -1,8 +1,9 @@
-use yew::{use_effect, use_ref};
+use yew::{hook, use_effect, use_memo};
 
+#[hook]
 pub fn use_title<T: Into<String>>(title: T) {
     let title = title.into();
-    let pre_title = use_ref(|| gloo_utils::document().title());
+    let pre_title = use_memo(|_| gloo_utils::document().title(), ());
 
     use_effect(move || {
         if !title.is_empty() {
