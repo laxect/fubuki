@@ -1,5 +1,10 @@
 /// article list component
-use crate::{loading::Loading, style::Colors, utils::use_title, Route};
+use crate::{
+    loading::Loading,
+    style::Colors,
+    utils::{use_json, use_title},
+    Route,
+};
 pub use fubuki_types::{Post, PostList};
 use stylist::yew::{styled_component, use_style};
 use yew::{classes, html, use_context, use_state_eq, Callback, Html, Properties};
@@ -119,7 +124,7 @@ fn article_item(props: &ArticleItemProps) -> Html {
 
 #[styled_component(Posts)]
 pub fn posts() -> Html {
-    let postlist = use_state_eq(PostList::new);
+    let postlist: Vec<Post> = use_json(Route::posts_url()).unwrap_or_default();
     let page_num = use_state_eq(|| 0);
 
     let colors: Colors = use_context().unwrap();

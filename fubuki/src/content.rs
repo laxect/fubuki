@@ -6,7 +6,7 @@ use crate::{
 };
 use fubuki_types::{FrontMatter, Spoiler};
 use stylist::yew::{styled_component, use_style};
-use yew::{classes, html, use_context, use_state_eq, virtual_dom::VNode, Html, HtmlResult, Properties, Suspense};
+use yew::{classes, html, use_context, virtual_dom::VNode, Html, HtmlResult, Properties, Suspense};
 
 mod style;
 mod webmention;
@@ -55,7 +55,7 @@ fn spoiler_alert(props: &SpoilerProps) -> Html {
 pub(crate) fn article(props: &ArticleProps) -> HtmlResult {
     let ArticleProps { route } = props;
 
-    let page = use_remote(route.route_to_url())?.unwrap_or_default();
+    let page = use_remote(route.into_url())?;
     let is_post = route.is_post();
     let render_title = matches!(route, Route::Post { .. });
 
