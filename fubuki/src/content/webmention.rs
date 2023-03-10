@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use stylist::yew::styled_component;
-use yew::{html, use_state_eq, Html};
+use yew::{html, Html};
+
+use crate::utils::use_json;
 
 #[derive(Serialize, Deserialize, PartialEq, Clone)]
 struct Webmention {
@@ -24,9 +26,13 @@ const TOKEN: &str = "iLobGtxghdo0MnNFqW7bbA";
 
 #[styled_component(Echo)]
 pub(super) fn echo() -> Html {
-    let mentions = use_state_eq(|| None);
+    // safety: Not really know when the url can be none
+    let url = unsafe { get_current().unwrap_unchecked() };
+    let mentions: Vec<Webmention> = use_json(format!(
+        "https://webmention.io/api/mentions.jf2?target={url}&token={TOKEN}"
+    ))
+    .unwrap_or_default();
 
-    let mentions: Vec<Webmention> = (*mentions).clone().unwrap_or_default();
     if mentions.is_empty() {
         return html! { <></> };
     }

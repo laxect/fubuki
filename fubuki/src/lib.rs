@@ -34,7 +34,7 @@ impl Route {
         matches!(self, Self::Post { .. })
     }
 
-    fn route_to_url(&self) -> String {
+    fn into_url(&self) -> String {
         match self {
             Route::Posts => "/posts.yml".to_owned(),
             Route::Post { id } => format!("/public/post/{}.md", id),
@@ -42,6 +42,10 @@ impl Route {
             Route::About => "/public/about.md".to_owned(),
             Route::Links => "/public/links.md".to_owned(),
         }
+    }
+
+    fn posts_url() -> &'static str {
+        "/posts.yml"
     }
 }
 
