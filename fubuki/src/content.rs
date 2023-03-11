@@ -1,12 +1,11 @@
 use crate::{
-    loading::Loading,
     style::Colors,
     utils::{use_remote, use_title},
     Route,
 };
 use fubuki_types::{FrontMatter, Spoiler};
 use stylist::yew::{styled_component, use_style};
-use yew::{classes, html, use_context, virtual_dom::VNode, Html, HtmlResult, Properties, Suspense};
+use yew::{classes, html, use_context, virtual_dom::VNode, Html, HtmlResult, Properties};
 
 mod style;
 mod webmention;
@@ -110,24 +109,4 @@ pub(crate) fn article(props: &ArticleProps) -> HtmlResult {
             }
         </article>
     })
-}
-
-#[derive(Clone, PartialEq, Properties)]
-pub(crate) struct ContentProps {
-    pub route: Route,
-}
-
-#[styled_component(Content)]
-pub(crate) fn content(props: &ContentProps) -> Html {
-    let ContentProps { route } = props;
-    log::debug!("{:?}", route);
-    let fallback = html! {
-    <Loading />
-    };
-
-    html! {
-        <Suspense {fallback}>
-            <Article route={route.clone()} />
-        </Suspense>
-    }
 }
