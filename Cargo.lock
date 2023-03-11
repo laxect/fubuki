@@ -253,14 +253,12 @@ dependencies = [
  "gloo-console",
  "gloo-net",
  "gloo-utils",
- "gloo-worker 0.1.2",
  "log",
  "pulldown-cmark",
  "serde",
  "serde_yaml",
  "stylist",
  "yew",
- "yew-agent",
  "yew-router",
 ]
 
@@ -375,7 +373,7 @@ dependencies = [
  "gloo-storage",
  "gloo-timers",
  "gloo-utils",
- "gloo-worker 0.2.1",
+ "gloo-worker",
 ]
 
 [[package]]
@@ -507,24 +505,6 @@ dependencies = [
  "serde",
  "serde_json",
  "wasm-bindgen",
- "web-sys",
-]
-
-[[package]]
-name = "gloo-worker"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "09110b5555bcafe508cee0fb94308af9aac7a85f980d3c88b270d117c6c6911d"
-dependencies = [
- "anymap2",
- "bincode",
- "gloo-console",
- "gloo-utils",
- "js-sys",
- "serde",
- "slab",
- "wasm-bindgen",
- "wasm-bindgen-futures",
  "web-sys",
 ]
 
@@ -1278,7 +1258,6 @@ version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5dbecfe44343b70cc2932c3eb445425969ae21754a8ab3a0966981c1cf7af1cc"
 dependencies = [
- "bincode",
  "console_error_panic_hook",
  "futures",
  "gloo",
@@ -1296,16 +1275,6 @@ dependencies = [
  "wasm-bindgen-futures",
  "web-sys",
  "yew-macro",
-]
-
-[[package]]
-name = "yew-agent"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b06f7c5ed97fff22816bb00d3d82ebc0fc1119d7bbb9e07e62c0d2853f51920a"
-dependencies = [
- "gloo-worker 0.1.2",
- "yew",
 ]
 
 [[package]]
