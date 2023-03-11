@@ -94,7 +94,7 @@ fn footer() -> Html {
 fn switch(route: Route) -> Html {
     match route {
         Route::Posts => html! { <Posts /> },
-        route => html! { <Article route={route.clone()} /> },
+        route => html! { <Article {route} /> },
     }
 }
 
