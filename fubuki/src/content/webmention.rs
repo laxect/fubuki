@@ -26,8 +26,7 @@ const TOKEN: &str = "iLobGtxghdo0MnNFqW7bbA";
 
 #[styled_component(Echo)]
 pub(super) fn echo() -> Html {
-    // safety: Not really know when the url can be none
-    let url = unsafe { get_current().unwrap_unchecked() };
+    let url = get_current().unwrap();
     let mentions: Vec<Webmention> = use_json(format!(
         "https://webmention.io/api/mentions.jf2?target={url}&token={TOKEN}"
     ))

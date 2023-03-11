@@ -7,13 +7,15 @@ mod style;
 pub(crate) mod utils;
 
 use stylist::yew::{styled_component, use_media_query, use_style, Global};
-use yew::{classes, html, use_context, ContextProvider, Html};
+use yew::{classes, html, use_context, ContextProvider, Html, Suspense};
 use yew_router::{BrowserRouter, Routable, Switch};
 
-use content::Content;
+use content::Article;
 use navbar::Navbar;
 use posts::Posts;
 use style::{Colors, Layout};
+
+use crate::loading::Loading;
 
 #[derive(Clone, Routable, PartialEq, Debug)]
 pub enum Route {
@@ -92,7 +94,7 @@ fn footer() -> Html {
 fn switch(route: Route) -> Html {
     match route {
         Route::Posts => html! { <Posts /> },
-        route => html! { <Content key={route.to_path()} route={route.clone()} /> },
+        route => html! { <Article route={route.clone()} /> },
     }
 }
 
@@ -119,6 +121,10 @@ pub fn blog() -> Html {
         overflow-y: scroll;",
         fg = colors.normal
     );
+
+    let fallback = html! {
+        <Loading />
+    };
     html! {
         <>
         <Global css={global}/>
@@ -126,7 +132,9 @@ pub fn blog() -> Html {
         <BrowserRouter>
             <Navbar />
             <main {class}>
-                <Switch<Route> render={switch} />
+                <Suspense {fallback}>
+                    <Switch<Route> render={switch} />
+                </Suspense>
             </main>
         </BrowserRouter>
             <Footer />

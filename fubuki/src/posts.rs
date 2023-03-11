@@ -1,6 +1,5 @@
 /// article list component
 use crate::{
-    loading::Loading,
     style::Colors,
     utils::{use_json, use_title},
     Route,
@@ -180,30 +179,25 @@ pub fn posts() -> Html {
             grid-template-columns: repeat(2, 4em);
             grid-gap: 1.5em;"
     );
-    if postlist.is_empty() {
-        html! {
-             <Loading />
-        }
-    } else {
-        let start = *page_num * 5;
-        let postlist = postlist
-            .iter()
-            .skip(start)
-            .take(5)
-            .cloned()
-            .map(|post| {
-                let key = post.url.clone();
-                html! {<ArticleItem {key} {post}/>}
-            })
-            .collect::<Html>();
-        html! {
-            <>
-            { postlist }
-               <nav class={style_nav} style="float: right">
-                    { link(PageNumMod::Prev, page_num.clone()) }
-                    { link(PageNumMod::Next, page_num.clone()) }
-                </nav>
-            </>
-        }
+
+    let start = *page_num * 5;
+    let postlist = postlist
+        .iter()
+        .skip(start)
+        .take(5)
+        .cloned()
+        .map(|post| {
+            let key = post.url.clone();
+            html! {<ArticleItem {key} {post}/>}
+        })
+        .collect::<Html>();
+    html! {
+        <>
+        { postlist }
+           <nav class={style_nav} style="float: right">
+                { link(PageNumMod::Prev, page_num.clone()) }
+                { link(PageNumMod::Next, page_num.clone()) }
+            </nav>
+        </>
     }
 }

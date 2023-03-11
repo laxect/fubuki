@@ -1,6 +1,6 @@
 use yew::{
     hook,
-    suspense::{use_future, SuspensionResult},
+    suspense::{use_future_with_deps, SuspensionResult},
     use_effect, use_memo,
 };
 
@@ -25,9 +25,18 @@ pub fn use_title<T: Into<String>>(title: T) {
 #[hook]
 pub fn use_remote<T>(target: T) -> SuspensionResult<String>
 where
-    T: AsRef<str> + 'static,
+    T: AsRef<str> + 'static + PartialEq,
 {
-    let res = use_future(|| async move { gloo_net::http::Request::get(target.as_ref()).send().await?.text().await })?;
+    let res = use_future_with_deps(
+        |target| async move {
+            gloo_net::http::Request::get((*target).as_ref())
+                .send()
+                .await?
+                .text()
+                .await
+        },
+        target,
+    )?;
     match *res {
         Ok(ref res) => Ok(res.to_owned()),
         Err(ref e) => Ok(e.to_string()),
@@ -37,7 +46,7 @@ where
 #[hook]
 pub fn use_json<T, J>(target: T) -> Option<J>
 where
-    T: AsRef<str> + 'static,
+    T: AsRef<str> + 'static + PartialEq,
     J: serde::de::DeserializeOwned + 'static,
 {
     let text = use_remote(target).ok()?;
