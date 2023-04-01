@@ -11,7 +11,7 @@ date: 令和4年3月23日
 ---
 
 - [~~OSU!~~](https://osu.ppy.sh/users/6428299)
-- NS: SW-1499-2836-5875
+- NS: [SW-1499-2836-5875](https://lounge.nintendo.com/friendcode/1499-2836-5875/C6nnT8VbB6)
 - PSN: [laxect](https://psnine.com/psnid/laxect)
 
 ---
