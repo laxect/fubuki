@@ -23,7 +23,7 @@ jobs:
         key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
     - uses: hecrj/setup-rust-action@master
       with:
-        rust-version: nightly
+        rust-version: stable
     - name: Run tests
       run: cargo test --verbose -p index_gen
   fubuki:
@@ -47,7 +47,7 @@ jobs:
         key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
     - uses: hecrj/setup-rust-action@master
       with:
-        rust-version: nightly
+        rust-version: stable
     - name: Run tests
       run: cargo test --verbose -p fubuki
   fmt:
