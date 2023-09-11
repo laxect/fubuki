@@ -5,7 +5,7 @@ jobs:
   index_gen:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache cargo registry
       uses: actions/cache@v3
       with:
@@ -29,7 +29,7 @@ jobs:
   fubuki:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Cache cargo registry
       uses: actions/cache@v3
       with:
@@ -53,6 +53,6 @@ jobs:
   fmt:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: dprint/check@v2.2
 
